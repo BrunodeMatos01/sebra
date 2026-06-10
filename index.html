@@ -1,11 +1,422 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sebra.</title>
+    <meta name="description" content="A Sebra é um sistema completo com IA para atendimento no WhatsApp, gestão de leads, dashboards, relatórios e automação comercial personalizada para empresas.">
+    <meta name="keywords" content="Sebra, sistema com IA, atendimento WhatsApp, agente de IA, automação comercial, gestão de leads, dashboard de vendas, relatórios comerciais">
+    <meta name="author" content="Sebra">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sebra | Sistema completo com IA para atendimento e gestão comercial">
+    <meta property="og:description" content="Atenda melhor, venda mais e tome decisões com dados usando uma plataforma com IA personalizada para o seu negócio.">
+    <meta property="og:image" content="img/Logo Sebra.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#0857ff">
+    <title>Sebra | Sistema completo com IA para atendimento e gestão comercial</title>
+
+    <link rel="preload" href="img/Logo Sebra.png" as="image">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/header.css">
+    <link rel="stylesheet" href="assets/hero.css">
+    <link rel="stylesheet" href="assets/problemas.css">
+    <link rel="stylesheet" href="assets/produto.css">
+    <link rel="stylesheet" href="assets/plataforma.css">
+    <link rel="stylesheet" href="assets/inteligencia.css">
+    <link rel="stylesheet" href="assets/personalizacao.css">
+    <link rel="stylesheet" href="assets/sobre-nos.css">
+    <link rel="stylesheet" href="assets/processo.css">
+    <link rel="stylesheet" href="assets/contato.css">
+    <link rel="stylesheet" href="assets/footer.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Sebra",
+        "description": "Sistema completo com IA para atendimento, gestão de leads, relatórios comerciais e automação personalizada para empresas.",
+        "sameAs": ["https://www.instagram.com/sebraofc/"],
+        "knowsAbout": [
+            "Atendimento com inteligência artificial",
+            "Automação de WhatsApp",
+            "Gestão de leads",
+            "Relatórios comerciais",
+            "Dashboards de vendas"
+        ]
+    }
+    </script>
 </head>
 <body>
-    
+    <header class="site-header" aria-label="Cabeçalho principal">
+        <nav class="floating-nav" aria-label="Navegação principal">
+            <a class="brand" href="#inicio" aria-label="Sebra - Início">
+                <img src="img/Logo Sebra.png" alt="Logo da Sebra">
+                <span>Sebra</span>
+            </a>
+
+            <div class="nav-links" id="desktop-menu">
+                <a href="#produto">Produto</a>
+                <a href="#plataforma">Plataforma</a>
+                <a href="#dados">Dados</a>
+                <a href="#sobre-nos">Sobre nós</a>
+            </div>
+
+            <div class="nav-actions">
+                <a class="btn btn-ghost" href="#area-cliente">Área do cliente</a>
+                <a class="btn btn-primary" href="#contato">Agende sua demonstração</a>
+            </div>
+        </nav>
+
+        <nav class="mobile-nav" aria-label="Navegação mobile">
+            <a class="mobile-shortcut" href="#contato">Demo</a>
+            <a class="mobile-brand" href="#inicio" aria-label="Sebra - Início">
+                <img src="img/Logo Sebra.png" alt="">
+                <span>Sebra</span>
+            </a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+            <a href="#produto">Produto</a>
+            <a href="#plataforma">Plataforma</a>
+            <a href="#dados">Dados</a>
+            <a href="#sobre-nos">Sobre nós</a>
+            <a href="#area-cliente">Área do cliente</a>
+            <a class="btn btn-primary" href="#contato">Agendar demonstração</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero section" id="inicio" aria-labelledby="hero-title">
+            <div class="hero-bg" aria-hidden="true">
+                <span class="light light-one"></span>
+                <span class="light light-two"></span>
+                <span class="grid-light"></span>
+            </div>
+
+            <div class="container hero-grid">
+                <div class="hero-copy reveal">
+                    <p class="eyebrow">Sistema completo com IA para empresas</p>
+                    <h1 id="hero-title">Sua empresa atendendo melhor, vendendo mais e decidindo com dados.</h1>
+                    <p class="hero-text">
+                        A Sebra centraliza seus atendimentos, responde leads com IA treinada no seu negócio e entrega relatórios claros para sua equipe crescer com previsibilidade.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary btn-large" href="#contato">Agende sua demonstração</a>
+                        <a class="btn btn-ghost btn-large" href="#produto">Conheça a plataforma</a>
+                    </div>
+                    <dl class="hero-metrics" aria-label="Principais beneficios">
+                        <div>
+                            <dt>24/7</dt>
+                            <dd>Atendimento ativo</dd>
+                        </div>
+                        <div>
+                            <dt>100%</dt>
+                            <dd>Gestão centralizada</dd>
+                        </div>
+                        <div>
+                            <dt>IA</dt>
+                            <dd>Treinada no seu negócio</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="hero-visual reveal" aria-label="Previa visual da plataforma Sebra">
+                    <div class="orbital-card">
+                        <div class="dashboard-shell">
+                            <div class="dashboard-top">
+                                <span class="status-dot"></span>
+                                <strong>Painel Comercial</strong>
+                                <small>Online</small>
+                            </div>
+                            <div class="message-board">
+                                <article class="chat-card incoming">Lead chegou pelo WhatsApp</article>
+                                <article class="chat-card ai">IA respondeu em segundos</article>
+                                <article class="chat-card team">Atendente assumiu quando precisou</article>
+                            </div>
+                            <div class="mini-stats">
+                                <span><strong>128</strong> leads</span>
+                                <span><strong>25%</strong> conversão</span>
+                                <span><strong>R$</strong> pipeline</span>
+                            </div>
+                        </div>
+                        <img class="hero-logo-mark" src="img/Logo Sebra.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="problems section" aria-labelledby="problems-title">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">O problema nao e so responder</p>
+                    <h2 id="problems-title">Toda demora no atendimento custa uma oportunidade.</h2>
+                    <p>Quando o lead espera, ele esfria. Quando as conversas ficam espalhadas, sua equipe perde histórico, prioridade e clareza.</p>
+                </div>
+
+                <div class="problem-grid">
+                    <article class="problem-card reveal">
+                        <span>01</span>
+                        <h3>Leads esfriando</h3>
+                        <p>Clientes entram em contato e encontram outra empresa pronta para atender antes da sua.</p>
+                    </article>
+                    <article class="problem-card reveal">
+                        <span>02</span>
+                        <h3>Atendimento descentralizado</h3>
+                        <p>Conversas em vários canais, vendedores diferentes e pouca visibilidade sobre o que está acontecendo.</p>
+                    </article>
+                    <article class="problem-card reveal">
+                        <span>03</span>
+                        <h3>Decisões no achismo</h3>
+                        <p>Sem dados de origem, produto, região e desempenho, fica difícil saber onde melhorar.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="product section" id="produto" aria-labelledby="product-title">
+            <div class="container product-grid">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Produto Sebra</p>
+                    <h2 id="product-title">IA, atendimento humano e gestão comercial em um só lugar.</h2>
+                    <p>A plataforma permite que a IA atenda automaticamente, colete dados importantes e entregue a conversa para sua equipe quando for hora de agir.</p>
+                </div>
+
+                <div class="feature-list">
+                    <article class="feature-item reveal">
+                        <div class="feature-icon">AI</div>
+                        <h3>IA treinada no seu negócio</h3>
+                        <p>Ensinamos a IA sobre produtos, serviços, prazos, preços, regiões e regras comerciais da empresa.</p>
+                    </article>
+                    <article class="feature-item reveal">
+                        <div class="feature-icon">WA</div>
+                        <h3>Atendimento pelo WhatsApp</h3>
+                        <p>Clientes recebem respostas rápidas, qualificadas e alinhadas com a operação da sua empresa.</p>
+                    </article>
+                    <article class="feature-item reveal">
+                        <div class="feature-icon">CRM</div>
+                        <h3>Gestão de leads</h3>
+                        <p>Favorite conversas, defina status, marque prioridades e acompanhe cada oportunidade do funil.</p>
+                    </article>
+                    <article class="feature-item reveal">
+                        <div class="feature-icon">BI</div>
+                        <h3>Dados para crescer</h3>
+                        <p>Relatórios mostram leads, regiões, produtos, conversão, faturamento, equipe e gargalos comerciais.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="platform section" id="plataforma" aria-labelledby="platform-title">
+            <div class="container platform-grid">
+                <div class="platform-preview reveal">
+                    <div class="app-window">
+                        <div class="app-sidebar">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="app-content">
+                            <div class="app-bar">
+                                <strong>Sebra</strong>
+                                <small>Caixa de entrada</small>
+                            </div>
+                            <div class="app-layout">
+                                <div class="lead-list">
+                                    <span class="lead active"></span>
+                                    <span class="lead"></span>
+                                    <span class="lead"></span>
+                                    <span class="lead"></span>
+                                </div>
+                                <div class="conversation">
+                                    <span class="bubble"></span>
+                                    <span class="bubble right"></span>
+                                    <span class="bubble"></span>
+                                </div>
+                                <div class="lead-data">
+                                    <span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Plataforma personalizada</p>
+                    <h2 id="platform-title">A Sebra se adapta ao jeito que sua empresa vende.</h2>
+                    <p>Cada cliente pode ter marca, cores, fluxos, atendentes, status e informações configuradas conforme a própria operação.</p>
+                    <ul class="check-list">
+                        <li>Logins para atendentes e equipe comercial.</li>
+                        <li>Transferência de atendimento entre IA e humano.</li>
+                        <li>Redirecionamento por interesse, região ou necessidade.</li>
+                        <li>Campos de lead e etapas de funil sob medida.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="intelligence section" id="dados" aria-labelledby="data-title">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Inteligência comercial</p>
+                    <h2 id="data-title">Dados que mostram onde sua empresa ganha, perde e pode crescer.</h2>
+                    <p>A Sebra transforma atendimentos em indicadores para sua equipe acompanhar resultados e tomar decisões melhores.</p>
+                </div>
+
+                <div class="data-grid">
+                    <article class="data-card reveal">
+                        <strong>Leads por origem</strong>
+                        <div class="bar"><span style="--value: 76%"></span></div>
+                        <p>Entenda quais canais trazem mais oportunidades.</p>
+                    </article>
+                    <article class="data-card reveal">
+                        <strong>Conversão por etapa</strong>
+                        <div class="funnel" aria-hidden="true">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <p>Veja onde o funil avanca e onde precisa de ajuste.</p>
+                    </article>
+                    <article class="data-card reveal">
+                        <strong>Performance por região</strong>
+                        <div class="bar"><span style="--value: 58%"></span></div>
+                        <p>Identifique onde sua empresa vende melhor.</p>
+                    </article>
+                    <article class="data-card reveal">
+                        <strong>Relatórios semanais</strong>
+                        <div class="bar"><span style="--value: 88%"></span></div>
+                        <p>Receba clareza sobre atendimentos, vendas e equipe.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="personalization section" aria-labelledby="personalization-title">
+            <div class="container personalization-grid">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Implantação sob medida</p>
+                    <h2 id="personalization-title">Conectamos a IA ao conhecimento real da sua empresa.</h2>
+                    <p>Podemos trabalhar com banco de dados, tabelas populadas ou informações estruturadas para que a IA saiba o que vender, como responder e quando acionar sua equipe.</p>
+                </div>
+
+                <div class="steps-card reveal">
+                    <ol>
+                        <li><strong>Entendemos sua operação</strong><span>Produtos, serviços, regiões, equipe, processo comercial e objetivos.</span></li>
+                        <li><strong>Organizamos o conhecimento</strong><span>Criamos ou conectamos bases para a IA responder com precisão.</span></li>
+                        <li><strong>Personalizamos a plataforma</strong><span>Fluxos, status, painéis, funil e identidade do cliente.</span></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="about section" id="sobre-nos" aria-labelledby="about-title">
+            <div class="container about-grid">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Sobre nós</p>
+                    <h2 id="about-title">A Sebra nasceu para colocar inteligência real dentro da rotina comercial.</h2>
+                    <p>Desenvolvemos tecnologia para empresas que querem atender melhor, organizar processos e crescer com dados. Nosso foco é criar uma plataforma que se adapta ao negócio do cliente e entrega resultado prático na operação.</p>
+                </div>
+
+                <div class="values-grid">
+                    <article class="value-card reveal">
+                        <h3>Missao</h3>
+                        <p>Transformar atendimentos em crescimento com IA, gestão e dados acessíveis para empresas de qualquer segmento.</p>
+                    </article>
+                    <article class="value-card reveal">
+                        <h3>Visao</h3>
+                        <p>Ser referência em plataformas personalizadas de inteligência artificial para atendimento e gestão comercial.</p>
+                    </article>
+                    <article class="value-card reveal">
+                        <h3>Valores</h3>
+                        <p>Clareza, resultado, tecnologia responsável, personalização, parceria e melhoria contínua.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="process section" aria-labelledby="process-title">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Como começamos</p>
+                    <h2 id="process-title">Da demonstração a uma plataforma alinhada com sua empresa.</h2>
+                </div>
+
+                <div class="process-line">
+                    <article class="process-step reveal">
+                        <span>1</span>
+                        <h3>Demonstração</h3>
+                        <p>Apresentamos a plataforma e entendemos se a Sebra faz sentido para sua operação.</p>
+                    </article>
+                    <article class="process-step reveal">
+                        <span>2</span>
+                        <h3>Diagnostico</h3>
+                        <p>Mapeamos canais, equipe, produtos, dados e pontos onde leads se perdem.</p>
+                    </article>
+                    <article class="process-step reveal">
+                        <span>3</span>
+                        <h3>Implantação</h3>
+                        <p>Configuramos IA, fluxos, painéis, atendentes e dados para iniciar a operação.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact section" id="contato" aria-labelledby="contact-title">
+            <div class="container contact-grid">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Agende uma demonstração</p>
+                    <h2 id="contact-title">Veja como a Sebra pode transformar o atendimento da sua empresa.</h2>
+                    <p>Preencha os dados e nossa equipe entra em contato para apresentar a plataforma e entender como sua empresa trabalha.</p>
+                </div>
+
+                <form class="contact-form reveal" id="demo-form">
+                    <label>
+                        Nome
+                        <input type="text" name="nome" autocomplete="name" placeholder="Seu nome" required>
+                    </label>
+                    <label>
+                        Empresa
+                        <input type="text" name="empresa" autocomplete="organization" placeholder="Nome da empresa" required>
+                    </label>
+                    <label>
+                        WhatsApp
+                        <input type="tel" name="whatsapp" autocomplete="tel" placeholder="(00) 00000-0000" required>
+                    </label>
+                    <label>
+                        E-mail
+                        <input type="email" name="email" autocomplete="email" placeholder="voce@empresa.com" required>
+                    </label>
+                    <label class="full">
+                        O que você quer melhorar?
+                        <textarea name="mensagem" rows="4" placeholder="Ex: responder leads mais rápido, centralizar atendimento, acompanhar relatórios..."></textarea>
+                    </label>
+                    <button class="btn btn-primary btn-large full" type="submit">Solicitar demonstração</button>
+                    <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <a class="brand footer-brand" href="#inicio" aria-label="Sebra - Início">
+                <img src="img/Logo Sebra.png" alt="Logo da Sebra">
+                <span>Sebra</span>
+            </a>
+            <p>Sistema completo com IA para atendimento, vendas, gestão e inteligência comercial.</p>
+            <div class="footer-links">
+                <a href="#produto">Produto</a>
+                <a href="#sobre-nos">Sobre nós</a>
+                <a href="#contato">Demonstração</a>
+                <a href="#area-cliente">Área do cliente</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/effects.js" defer></script>
+    <script src="js/form.js" defer></script>
 </body>
 </html>

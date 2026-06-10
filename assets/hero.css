@@ -1,0 +1,251 @@
+.hero {
+    min-height: 100vh;
+    display: grid;
+    align-items: center;
+    padding-top: 150px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 70% 18%, rgba(68, 200, 255, 0.28), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #f5faff 52%, #ffffff 100%);
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.light {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    filter: blur(10px);
+    opacity: 0.5;
+    background: radial-gradient(circle, rgba(8, 87, 255, 0.42), transparent 68%);
+    animation: float-light 9s ease-in-out infinite;
+}
+
+.light-one {
+    top: 12%;
+    right: 8%;
+}
+
+.light-two {
+    bottom: 5%;
+    left: -120px;
+    animation-delay: -4s;
+}
+
+.grid-light {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(8, 87, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8, 87, 255, 0.05) 1px, transparent 1px);
+    background-size: 70px 70px;
+    mask-image: radial-gradient(circle at 50% 35%, #000, transparent 68%);
+}
+
+.hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.88fr);
+    align-items: center;
+    gap: 58px;
+}
+
+.hero h1 {
+    max-width: 780px;
+    font-size: clamp(3.2rem, 6.7vw, 6.8rem);
+}
+
+.hero-text {
+    max-width: 650px;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+}
+
+.hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    max-width: 650px;
+    margin: 42px 0 0;
+}
+
+.hero-metrics div {
+    padding: 20px;
+    border: 1px solid rgba(8, 87, 255, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 16px 45px rgba(8, 36, 88, 0.08);
+    backdrop-filter: blur(14px);
+}
+
+.hero-metrics dt {
+    color: var(--color-blue);
+    font-size: 1.7rem;
+    font-weight: 950;
+}
+
+.hero-metrics dd {
+    margin: 4px 0 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+.hero-visual {
+    position: relative;
+}
+
+.orbital-card {
+    position: relative;
+    min-height: 540px;
+    display: grid;
+    place-items: center;
+}
+
+.orbital-card::before,
+.orbital-card::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(8, 87, 255, 0.15);
+}
+
+.orbital-card::before {
+    width: 520px;
+    height: 520px;
+    box-shadow: inset 0 0 90px rgba(8, 87, 255, 0.08);
+}
+
+.orbital-card::after {
+    width: 350px;
+    height: 350px;
+    border-color: rgba(68, 200, 255, 0.22);
+}
+
+.dashboard-shell {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 430px);
+    padding: 18px;
+    border: 1px solid rgba(8, 87, 255, 0.16);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(18px);
+}
+
+.dashboard-top,
+.mini-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #18c878;
+    box-shadow: 0 0 18px rgba(24, 200, 120, 0.8);
+}
+
+.message-board {
+    display: grid;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.chat-card {
+    width: 82%;
+    padding: 16px;
+    border-radius: 18px;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    box-shadow: 0 14px 32px rgba(8, 36, 88, 0.08);
+}
+
+.chat-card.ai {
+    justify-self: end;
+    color: #fff;
+    background: linear-gradient(135deg, var(--color-blue), #1eb6ff);
+}
+
+.chat-card.team {
+    background: #eef6ff;
+}
+
+.mini-stats span {
+    flex: 1;
+    padding: 14px;
+    border-radius: 16px;
+    background: #fff;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+}
+
+.mini-stats strong {
+    display: block;
+    color: var(--color-blue);
+    font-size: 1.1rem;
+}
+
+.hero-logo-mark {
+    position: absolute;
+    right: 0;
+    bottom: 12px;
+    z-index: 3;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 50%;
+    opacity: 0.92;
+    filter: drop-shadow(0 22px 42px rgba(8, 87, 255, 0.26));
+}
+
+@keyframes float-light {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(18px, -24px, 0) scale(1.08); }
+}
+
+@media (max-width: 920px) {
+    .hero {
+        min-height: auto;
+        padding-top: 110px;
+        padding-bottom: 90px;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.85rem, 14vw, 5.2rem);
+    }
+
+    .orbital-card {
+        min-height: 420px;
+    }
+}
+
+@media (max-width: 620px) {
+    .hero-actions,
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    .hero-metrics {
+        grid-template-columns: 1fr;
+    }
+}

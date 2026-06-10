@@ -1,0 +1,110 @@
+.intelligence {
+    background:
+        linear-gradient(180deg, var(--color-navy), #041b55 58%, #062a89);
+    color: #fff;
+    overflow: hidden;
+}
+
+.intelligence::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 18%, rgba(68, 200, 255, 0.35), transparent 25%),
+        radial-gradient(circle at 88% 55%, rgba(8, 87, 255, 0.42), transparent 28%);
+    opacity: 0.9;
+}
+
+.intelligence .container {
+    position: relative;
+}
+
+.intelligence .section-heading h2,
+.intelligence .section-heading p {
+    color: #fff;
+}
+
+.intelligence .section-heading p {
+    color: rgba(255, 255, 255, 0.76);
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 46px;
+}
+
+.data-card {
+    min-height: 250px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    backdrop-filter: blur(16px);
+}
+
+.data-card strong {
+    display: block;
+    font-size: 1.1rem;
+}
+
+.data-card p {
+    margin: 26px 0 0;
+    color: rgba(255, 255, 255, 0.74);
+}
+
+.bar {
+    height: 10px;
+    margin-top: 44px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+}
+
+.bar span {
+    display: block;
+    width: var(--value);
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--color-cyan), #fff, var(--color-blue));
+    background-size: 220% 100%;
+    animation: flow 4s linear infinite;
+}
+
+.funnel {
+    display: grid;
+    gap: 8px;
+    margin-top: 34px;
+}
+
+.funnel span {
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--color-cyan), var(--color-blue));
+}
+
+.funnel span:nth-child(2) {
+    width: 74%;
+}
+
+.funnel span:nth-child(3) {
+    width: 46%;
+}
+
+@keyframes flow {
+    to { background-position: 220% 0; }
+}
+
+@media (max-width: 980px) {
+    .data-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .data-grid {
+        grid-template-columns: 1fr;
+    }
+}
