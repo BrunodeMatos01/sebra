@@ -58,7 +58,7 @@
 
 .hero h1 {
     max-width: 780px;
-    font-size: clamp(3.2rem, 6.7vw, 6.8rem);
+    font-size: clamp(2.55rem, 2.8vw, 4.55rem);
 }
 
 .hero-text {
@@ -202,11 +202,11 @@
 
 .hero-logo-mark {
     position: absolute;
-    right: 0;
-    bottom: 12px;
+    right: -20px;
+    bottom: -22px;
     z-index: 3;
-    width: 120px;
-    height: 120px;
+    width: clamp(58px, 7vw, 86px);
+    height: clamp(58px, 7vw, 86px);
     object-fit: contain;
     border-radius: 50%;
     opacity: 0.92;
@@ -231,11 +231,18 @@
     }
 
     .hero h1 {
-        font-size: clamp(2.85rem, 14vw, 5.2rem);
+        font-size: clamp(1.15rem, 9vw, 3.25rem);
     }
 
     .orbital-card {
         min-height: 420px;
+    }
+
+    .hero-logo-mark {
+        right: -10px;
+        bottom: -18px;
+        width: 62px;
+        height: 62px;
     }
 }
 
@@ -247,5 +254,12 @@
 
     .hero-metrics {
         grid-template-columns: 1fr;
+    }
+
+    .hero-logo-mark {
+        right: 10px;
+        bottom: -20px;
+        width: 52px;
+        height: 52px;
     }
 }
