@@ -369,26 +369,26 @@
                     <p>Preencha os dados e nossa equipe entra em contato para apresentar a plataforma e entender como sua empresa trabalha.</p>
                 </div>
 
-                <form class="contact-form reveal" id="demo-form">
+                <form class="contact-form reveal" method="POST" id="demo-form">
                     <label>
                         Nome
-                        <input type="text" name="nome" autocomplete="name" placeholder="Seu nome" required>
+                        <input type="text" name="nome" id="nome" autocomplete="name" placeholder="Seu nome" required>
                     </label>
                     <label>
                         Empresa
-                        <input type="text" name="empresa" autocomplete="organization" placeholder="Nome da empresa" required>
+                        <input type="text" name="empresa" id="empresa" autocomplete="organization" placeholder="Nome da empresa" required>
                     </label>
                     <label>
                         WhatsApp
-                        <input type="tel" name="whatsapp" autocomplete="tel" placeholder="(00) 00000-0000" required>
+                        <input type="tel" name="whatsapp" id="whatsapp" autocomplete="tel" placeholder="(00) 00000-0000" required>
                     </label>
                     <label>
                         E-mail
-                        <input type="email" name="email" autocomplete="email" placeholder="voce@empresa.com" required>
+                        <input type="email" name="email" id="email" autocomplete="email" placeholder="voce@empresa.com" required>
                     </label>
                     <label class="full">
                         O que você quer melhorar?
-                        <textarea name="mensagem" rows="4" placeholder="Ex: responder leads mais rápido, centralizar atendimento, acompanhar relatórios..."></textarea>
+                        <textarea name="mensagem" id="mensagem" rows="4" placeholder="Ex: responder leads mais rápido, centralizar atendimento, acompanhar relatórios..."></textarea>
                     </label>
                     <button class="btn btn-primary btn-large full" type="submit">Solicitar demonstração</button>
                     <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
