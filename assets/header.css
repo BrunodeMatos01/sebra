@@ -10,14 +10,14 @@
     align-items: center;
     justify-content: space-between;
     gap: 22px;
-    width: min(100% - 40px, 980px);
+    width: min(100% - 40px, 1180px);
     min-height: 66px;
     margin-inline: auto;
     padding: 8px 10px 8px 14px;
-    border: 1px solid rgba(8, 87, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.78);
-    box-shadow: 0 22px 80px rgba(8, 36, 88, 0.15);
+    background: rgba(5, 11, 36, 0.78);
+    box-shadow: 0 22px 80px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255,255,255,0.12);
     backdrop-filter: blur(22px);
     pointer-events: auto;
 }
@@ -28,7 +28,7 @@
     align-items: center;
     gap: 10px;
     font-weight: 900;
-    color: var(--color-text);
+    color: #fff;
 }
 
 .brand img,
@@ -45,22 +45,22 @@
     gap: 4px;
     padding: 4px;
     border-radius: 999px;
-    background: rgba(238, 246, 255, 0.75);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .nav-links a {
     padding: 11px 14px;
     border-radius: 999px;
-    color: var(--color-muted);
-    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.84rem;
     font-weight: 800;
     transition: color 180ms ease, background 180ms ease;
 }
 
 .nav-links a:hover,
 .nav-links a.is-active {
-    color: var(--color-blue);
-    background: #fff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .nav-actions {
@@ -91,10 +91,10 @@
         min-height: 62px;
         margin-inline: auto;
         padding: 8px 10px;
-        border: 1px solid rgba(8, 87, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.86);
-        box-shadow: 0 18px 62px rgba(8, 36, 88, 0.22);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 18px 62px rgba(8, 36, 88, 0.28);
         backdrop-filter: blur(22px);
         pointer-events: auto;
     }
@@ -118,6 +118,7 @@
 
     .mobile-brand {
         justify-self: center;
+        color: var(--color-text);
     }
 
     .menu-toggle {

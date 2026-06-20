@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
     emailjs.init('5Ab4I5uTYBE3nBaqW');
 
     const contactForm = document.querySelector('.contact-form.reveal');
+    if (!contactForm) return;
+    const submitButton = contactForm.querySelector('.btn.btn-primary.btn-large.full');
+    const submitLabel = submitButton ? submitButton.textContent : 'Solicitar demonstracao';
 
     contactForm.addEventListener('submit', function (event) {
       event.preventDefault();
@@ -30,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
         data: new Date().toLocaleString("pt-BR")
       };
   
-      const submitButton = contactForm.querySelector('.btn.btn-primary.btn-large.full');
       submitButton.disabled = true; 
       submitButton.textContent = 'Enviando...';
 
@@ -40,13 +42,13 @@ document.addEventListener('DOMContentLoaded', function () {
           alert('Mensagem enviada com sucesso!');
           contactForm.reset(); 
           submitButton.disabled = false; 
-          submitButton.textContent = 'Enviar Mensagem'; 
+          submitButton.textContent = submitLabel; 
         })
         .catch(function (error) {
           console.log('ERRO...', error);
           alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
           submitButton.disabled = false; 
-          submitButton.textContent = 'Enviar Mensagem'; 
+          submitButton.textContent = submitLabel; 
         });
     });
   });

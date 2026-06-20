@@ -1,17 +1,20 @@
 :root {
-    --color-bg: #ffffff;
-    --color-surface: #f7fbff;
-    --color-surface-strong: #eef6ff;
-    --color-text: #06152d;
-    --color-muted: #5b6b84;
-    --color-line: rgba(7, 42, 97, 0.12);
+    --color-bg: #f5f8ff;
+    --color-surface: #ffffff;
+    --color-surface-strong: #eef5ff;
+    --color-text: #07152f;
+    --color-muted: #66728a;
+    --color-line: rgba(12, 56, 130, 0.13);
     --color-blue: #0857ff;
-    --color-blue-strong: #003bbb;
-    --color-blue-dark: #001d63;
-    --color-cyan: #44c8ff;
-    --color-navy: #020c25;
-    --shadow-soft: 0 24px 80px rgba(7, 42, 97, 0.14);
-    --shadow-blue: 0 20px 60px rgba(8, 87, 255, 0.28);
+    --color-blue-strong: #003bd6;
+    --color-blue-dark: #001b5b;
+    --color-cyan: #48d5ff;
+    --color-mint: #a9ffd6;
+    --color-violet: #6244ff;
+    --color-navy: #050b24;
+    --color-deep: #08102b;
+    --shadow-soft: 0 26px 80px rgba(7, 32, 84, 0.14);
+    --shadow-blue: 0 22px 80px rgba(8, 87, 255, 0.34);
     --radius-sm: 8px;
     --radius-md: 18px;
     --radius-lg: 28px;
@@ -24,6 +27,22 @@
 
 html {
     scroll-behavior: smooth;
+    scrollbar-color: var(--color-blue) #eaf1ff;
+    scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar {
+    width: 12px;
+}
+
+html::-webkit-scrollbar-track {
+    background: #eaf1ff;
+}
+
+html::-webkit-scrollbar-thumb {
+    border: 3px solid #eaf1ff;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--color-cyan), var(--color-blue), var(--color-violet));
 }
 
 body {
@@ -33,10 +52,58 @@ body {
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     line-height: 1.5;
     overflow-x: hidden;
+    text-rendering: geometricPrecision;
 }
 
 body.menu-open {
     overflow: hidden;
+}
+
+body::selection {
+    color: #fff;
+    background: var(--color-blue);
+}
+
+.scroll-rail {
+    position: fixed;
+    top: 112px;
+    right: 22px;
+    z-index: 90;
+    width: 5px;
+    height: calc(100vh - 224px);
+    border-radius: 999px;
+    background: rgba(8, 87, 255, 0.11);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+    pointer-events: none;
+}
+
+.scroll-rail-progress {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: calc(var(--scroll-progress, 0) * 1%);
+    border-radius: inherit;
+    background: linear-gradient(180deg, var(--color-cyan), var(--color-blue), var(--color-violet));
+    box-shadow: 0 0 24px rgba(8, 87, 255, 0.66);
+}
+
+.scroll-rail i {
+    position: absolute;
+    left: 50%;
+    top: var(--rail-step);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid rgba(8, 87, 255, 0.24);
+    transform: translate(-50%, -50%);
+    transition: background 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.scroll-rail i.is-lit {
+    background: var(--color-blue);
+    box-shadow: 0 0 24px rgba(8, 87, 255, 0.9);
+    transform: translate(-50%, -50%) scale(1.24);
 }
 
 img {
@@ -55,18 +122,22 @@ textarea {
     font: inherit;
 }
 
+button {
+    cursor: pointer;
+}
+
 .container {
-    width: min(100% - 40px, var(--container));
+    width: min(100% - 44px, var(--container));
     margin-inline: auto;
 }
 
 .section {
     position: relative;
-    padding: 110px 0;
+    padding: 124px 0;
 }
 
 .section-heading {
-    max-width: 720px;
+    max-width: 790px;
 }
 
 .section-heading h2,
@@ -78,25 +149,26 @@ textarea {
 }
 
 .section-heading h2 {
-    font-size: clamp(1.85rem, 3vw, 3.15rem);
+    font-size: clamp(2.05rem, 3.45vw, 3.75rem);
+    font-weight: 650;
 }
 
 .section-heading p,
 .hero-text {
     margin: 22px 0 0;
     color: var(--color-muted);
-    font-size: 1.08rem;
+    font-size: clamp(1.02rem, 1.65vw, 1.24rem);
 }
 
 .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     margin: 0 0 18px;
     color: var(--color-blue);
     font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
+    font-weight: 900;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
 }
 
@@ -105,7 +177,7 @@ textarea {
     width: 9px;
     height: 9px;
     border-radius: 99px;
-    background: var(--color-blue);
+    background: linear-gradient(135deg, var(--color-cyan), var(--color-blue));
     box-shadow: 0 0 24px rgba(8, 87, 255, 0.8);
 }
 
@@ -114,16 +186,16 @@ textarea {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    padding: 0 18px;
+    min-height: 46px;
+    padding: 0 20px;
     border: 1px solid transparent;
     border-radius: 999px;
-    font-size: 0.92rem;
-    font-weight: 800;
+    font-size: 0.94rem;
+    font-weight: 900;
     line-height: 1;
     isolation: isolate;
     overflow: hidden;
-    transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, background 180ms ease;
+    transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .btn::after {
@@ -131,9 +203,9 @@ textarea {
     position: absolute;
     inset: -2px;
     z-index: -1;
-    background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.5) 18%, transparent 36%);
+    background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.62) 18%, transparent 36%);
     transform: translateX(-130%);
-    animation: button-shine 4s ease-in-out infinite;
+    animation: button-shine 3.6s ease-in-out infinite;
 }
 
 .btn:hover {
@@ -142,31 +214,72 @@ textarea {
 
 .btn-primary {
     color: #fff;
-    background: linear-gradient(135deg, var(--color-blue), #0134b8 52%, #23b8ff);
-    box-shadow: var(--shadow-blue);
+    background: linear-gradient(135deg, #0b5cff, #0035c9 48%, #23c4ff);
+    box-shadow: 0 22px 70px rgba(8, 87, 255, 0.42), 0 0 0 1px rgba(255,255,255,0.2) inset;
 }
 
 .btn-ghost {
     color: var(--color-blue-dark);
     background: rgba(255, 255, 255, 0.72);
-    border-color: rgba(8, 87, 255, 0.18);
+    border-color: rgba(8, 87, 255, 0.2);
     backdrop-filter: blur(18px);
 }
 
 .btn-large {
-    min-height: 52px;
-    padding-inline: 24px;
+    min-height: 54px;
+    padding-inline: 26px;
+}
+
+.glow-button {
+    box-shadow: 0 26px 92px rgba(8, 87, 255, 0.42), 0 0 34px rgba(72, 213, 255, 0.18);
 }
 
 .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 700ms ease, transform 700ms ease;
+    transform: translateY(26px);
+    transition: opacity 800ms ease, transform 800ms ease;
 }
 
 .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.problem-card,
+.feature-item,
+.data-card,
+.value-card,
+.comparison-panel,
+.contact-form,
+.command-center {
+    position: relative;
+    overflow: hidden;
+}
+
+.problem-card::after,
+.feature-item::after,
+.data-card::after,
+.value-card::after,
+.comparison-panel::after,
+.contact-form::after,
+.command-center::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(72, 213, 255, 0.22), transparent 34%);
+    transition: opacity 180ms ease;
+    pointer-events: none;
+}
+
+.problem-card:hover::after,
+.feature-item:hover::after,
+.data-card:hover::after,
+.value-card:hover::after,
+.comparison-panel:hover::after,
+.contact-form:hover::after,
+.command-center:hover::after {
+    opacity: 1;
 }
 
 .check-list {
@@ -196,8 +309,14 @@ textarea {
 }
 
 @keyframes button-shine {
-    0%, 55% { transform: translateX(-130%); }
-    75%, 100% { transform: translateX(130%); }
+    0%, 52% { transform: translateX(-130%); }
+    76%, 100% { transform: translateX(130%); }
+}
+
+@media (max-width: 920px) {
+    .scroll-rail {
+        display: none;
+    }
 }
 
 @media (max-width: 760px) {
@@ -206,15 +325,26 @@ textarea {
     }
 
     .section {
-        padding: 78px 0;
+        padding: 82px 0;
     }
 
     .section-heading h2 {
-        font-size: clamp(1.75rem, 8vw, 2.45rem);
+        font-size: clamp(2rem, 10vw, 3.05rem);
     }
 
     .section-heading p,
     .hero-text {
         font-size: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
     }
 }

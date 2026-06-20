@@ -1,49 +1,53 @@
 .problems {
-    background: #fff;
+    background:
+        linear-gradient(180deg, #f5f8ff 0%, #ffffff 32%, #ffffff 100%);
+}
+
+.problems .section-heading {
+    margin-inline: auto;
+    text-align: center;
 }
 
 .problem-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 44px;
+    gap: 42px;
+    margin-top: 76px;
 }
 
 .problem-card {
-    min-height: 300px;
-    padding: 28px;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-lg);
-    background:
-        linear-gradient(180deg, rgba(255,255,255,0.95), rgba(247,251,255,0.95)),
-        radial-gradient(circle at 100% 0%, rgba(8,87,255,0.16), transparent 45%);
-    box-shadow: 0 18px 56px rgba(8, 36, 88, 0.08);
+    min-height: 260px;
+    padding: 8px 0 0;
+    border-top: 1px solid rgba(8, 87, 255, 0.18);
+    background: transparent;
 }
 
 .problem-card span {
-    display: inline-grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    color: var(--color-blue);
-    background: var(--color-surface-strong);
+    display: block;
+    color: rgba(8, 87, 255, 0.16);
+    font-size: clamp(4rem, 8vw, 7.4rem);
     font-weight: 900;
+    line-height: 0.86;
 }
 
 .problem-card h3 {
-    margin: 54px 0 12px;
-    font-size: 1.45rem;
+    margin: 34px 0 14px;
+    color: var(--color-text);
+    font-size: clamp(1.35rem, 2vw, 1.85rem);
 }
 
 .problem-card p {
+    max-width: 330px;
     margin: 0;
     color: var(--color-muted);
+    font-size: 1.02rem;
 }
 
 @media (max-width: 860px) {
     .problem-grid {
         grid-template-columns: 1fr;
+        gap: 30px;
+        margin-top: 52px;
     }
 
     .problem-card {
@@ -51,6 +55,6 @@
     }
 
     .problem-card h3 {
-        margin-top: 34px;
+        margin-top: 24px;
     }
 }

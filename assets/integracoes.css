@@ -1,0 +1,65 @@
+.integrations {
+    overflow: hidden;
+    color: #fff;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(72,213,255,0.16), transparent 34%),
+        linear-gradient(180deg, #101b43 0%, #1b2854 100%);
+}
+
+.integration-marquee {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    display: flex;
+    gap: clamp(44px, 7vw, 110px);
+    width: max-content;
+    opacity: 0.52;
+    animation: marquee-left 28s linear infinite;
+}
+
+.integration-marquee span {
+    color: rgba(255,255,255,0.45);
+    font-size: clamp(1.2rem, 2.2vw, 2.35rem);
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.integration-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    max-width: 900px;
+    min-height: 420px;
+    text-align: center;
+}
+
+.integration-content.reveal {
+    opacity: 1;
+    transform: none;
+}
+
+.integration-content .eyebrow {
+    color: var(--color-mint);
+}
+
+.integration-content h2 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.5rem, 5vw, 5.2rem);
+    font-weight: 560;
+    line-height: 1.06;
+}
+
+.integration-content p {
+    max-width: 760px;
+    margin: 24px 0 34px;
+    color: rgba(255,255,255,0.68);
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+}
+
+@media (max-width: 640px) {
+    .integration-content {
+        min-height: 360px;
+    }
+}
