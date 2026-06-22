@@ -87,9 +87,28 @@
     .floating-actions {
         right: 14px;
         bottom: 92px;
+        gap: 12px;
     }
 
     .whatsapp-float span {
         display: none;
+    }
+}
+
+@media (max-width: 380px) {
+    .floating-actions {
+        right: 10px;
+        bottom: 88px;
+    }
+
+    .back-to-top {
+        width: 38px;
+        height: 38px;
+    }
+
+    .whatsapp-float svg {
+        width: 52px;
+        height: 52px;
+        padding: 12px;
     }
 }

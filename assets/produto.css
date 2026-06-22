@@ -99,8 +99,9 @@
 .feature-item h3 {
     max-width: 520px;
     margin: 54px 0 18px;
-    font-size: clamp(1.9rem, 3vw, 3.05rem);
-    line-height: 1.02;
+    font-size: clamp(1.55rem, 2.35vw, 2.35rem);
+    font-weight: 650;
+    line-height: 1.08;
 }
 
 .feature-item p {
@@ -135,12 +136,42 @@
 
 @media (max-width: 560px) {
     .product-tabs {
-        overflow-x: auto;
-        flex-wrap: nowrap;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow: visible;
+        flex-wrap: unset;
         padding-bottom: 8px;
     }
 
     .product-tabs button {
-        flex: 0 0 auto;
+        width: 100%;
+        min-height: 46px;
+        padding-inline: 12px;
+    }
+
+    .feature-item {
+        padding: 24px;
+        border-radius: 26px;
+    }
+
+    .feature-icon {
+        min-width: 50px;
+        height: 50px;
+        border-radius: 17px;
+    }
+
+    .feature-item h3 {
+        margin-top: 34px;
+        font-size: clamp(1.38rem, 7vw, 1.82rem);
+    }
+
+    .feature-item p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .product-tabs {
+        grid-template-columns: 1fr;
     }
 }

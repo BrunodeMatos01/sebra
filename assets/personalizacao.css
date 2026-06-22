@@ -1,6 +1,8 @@
 .personalization {
     overflow: hidden;
-    background: #ffffff;
+    background:
+        radial-gradient(circle at 16% 20%, rgba(8,87,255,0.1), transparent 30%),
+        linear-gradient(180deg, #ffffff 0%, #edf4ff 100%);
 }
 
 .timeline-heading {
@@ -218,6 +220,7 @@
 @media (max-width: 900px) {
     .ai-timeline {
         gap: 54px;
+        margin-top: 64px;
     }
 
     .timeline-line {
@@ -250,14 +253,66 @@
 }
 
 @media (max-width: 560px) {
+    .ai-timeline {
+        gap: 44px;
+        margin-top: 48px;
+    }
+
+    .timeline-line,
+    .timeline-step::before {
+        left: 8px;
+    }
+
+    .timeline-step,
+    .timeline-step-alt {
+        gap: 20px;
+        padding-left: 34px;
+    }
+
+    .timeline-number {
+        top: -24px;
+        left: 0;
+        font-size: 4.6rem;
+    }
+
+    .timeline-copy h3 {
+        font-size: clamp(1.5rem, 8vw, 2rem);
+        line-height: 1.08;
+    }
+
+    .timeline-copy p {
+        margin-top: 16px;
+        font-size: 1rem;
+    }
+
     .timeline-visual {
         min-height: 240px;
         padding: 22px;
+        border-radius: 24px;
     }
 
     .tone-picker span {
         min-width: 0;
         width: 100%;
         margin-left: 0 !important;
+    }
+
+    .knowledge-card {
+        grid-template-columns: 1fr;
+    }
+
+    .report-card {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 420px) {
+    .timeline-step,
+    .timeline-step-alt {
+        padding-left: 28px;
+    }
+
+    .timeline-visual {
+        display: none;
     }
 }

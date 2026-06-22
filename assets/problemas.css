@@ -1,6 +1,7 @@
 .problems {
     background:
-        linear-gradient(180deg, #f5f8ff 0%, #ffffff 32%, #ffffff 100%);
+        radial-gradient(circle at 12% 10%, rgba(8, 87, 255, 0.1), transparent 30%),
+        linear-gradient(180deg, #eef5ff 0%, #f9fbff 100%);
 }
 
 .problems .section-heading {
@@ -56,5 +57,21 @@
 
     .problem-card h3 {
         margin-top: 24px;
+    }
+}
+
+@media (max-width: 560px) {
+    .problem-grid {
+        gap: 24px;
+        margin-top: 40px;
+    }
+
+    .problem-card span {
+        font-size: clamp(3.2rem, 18vw, 4.2rem);
+    }
+
+    .problem-card h3 {
+        margin-top: 18px;
+        font-size: clamp(1.2rem, 6vw, 1.55rem);
     }
 }

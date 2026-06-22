@@ -63,7 +63,7 @@
 .hero-grid {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(430px, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
     align-items: center;
     gap: 70px;
 }
@@ -74,7 +74,7 @@
 }
 
 .hero-copy {
-    max-width: 710px;
+    max-width: 650px;
 }
 
 .hero-badges {
@@ -104,21 +104,36 @@
 }
 
 .hero h1 {
-    max-width: 760px;
+    max-width: 680px;
     color: #fff;
-    font-size: clamp(3.7rem, 6.6vw, 7.4rem);
-    font-weight: 520;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.7rem, 4.6vw, 4.72rem);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    line-height: 1.06;
+}
+
+.hero h1 > span:first-child,
+.hero-title-row {
+    display: block;
+}
+
+.hero-title-row {
+    white-space: normal;
 }
 
 .typed-line {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    min-width: 0;
+    min-width: 9.8ch;
+    width: max-content;
+    max-width: 100%;
+    white-space: nowrap;
     color: var(--color-mint);
 }
 
 .typed-word {
+    display: inline-block;
+    min-width: 9.1ch;
     background: linear-gradient(100deg, var(--color-mint), var(--color-cyan), #fff);
     -webkit-background-clip: text;
     background-clip: text;
@@ -136,10 +151,10 @@
 }
 
 .hero-text {
-    max-width: 690px;
+    max-width: 620px;
     color: rgba(255,255,255,0.82);
-    font-size: clamp(1.15rem, 2vw, 1.48rem);
-    line-height: 1.68;
+    font-size: clamp(1.02rem, 1.45vw, 1.22rem);
+    line-height: 1.64;
 }
 
 .hero-actions {
@@ -158,28 +173,34 @@
 .hero-metrics {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    max-width: 740px;
-    margin: 52px 0 0;
+    gap: 14px;
+    max-width: 680px;
+    margin: 40px 0 0;
 }
 
 .hero-metrics div {
-    min-height: 128px;
-    padding: 22px;
-    border-left: 1px solid rgba(255,255,255,0.18);
-    background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent);
+    min-height: 118px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(169,255,214,0.16), transparent 44%),
+        rgba(255,255,255,0.07);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    backdrop-filter: blur(16px);
 }
 
 .hero-metrics dt {
     color: var(--color-mint);
-    font-size: 1.55rem;
-    font-weight: 950;
+    font-size: 1.14rem;
+    font-weight: 850;
 }
 
 .hero-metrics dd {
     margin: 8px 0 0;
     color: rgba(255,255,255,0.68);
     font-size: 0.92rem;
+    overflow-wrap: normal;
 }
 
 .hero-visual {
@@ -364,9 +385,8 @@
 .trust-strip {
     position: relative;
     z-index: 2;
-    display: grid;
-    gap: 22px;
-    padding: 34px 0;
+    display: block;
+    padding: 30px 0 36px;
     overflow: hidden;
     color: rgba(255,255,255,0.76);
     background: linear-gradient(90deg, #04091e, #101946, #04091e);
@@ -375,20 +395,25 @@
 }
 
 .trust-label {
-    justify-self: center;
+    width: fit-content;
+    max-width: calc(100% - 28px);
+    margin: 0 auto 18px;
     padding: 8px 18px;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 999px;
     color: rgba(255,255,255,0.72);
     background: rgba(255,255,255,0.05);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 800;
+    line-height: 1;
+    text-align: center;
 }
 
 .trust-track {
     display: flex;
     gap: 54px;
     width: max-content;
+    max-width: none;
     padding-left: 100%;
     animation: marquee-left 24s linear infinite;
 }
@@ -439,7 +464,7 @@
     }
 
     .hero h1 {
-        font-size: clamp(3rem, 11vw, 5.6rem);
+        font-size: clamp(2.42rem, 7.2vw, 4rem);
     }
 
     .hero-visual {
@@ -464,8 +489,22 @@
         padding-bottom: 92px;
     }
 
+    .hero-grid {
+        gap: 34px;
+    }
+
     .hero h1 {
-        font-size: clamp(2.6rem, 15vw, 4.2rem);
+        font-size: clamp(2.02rem, 9.4vw, 2.72rem);
+        max-width: 100%;
+        line-height: 1.08;
+    }
+
+    .typed-line {
+        min-width: 8.4ch;
+    }
+
+    .typed-word {
+        min-width: 7.8ch;
     }
 
     .hero-badges {
@@ -482,23 +521,22 @@
     .hero-metrics {
         grid-template-columns: 1fr;
         gap: 10px;
+        margin-top: 34px;
     }
 
     .hero-metrics div {
         min-height: auto;
-        padding: 18px;
+        padding: 16px 18px;
+        border-radius: 22px;
     }
 
     .hero-visual,
     .phone-stage {
-        min-height: 610px;
+        min-height: 478px;
     }
 
     .phone-plate {
-        inset: 42px 0 auto auto;
-        width: 72%;
-        height: 520px;
-        border-radius: 34px;
+        display: none;
     }
 
     .floating-message {
@@ -507,35 +545,93 @@
     }
 
     .floating-message.client {
-        top: 92px;
+        top: 0;
         left: 0;
     }
 
     .floating-message.ai {
-        top: 202px;
+        top: 112px;
         right: 0;
         width: min(92%, 340px);
     }
 
     .floating-message.data {
-        top: 338px;
+        top: 238px;
         left: 0;
     }
 
     .floating-message.team {
         right: 0;
-        bottom: 72px;
+        bottom: 0;
         width: min(92%, 340px);
     }
 
     .hero-pulse-panel {
-        left: 0;
-        right: auto;
-        bottom: 0;
-        width: min(100%, 300px);
+        display: none;
     }
 
     .signal-line {
-        opacity: 0.42;
+        display: none;
+    }
+}
+
+@media (max-width: 420px) {
+    .hero {
+        padding-top: 82px;
+    }
+
+    .hero-badges {
+        width: 100%;
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .hero-badges span {
+        width: 100%;
+        padding-inline: 11px;
+        font-size: 0.76rem;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: clamp(1.92rem, 10vw, 2.46rem);
+        letter-spacing: -0.01em;
+    }
+
+    .hero-text {
+        margin-top: 18px;
+    }
+
+    .hero-actions {
+        margin-top: 26px;
+    }
+
+    .hero-metrics {
+        margin-top: 28px;
+    }
+
+    .hero-visual,
+    .phone-stage {
+        min-height: 454px;
+    }
+
+    .floating-message {
+        width: min(94%, 318px);
+        border-radius: 16px;
+        font-size: 0.88rem;
+    }
+
+    .floating-message.ai,
+    .floating-message.data,
+    .floating-message.team {
+        width: min(94%, 318px);
+    }
+
+    .floating-message.ai {
+        top: 108px;
+    }
+
+    .floating-message.data {
+        top: 224px;
     }
 }

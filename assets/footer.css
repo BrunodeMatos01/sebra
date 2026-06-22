@@ -34,6 +34,7 @@
 .footer-contact a {
     display: grid;
     gap: 3px;
+    min-width: 0;
 }
 
 .footer-contact span {
@@ -85,7 +86,22 @@
 }
 
 @media (max-width: 620px) {
+    .footer {
+        padding: 48px 0 148px;
+    }
+
     .footer-grid {
         grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .footer-brand {
+        justify-content: flex-start;
+    }
+
+    .footer-contact,
+    .footer-links,
+    .footer-social {
+        gap: 10px;
     }
 }

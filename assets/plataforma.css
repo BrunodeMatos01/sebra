@@ -1,14 +1,19 @@
 .platform {
     overflow: hidden;
     background:
-        linear-gradient(180deg, #f3f7ff 0%, #ffffff 100%);
+        radial-gradient(circle at 90% 8%, rgba(72, 213, 255, 0.14), transparent 32%),
+        linear-gradient(180deg, #eaf2ff 0%, #f7fbff 100%);
 }
 
 .platform-grid {
     display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
+    grid-template-columns: 1fr 1fr;
     gap: 70px;
     align-items: center;
+}
+
+.platform .section-heading h2 {
+    font-size: clamp(1.85rem, 2.65vw, 3rem);
 }
 
 .platform-accordion {
@@ -37,6 +42,7 @@
     display: grid;
     place-items: center;
     width: 24px;
+    flex: 0 0 24px;
     height: 24px;
     border-radius: 50%;
     color: var(--color-blue);
@@ -152,7 +158,7 @@
     display: block;
     margin-top: 10px;
     color: var(--color-blue);
-    font-size: 2.5rem;
+    font-size: clamp(1.85rem, 4vw, 2.5rem);
     line-height: 1;
 }
 
@@ -212,6 +218,30 @@
 }
 
 @media (max-width: 620px) {
+    .platform .section-heading h2 {
+        font-size: clamp(1.55rem, 8vw, 2.28rem);
+        line-height: 1.08;
+    }
+
+    .platform-accordion {
+        margin-top: 30px;
+    }
+
+    .platform-accordion button {
+        align-items: flex-start;
+        min-height: 48px;
+        font-size: 1.02rem;
+        line-height: 1.25;
+    }
+
+    .accordion-panel {
+        padding-left: 34px;
+    }
+
+    .accordion-panel p {
+        font-size: 0.98rem;
+    }
+
     .center-grid {
         grid-template-columns: 1fr;
     }
@@ -223,5 +253,25 @@
     .command-center {
         padding: 14px;
         border-radius: 28px;
+    }
+
+    .center-top {
+        flex-wrap: wrap;
+        row-gap: 8px;
+        padding: 14px;
+    }
+
+    .center-top small {
+        width: 100%;
+        margin-left: 23px;
+    }
+
+    .center-card {
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .center-card.tall {
+        min-height: 210px;
     }
 }

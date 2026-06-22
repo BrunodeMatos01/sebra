@@ -1,7 +1,7 @@
 .about {
     background:
         radial-gradient(circle at 88% 18%, rgba(8,87,255,0.12), transparent 30%),
-        #ffffff;
+        linear-gradient(180deg, #ffffff 0%, #eef5ff 100%);
 }
 
 .about-grid {
@@ -37,5 +37,20 @@
 @media (max-width: 900px) {
     .about-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .about-grid {
+        gap: 34px;
+    }
+
+    .value-card {
+        padding: 22px;
+        border-radius: 0 22px 22px 0;
+    }
+
+    .value-card h3 {
+        font-size: 1.18rem;
     }
 }

@@ -36,6 +36,7 @@
 }
 
 .faq-item::before {
+    flex: 0 0 auto;
     content: "›";
     color: currentColor;
     font-size: 1.5rem;
@@ -77,5 +78,22 @@
     .faq-list {
         padding: 12px;
         border-radius: 24px;
+    }
+
+    .faq-item {
+        align-items: flex-start;
+        gap: 10px;
+        min-height: 54px;
+        padding: 12px 6px;
+        font-size: 1rem;
+        line-height: 1.32;
+    }
+
+    .faq-answer {
+        padding-left: 28px;
+    }
+
+    .faq-answer p {
+        font-size: 0.96rem;
     }
 }

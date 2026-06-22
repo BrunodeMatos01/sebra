@@ -81,3 +81,31 @@
         grid-template-columns: 1fr;
     }
 }
+
+@media (max-width: 560px) {
+    .contact-grid {
+        gap: 34px;
+    }
+
+    .contact-form {
+        gap: 14px;
+        padding: 20px;
+        border-radius: 26px;
+    }
+
+    .contact-form input {
+        min-height: 52px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        border-radius: 16px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .contact-form {
+        padding: 16px;
+    }
+}
