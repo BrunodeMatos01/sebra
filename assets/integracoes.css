@@ -52,10 +52,7 @@
 }
 
 .integration-content p {
-    max-width: 760px;
-    margin: 24px 0 34px;
-    color: rgba(255,255,255,0.68);
-    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    display: none;
 }
 
 @media (max-width: 640px) {

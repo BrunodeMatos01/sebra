@@ -217,6 +217,12 @@
     }
 }
 
+@media (max-width: 900px) {
+    .platform-preview {
+        display: none;
+    }
+}
+
 @media (max-width: 620px) {
     .platform .section-heading h2 {
         font-size: clamp(1.55rem, 8vw, 2.28rem);

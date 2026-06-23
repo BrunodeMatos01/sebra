@@ -10,7 +10,11 @@
     display: grid;
     grid-template-columns: 0.88fr 1.12fr;
     gap: 70px;
-    align-items: center;
+    align-items: start;
+}
+
+.product .section-heading {
+    padding-top: 16px;
 }
 
 .product-experience {

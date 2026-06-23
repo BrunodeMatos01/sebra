@@ -166,6 +166,11 @@ button {
     max-width: 790px;
 }
 
+.section-heading {
+    display: grid;
+    gap: 0;
+}
+
 .section-heading h2,
 .hero h1 {
     margin: 0;
@@ -187,8 +192,12 @@ button {
     font-size: clamp(1.02rem, 1.65vw, 1.24rem);
 }
 
+.section-heading > p {
+    display: none;
+}
+
 .eyebrow {
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: 12px;
     margin: 0 0 18px;

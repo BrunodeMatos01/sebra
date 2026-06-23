@@ -1,11 +1,11 @@
 .floating-actions {
     position: fixed;
-    right: 24px;
-    bottom: 24px;
+    right: 20px;
+    bottom: 20px;
     z-index: 95;
     display: grid;
     justify-items: end;
-    gap: 16px;
+    gap: 8px;
     pointer-events: none;
 }
 
@@ -17,14 +17,14 @@
 .back-to-top {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     color: rgba(7,21,47,0.42);
     background: rgba(255,255,255,0.76);
     box-shadow: 0 18px 42px rgba(8,36,88,0.12);
     backdrop-filter: blur(14px);
-    font-size: 1.35rem;
+    font-size: 0.98rem;
     font-weight: 900;
     transition: color 180ms ease, transform 180ms ease;
 }
@@ -37,44 +37,42 @@
 .whatsapp-float {
     display: inline-flex;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
 }
 
 .whatsapp-float span {
     position: relative;
-    max-width: 220px;
-    padding: 14px 18px;
-    border-radius: 16px;
+    max-width: 152px;
+    padding: 9px 12px;
+    border-radius: 13px;
     color: var(--color-text);
     background: #fff;
     box-shadow: 0 18px 50px rgba(8,36,88,0.18);
-    font-size: 0.95rem;
+    font-size: 0.72rem;
     font-weight: 740;
 }
 
 .whatsapp-float span::after {
     content: "";
     position: absolute;
-    right: -8px;
+    right: -7px;
     top: 50%;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     background: #fff;
     transform: translateY(-50%) rotate(45deg);
 }
 
 .whatsapp-float svg {
-    width: 58px;
-    height: 58px;
-    padding: 13px;
+    width: 42px;
+    height: 42px;
+    padding: 9px;
     border-radius: 50%;
-    fill: none;
-    stroke: #fff;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    color: #fff;
+    fill: currentColor;
+    stroke: none;
     background: #20d56b;
-    box-shadow: 0 0 0 10px rgba(32,213,107,0.12), 0 18px 50px rgba(32,213,107,0.42);
+    box-shadow: 0 0 0 7px rgba(32,213,107,0.12), 0 12px 34px rgba(32,213,107,0.34);
     animation: whatsapp-pulse 2.6s ease-in-out infinite;
 }
 
@@ -85,11 +83,17 @@
 
 @media (max-width: 620px) {
     .floating-actions {
-        right: 14px;
+        right: 12px;
         bottom: 92px;
-        gap: 12px;
+        gap: 10px;
     }
 
+    .whatsapp-float span {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
     .whatsapp-float span {
         display: none;
     }
@@ -102,13 +106,13 @@
     }
 
     .back-to-top {
-        width: 38px;
-        height: 38px;
+        width: 32px;
+        height: 32px;
     }
 
     .whatsapp-float svg {
-        width: 52px;
-        height: 52px;
-        padding: 12px;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
     }
 }

@@ -239,7 +239,7 @@
     }
 
     .timeline-step-alt .timeline-copy {
-        order: 2;
+        order: initial;
         text-align: left;
     }
 
@@ -249,6 +249,10 @@
 
     .timeline-step-alt .timeline-visual {
         order: 1;
+    }
+
+    .timeline-visual {
+        display: none;
     }
 }
 
