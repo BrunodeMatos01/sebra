@@ -87,17 +87,55 @@
 }
 
 .feature-icon {
+    position: relative;
     display: inline-grid;
     place-items: center;
-    min-width: 58px;
-    height: 58px;
-    padding: 0 14px;
-    border-radius: 20px;
-    color: #fff;
-    background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
-    box-shadow: var(--shadow-blue);
-    font-size: 0.88rem;
-    font-weight: 950;
+    width: 82px;
+    min-width: 82px;
+    height: 82px;
+    padding: 0;
+    border: 1px solid rgba(72, 213, 255, 0.32);
+    border-radius: 50%;
+    color: var(--color-blue);
+    background:
+        radial-gradient(circle at 32% 24%, #fff 0 22%, rgba(169,255,214,0.92) 23% 36%, rgba(72,213,255,0.28) 56%, rgba(8,87,255,0.1) 100%),
+        rgba(255,255,255,0.78);
+    box-shadow:
+        0 24px 64px rgba(8, 87, 255, 0.18),
+        0 0 42px rgba(72, 213, 255, 0.18),
+        inset 0 1px 0 rgba(255,255,255,0.92);
+}
+
+.feature-icon::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border-radius: inherit;
+    background: rgba(255,255,255,0.82);
+    border: 1px solid rgba(8, 87, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.feature-icon svg {
+    position: relative;
+    z-index: 1;
+    width: 36px;
+    height: 36px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 10px 18px rgba(8, 87, 255, 0.18));
+}
+
+.feature-icon svg * {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
 }
 
 .feature-item h3 {
@@ -159,9 +197,18 @@
     }
 
     .feature-icon {
-        min-width: 50px;
-        height: 50px;
-        border-radius: 17px;
+        width: 66px;
+        min-width: 66px;
+        height: 66px;
+    }
+
+    .feature-icon::before {
+        inset: 9px;
+    }
+
+    .feature-icon svg {
+        width: 30px;
+        height: 30px;
     }
 
     .feature-item h3 {

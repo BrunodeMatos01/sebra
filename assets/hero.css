@@ -407,12 +407,14 @@
 }
 
 .trust-track {
+    --marquee-half-gap: 27px;
     display: flex;
     gap: 54px;
     width: max-content;
     max-width: none;
-    padding-left: 100%;
+    padding-left: 0;
     animation: marquee-left 24s linear infinite;
+    will-change: transform;
 }
 
 .trust-track span {
@@ -447,7 +449,7 @@
 }
 
 @keyframes marquee-left {
-    to { transform: translateX(-100%); }
+    to { transform: translateX(calc(-50% - var(--marquee-half-gap, 0px))); }
 }
 
 @media (max-width: 1200px) {
