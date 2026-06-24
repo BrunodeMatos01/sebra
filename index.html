@@ -43,6 +43,7 @@
     <link rel="stylesheet" href="assets/produto.css" />
     <link rel="stylesheet" href="assets/plataforma.css" />
     <link rel="stylesheet" href="assets/inteligencia.css" />
+    <link rel="stylesheet" href="assets/financeiro.css" />
     <link rel="stylesheet" href="assets/personalizacao.css" />
     <link rel="stylesheet" href="assets/integracoes.css" />
     <link rel="stylesheet" href="assets/sobre-nos.css" />
@@ -99,6 +100,7 @@
           <a href="#plataforma">Plataforma</a>
           <a href="#fluxo">Fluxo IA</a>
           <a href="#dados">Dados</a>
+          <a href="#financeiro">Financeiro</a>
           <a href="#integracoes">Integrações</a>
         </div>
 
@@ -132,6 +134,7 @@
         <a href="#plataforma">Plataforma</a>
         <a href="#fluxo">Fluxo IA</a>
         <a href="#dados">Dados</a>
+        <a href="#financeiro">Financeiro</a>
         <a href="#integracoes">Integrações</a>
         <a class="btn btn-primary" href="#contato">Agendar demonstração</a>
       </div>
@@ -181,12 +184,12 @@
             </div>
             <dl class="hero-metrics" aria-label="Principais beneficios">
               <div>
-                <dt>IA ativa</dt>
+                <dt>Agente de IA</dt>
                 <dd>Responde e qualifica o lead antes dele esfriar.</dd>
               </div>
               <div>
-                <dt>Humano certo</dt>
-                <dd>Sua equipe assume com contexto quando precisa.</dd>
+                <dt>Financeiro</dt>
+                <dd>Sua equipe tem total controle de pagamentos</dd>
               </div>
               <div>
                 <dt>Dados vivos</dt>
@@ -251,7 +254,7 @@
           <span>Chat interno</span>
           <span>Kanban</span>
           <span>Gráficos</span>
-          <span>Relatórios CSV</span>
+          <span>Relatórios Excel</span>
           <span>Agendamentos</span>
           <span>Remarketing</span>
           <span>Logs</span>
@@ -345,6 +348,7 @@
               <button type="button" data-tab="atendimento">Atendimento</button>
               <button type="button" data-tab="equipe">Chat interno</button>
               <button type="button" data-tab="dados">Dados</button>
+              <button type="button" data-tab="financeiro">Financeiro</button>
               <button type="button" data-tab="config">Configurações</button>
             </div>
 
@@ -422,6 +426,14 @@
                 <p>
                   Acompanhe leads, conversão, regiões, produtos, vendedores,
                   atividades, logs e exporte tudo para CSV quando precisar.
+                </p>
+              </article>
+              <article class="feature-item" data-panel="financeiro">
+                <h3>Controle financeiro junto da operação</h3>
+                <p>
+                  Acompanhe entradas do mês, parcelas a pagar, valores a receber,
+                  recebimentos confirmados e gráficos financeiros para entender
+                  resultado, previsão e saúde da empresa.
                 </p>
               </article>
               <article class="feature-item" data-panel="config">
@@ -701,6 +713,73 @@
       </section>
 
       <section
+        class="finance section"
+        id="financeiro"
+        aria-labelledby="finance-title"
+      >
+        <div class="container finance-grid">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Controle financeiro</p>
+            <h2 id="finance-title">
+              Saiba o que entrou, o que falta receber e o que ainda vai sair do
+              caixa.
+            </h2>
+            <p>
+              A Sebra tambem organiza a leitura financeira da operacao, com
+              valores recebidos, parcelas, previsao de entrada e relatorios para
+              decisao.
+            </p>
+          </div>
+
+          <div class="finance-dashboard reveal" aria-label="Painel financeiro Sebra">
+            <div class="finance-topline">
+              <span>Financeiro Sebra</span>
+              <strong>Visao do mes</strong>
+            </div>
+
+            <div class="finance-metrics">
+              <article class="finance-card">
+                <span>Entradas no mes</span>
+                <strong>R$ 48.900</strong>
+                <small>receitas confirmadas</small>
+              </article>
+              <article class="finance-card">
+                <span>A receber</span>
+                <strong>R$ 23.700</strong>
+                <small>parcelas e propostas abertas</small>
+              </article>
+              <article class="finance-card">
+                <span>A pagar</span>
+                <strong>R$ 8.420</strong>
+                <small>compromissos futuros</small>
+              </article>
+              <article class="finance-card">
+                <span>Recebido</span>
+                <strong>64%</strong>
+                <small>do previsto para o mes</small>
+              </article>
+            </div>
+
+            <div class="finance-bottom">
+              <div class="finance-chart" aria-hidden="true">
+                <span style="--height: 74%"></span>
+                <span style="--height: 46%"></span>
+                <span style="--height: 88%"></span>
+                <span style="--height: 62%"></span>
+                <span style="--height: 96%"></span>
+              </div>
+              <div class="finance-list">
+                <span>Relatorio semanal</span>
+                <span>Exportacao CSV</span>
+                <span>Alertas por Telegram</span>
+                <span>Graficos para decisao</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
         class="integrations section"
         id="integracoes"
         aria-labelledby="integrations-title"
@@ -712,7 +791,7 @@
           <span>Planilhas</span>
           <span>E-mail</span>
           <span>CRM</span>
-          <span>CSV</span>
+          <span>Excel</span>
           <span>Webhooks</span>
           <span>WhatsApp</span>
           <span>Telegram</span>

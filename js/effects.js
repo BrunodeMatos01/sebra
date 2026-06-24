@@ -1,3 +1,27 @@
+const addRevealMotion = (selector, direction, startDelay = 0, stepDelay = 80) => {
+    document.querySelectorAll(selector).forEach((element, index) => {
+        element.classList.add("reveal");
+
+        if (!element.dataset.reveal) {
+            element.dataset.reveal = typeof direction === "function" ? direction(element, index) : direction;
+        }
+
+        if (!element.style.getPropertyValue("--reveal-delay")) {
+            element.style.setProperty("--reveal-delay", `${startDelay + index * stepDelay}ms`);
+        }
+    });
+};
+
+addRevealMotion(".hero-copy", "left", 40);
+addRevealMotion(".hero-visual", "right", 160);
+addRevealMotion(".hero-copy .hero-actions, .hero-copy .hero-metrics", "up", 220, 90);
+addRevealMotion(".hero-visual .floating-message", "right", 260, 110);
+addRevealMotion(".section-heading", "left", 0, 60);
+addRevealMotion(".problem-card, .data-card, .comparison-panel", (element, index) => index % 2 ? "right" : "left", 80, 110);
+addRevealMotion(".product-experience, .platform-preview, .faq-list, .contact-form, .integration-content", "right", 120, 70);
+addRevealMotion(".platform-accordion, .center-card, .timeline-visual, .timeline-copy", (element, index) => index % 2 ? "right" : "left", 100, 80);
+addRevealMotion(".timeline-step", "up", 80, 90);
+
 const revealElements = document.querySelectorAll(".reveal");
 const railDots = document.querySelectorAll(".scroll-rail i");
 const interactiveCards = document.querySelectorAll(".problem-card, .feature-item, .data-card, .value-card, .comparison-panel, .contact-form, .command-center");

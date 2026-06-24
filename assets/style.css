@@ -342,14 +342,48 @@ textarea:focus-visible {
 }
 
 .reveal {
+    --reveal-x: 0px;
+    --reveal-y: 34px;
+    --reveal-scale: 0.985;
+    --reveal-delay: 0ms;
     opacity: 0;
-    transform: translateY(26px);
-    transition: opacity 800ms ease, transform 800ms ease;
+    filter: blur(10px);
+    transform: translate3d(var(--reveal-x), var(--reveal-y), 0) scale(var(--reveal-scale));
+    transition:
+        opacity 850ms cubic-bezier(.2,.75,.2,1),
+        transform 850ms cubic-bezier(.2,.75,.2,1),
+        filter 850ms ease;
+    transition-delay: var(--reveal-delay);
+    will-change: opacity, transform, filter;
+}
+
+.reveal[data-reveal="left"] {
+    --reveal-x: -46px;
+    --reveal-y: 10px;
+}
+
+.reveal[data-reveal="right"] {
+    --reveal-x: 46px;
+    --reveal-y: 10px;
+}
+
+.reveal[data-reveal="up"] {
+    --reveal-y: 42px;
+}
+
+.reveal[data-reveal="down"] {
+    --reveal-y: -34px;
+}
+
+.reveal[data-reveal="zoom"] {
+    --reveal-y: 18px;
+    --reveal-scale: 0.94;
 }
 
 .reveal.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
 }
 
 .problem-card,

@@ -69,11 +69,15 @@
     min-height: 54px;
     border: 0;
     border-radius: 18px;
-    color: #fff;
+    color: #d8caff;
     background: transparent;
     font-size: clamp(1.08rem, 2vw, 1.34rem);
     font-weight: 900;
     text-align: left;
+}
+
+.platform-accordion button span {
+    color: inherit;
 }
 
 .platform-accordion button::before {
@@ -84,13 +88,18 @@
     flex: 0 0 24px;
     height: 24px;
     border-radius: 50%;
-    color: var(--color-mint);
+    color: #a9ffd6;
     font-size: 1.5rem;
     transition: transform 180ms ease;
 }
 
 .platform-accordion button.is-open::before {
     transform: rotate(90deg);
+}
+
+.platform-accordion button.is-open span {
+    color: #a9ffd6;
+    text-shadow: 0 0 24px rgba(169, 255, 214, 0.2);
 }
 
 .accordion-panel {
@@ -156,6 +165,10 @@
     border-radius: 50%;
     background: #25d67d;
     box-shadow: 0 0 24px rgba(37,214,125,0.75);
+}
+
+.center-top strong {
+    color: var(--color-blue-dark);
 }
 
 .center-top small {
