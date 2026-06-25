@@ -90,12 +90,12 @@
 .finance-metrics {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 10px;
 }
 
 .finance-card {
-    min-height: 132px;
-    padding: 16px 12px;
+    min-height: 124px;
+    padding: 14px 10px;
     border: 1px solid rgba(8, 87, 255, 0.1);
     border-radius: 22px;
     background: rgba(255,255,255,0.72);
@@ -108,21 +108,30 @@
     color: var(--color-muted);
     font-weight: 800;
     white-space: nowrap;
+    text-wrap: nowrap;
     overflow-wrap: normal;
+    word-break: keep-all;
+}
+
+.finance-card span {
+    font-size: clamp(0.62rem, 0.78vw, 0.76rem);
+    line-height: 1.12;
 }
 
 .finance-card strong {
     display: block;
-    margin: 12px 0 8px;
+    margin: 11px 0 8px;
     color: var(--color-blue);
-    font-size: clamp(1.28rem, 2.1vw, 1.72rem);
+    font-size: clamp(1.04rem, 1.65vw, 1.5rem);
     line-height: 1;
     white-space: nowrap;
+    text-wrap: nowrap;
     overflow-wrap: normal;
+    word-break: keep-all;
 }
 
 .finance-card small {
-    font-size: clamp(0.58rem, 0.78vw, 0.7rem);
+    font-size: clamp(0.52rem, 0.68vw, 0.64rem);
     line-height: 1.2;
 }
 
