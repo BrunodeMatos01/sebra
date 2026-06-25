@@ -17,14 +17,15 @@ addRevealMotion(".hero-visual", "right", 160);
 addRevealMotion(".hero-copy .hero-actions, .hero-copy .hero-metrics", "up", 220, 90);
 addRevealMotion(".hero-visual .floating-message", "right", 260, 110);
 addRevealMotion(".section-heading", "left", 0, 60);
-addRevealMotion(".problem-card, .data-card, .comparison-panel", (element, index) => index % 2 ? "right" : "left", 80, 110);
-addRevealMotion(".product-experience, .platform-preview, .faq-list, .contact-form, .integration-content", "right", 120, 70);
+addRevealMotion(".problem-card, .data-card, .comparison-panel, .finance-card", (element, index) => index % 2 ? "right" : "left", 80, 110);
+addRevealMotion(".product-experience, .platform-preview, .finance-dashboard, .faq-list, .contact-form, .integration-content", "right", 120, 70);
 addRevealMotion(".platform-accordion, .center-card, .timeline-visual, .timeline-copy", (element, index) => index % 2 ? "right" : "left", 100, 80);
 addRevealMotion(".timeline-step", "up", 80, 90);
+addRevealMotion(".finance-chart, .finance-list", "up", 180, 90);
 
 const revealElements = document.querySelectorAll(".reveal");
 const railDots = document.querySelectorAll(".scroll-rail i");
-const interactiveCards = document.querySelectorAll(".problem-card, .feature-item, .data-card, .value-card, .comparison-panel, .contact-form, .command-center");
+const interactiveCards = document.querySelectorAll(".problem-card, .feature-item, .data-card, .value-card, .comparison-panel, .finance-card, .finance-dashboard, .contact-form, .command-center");
 const typedWord = document.querySelector(".typed-word");
 const timeline = document.querySelector("[data-timeline]");
 
