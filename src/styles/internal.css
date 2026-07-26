@@ -1,0 +1,67 @@
+/* Estilo compartilhado das páginas internas (Soluções, Segmentos, etc.) */
+
+.ip-hero {
+  position: relative;
+  padding-block: clamp(72px, 9vw, 128px) clamp(48px, 6vw, 80px);
+  background:
+    radial-gradient(820px 400px at 84% -12%, rgba(8,87,255,.22), transparent 58%),
+    radial-gradient(640px 380px at 6% 6%, rgba(61,139,255,.13), transparent 60%),
+    linear-gradient(180deg, #eaf1ff 0%, #f4f8ff 60%, #ffffff 100%);
+  border-bottom: 1px solid rgba(8,87,255,.10);
+}
+.ip-hero__grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+.ip-hero h1 { font-size: clamp(32px, 4.2vw, 52px); margin-top: 16px; }
+.ip-hero__lead { margin-top: 20px; font-size: clamp(16px, 1.3vw, 19px); color: var(--ink-soft); max-width: 560px; }
+.ip-hero .btn-row { margin-top: 30px; }
+
+.ip-crumbs { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.ip-crumbs a:hover { color: var(--brand); }
+
+/* Painel de intro (placeholder de tela) */
+.ip-panel {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg); overflow: hidden;
+}
+.ip-panel__bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); background: #fafbfe; }
+.ip-panel__bar span { width: 10px; height: 10px; border-radius: 50%; background: #dbe2ee; }
+.ip-panel__bar em { margin-left: 10px; font-style: normal; font-size: 12px; color: var(--muted); }
+.ip-panel__body { padding: 22px; display: grid; gap: 12px; }
+.ip-panel__line { height: 13px; border-radius: 4px; background: var(--surface-3); }
+.ip-panel__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.ip-panel__chip { font-size: 12px; font-weight: 600; color: var(--brand); background: #eef3ff; border-radius: 999px; padding: 6px 12px; }
+
+/* Intro */
+.ip-intro { max-width: 780px; }
+.ip-intro p { font-size: clamp(17px, 1.5vw, 20px); color: var(--ink-soft); line-height: 1.65; }
+
+/* Dores → resposta */
+.pain-list { display: grid; gap: 16px; margin-top: 44px; }
+.pain {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; background: #fff;
+}
+.pain__problem { padding: 24px 26px; background: var(--surface-2); border-right: 1px solid var(--line); }
+.pain__answer { padding: 24px 26px; }
+.pain__tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+.pain__problem .pain__tag { color: #b03b3b; }
+.pain__answer .pain__tag { color: var(--ok); }
+.pain p { font-size: 16px; color: var(--ink); font-weight: 500; }
+.pain__answer p { color: var(--ink-soft); font-weight: 400; }
+@media (max-width: 720px) {
+  .pain { grid-template-columns: 1fr; }
+  .pain__problem { border-right: 0; border-bottom: 1px solid var(--line); }
+}
+
+/* Módulos do segmento */
+.mod-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.mod-strip span { font-size: 13.5px; font-weight: 600; color: var(--ink-soft); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; }
+
+/* CTA band */
+.cta-band { background: var(--navy-900); }
+.cta-band__inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding-block: 56px; }
+.cta-band h2 { color: #fff; font-size: clamp(24px, 2.6vw, 34px); max-width: 620px; }
+.cta-band p { color: #b7c4de; margin-top: 10px; }
+
+@media (max-width: 940px) {
+  .ip-hero__grid { grid-template-columns: 1fr; }
+}

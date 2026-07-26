@@ -1,0 +1,362 @@
+---
+import Base from "../layouts/Base.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Faq from "../components/Faq.astro";
+import { solucoes } from "../data/solucoes";
+import { segmentos } from "../data/segmentos";
+
+const trust = ["WhatsApp", "Telegram", "Chat interno", "Kanban", "NF-e", "PDV", "Financeiro", "DRE", "Estoque", "RH", "Relatórios", "Open Finance"];
+
+// Balões dos segmentos — emoji + frase curta
+const segEmoji: Record<string, string> = {
+  varejo: "🛍️", industria: "🏭", distribuidor: "📦", servicos: "🛠️",
+  construcao: "👷", salao: "💇", licitacoes: "⚖️",
+};
+const segTease: Record<string, string> = {
+  varejo: "Venda no balcão e no WhatsApp, com estoque e caixa integrados.",
+  industria: "Da ficha técnica à nota fiscal, com custo real sob controle.",
+  distribuidor: "Vários depósitos, cotações e logística num só lugar.",
+  servicos: "Ordens de serviço, agenda técnica e cobrança automática.",
+  construcao: "Obras, medições e retenção de INSS do jeito do setor.",
+  salao: "Bot que agenda sozinho e a ficha completa do cliente.",
+  licitacoes: "Editais, habilitação e certidões sempre em dia.",
+};
+---
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="container hero__grid">
+      <div class="hero__copy reveal">
+        <span class="tag">Plataforma brasileira · IA nativa</span>
+        <h1>A empresa inteira num só lugar, com <span class="accent">inteligência artificial</span></h1>
+        <p class="hero__lead">Atenda no WhatsApp, venda com organização, emita nota fiscal, controle o financeiro e o estoque — tudo conectado, tudo com IA trabalhando por você.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary btn--lg" href="#contato">Agende uma demonstração</a>
+          <a class="btn btn--ghost btn--lg" href="/solucoes/ia/">Ver a plataforma</a>
+        </div>
+        <ul class="hero__points">
+          <li>Emissão fiscal de verdade (NF-e, NFS-e, NFC-e)</li>
+          <li>IA que atende e qualifica 24 horas</li>
+          <li>Financeiro, estoque e RH integrados</li>
+        </ul>
+      </div>
+
+      <div class="hero__visual reveal" data-delay="1">
+        <!-- PLACEHOLDER: trocar por print real do dashboard da plataforma -->
+        <div class="mock" aria-label="Painel da Sebra">
+          <div class="mock__bar"><span></span><span></span><span></span><em>app.sebra · Painel</em></div>
+          <div class="mock__body">
+            <div class="mock__kpis">
+              <div class="mock__kpi"><small>Negócios ganhos</small><strong data-count="547089" data-decimals="0" data-suffix="">0</strong><i>R$</i></div>
+              <div class="mock__kpi"><small>Em aberto</small><strong data-count="477069" data-decimals="0">0</strong><i>R$</i></div>
+              <div class="mock__kpi"><small>Leads no mês</small><strong data-count="1246" data-decimals="0">0</strong></div>
+            </div>
+            <div class="mock__chart" aria-hidden="true">
+              <span style="--h:38%"></span><span style="--h:56%"></span><span style="--h:44%"></span>
+              <span style="--h:72%"></span><span style="--h:60%"></span><span style="--h:88%"></span>
+              <span style="--h:70%"></span><span style="--h:96%"></span>
+            </div>
+          </div>
+        </div>
+        <div class="mock-chip mock-chip--1"><span class="mock-chip__dot"></span>IA qualificou <strong>Lead quente</strong></div>
+        <div class="mock-chip mock-chip--2"><span class="mock-chip__dot mock-chip__dot--ok"></span>NF-e <strong>autorizada</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="strip" aria-label="O que a Sebra conecta">
+    <div class="container">
+      <p class="strip__label"><span>Uma operação inteira conectada</span></p>
+    </div>
+    <div class="strip__mask">
+      <div class="strip__track">
+        {[...trust, ...trust].map((t) => <span class="strip__item">{t}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMAS -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="s-head reveal">
+        <span class="eyebrow">O custo da desorganização</span>
+        <h2>Cada sistema solto é dinheiro deixado na mesa</h2>
+        <p>Quem usa um CRM, um Bling, o WhatsApp no celular e uma planilha do contador perde tempo, histórico e venda. A Sebra junta tudo numa operação só.</p>
+      </div>
+      <div class="grid grid--3" style="margin-top:48px">
+        <article class="card reveal"><span class="card__idx">01</span><h3>Lead esfriando</h3><p>O cliente chama, espera, compara e fecha com quem respondeu primeiro.</p></article>
+        <article class="card reveal" data-delay="1"><span class="card__idx">02</span><h3>Dado espalhado</h3><p>Atendimento num lugar, financeiro noutro, nota num terceiro. Ninguém enxerga o todo.</p></article>
+        <article class="card reveal" data-delay="2"><span class="card__idx">03</span><h3>Decisão no escuro</h3><p>Sem relatório e sem número confiável, você não sabe onde vende nem onde perde.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUÇÕES -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <span class="eyebrow">A plataforma</span>
+        <h2>Tudo que a sua empresa precisa, num lugar só</h2>
+        <p>Mais de 80 funções organizadas em áreas que conversam entre si. Comece pelo que dói mais e ative o resto quando quiser.</p>
+      </div>
+      <div class="grid grid--3" style="margin-top:52px">
+        {solucoes.map((s, i) => (
+          <a class="card sol-card reveal" href={`/solucoes/${s.slug}/`} data-delay={i % 3}>
+            <div class="card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <h3>{s.nav}</h3>
+            <p>{s.lead}</p>
+            <span class="sol-card__more">Ver detalhes →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS -->
+  <section class="section section--navy">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <span class="eyebrow">Feita para escalar</span>
+        <h2>Uma plataforma, resultado de verdade</h2>
+      </div>
+      <div class="grid grid--4 stats-grid" style="margin-top:52px">
+        <div class="stat reveal"><div class="stat__num" data-count="80" data-suffix="+">0</div><div class="stat__label">Funções integradas</div></div>
+        <div class="stat reveal" data-delay="1"><div class="stat__num" data-count="9" data-suffix="">0</div><div class="stat__label">Verticais por segmento</div></div>
+        <div class="stat reveal" data-delay="2"><div class="stat__num" data-count="24" data-suffix="/7">0</div><div class="stat__label">Atendimento com IA</div></div>
+        <div class="stat reveal" data-delay="3"><div class="stat__num" data-count="100" data-suffix="%">0</div><div class="stat__label">Dados sob seu controle</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESTAQUE FISCAL / GOVERNO -->
+  <section class="section section--wash">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <span class="eyebrow">O diferencial no Brasil</span>
+        <h2>Emissão fiscal e conexão com o governo, nativas</h2>
+        <p class="split__lead">Enquanto outros sistemas param no CRM, a Sebra emite nota, guarda o certificado A1, controla certidões e prepara o pacote do contador. Aposente o eNotas e a planilha.</p>
+        <ul class="check-list">
+          <li>NF-e, NFS-e e NFC-e por provider homologado</li>
+          <li>Certificado A1 criptografado, com alerta de vencimento</li>
+          <li>Certidões negativas (federal, estadual, municipal, FGTS, trabalhista)</li>
+          <li>Substituição tributária e guarda legal do XML por 5 anos</li>
+          <li>Open Finance e cobrança automática PIX/boleto</li>
+        </ul>
+        <a class="btn btn--primary" href="/solucoes/fiscal/">Conhecer o módulo fiscal</a>
+      </div>
+      <div class="split__visual reveal" data-delay="1">
+        <!-- PLACEHOLDER: trocar por print da tela fiscal / NF-e -->
+        <div class="mock mock--doc" aria-label="Emissão fiscal">
+          <div class="mock__bar"><span></span><span></span><span></span><em>Fiscal · NF-e</em></div>
+          <div class="mock__doc">
+            <div class="mock__doc-row"><b>NF-e 000.128</b><span class="mock__badge">Autorizada</span></div>
+            <div class="mock__doc-line"></div><div class="mock__doc-line" style="width:80%"></div><div class="mock__doc-line" style="width:64%"></div>
+            <div class="mock__doc-row" style="margin-top:auto"><small>Certificado A1</small><span class="mock__badge mock__badge--amber">Vence em 42 dias</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGMENTOS — balões, cada um com botão para a página -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <span class="eyebrow">Segmentos</span>
+        <h2>A mesma plataforma, do jeito que o seu ramo precisa</h2>
+        <p>Ative a vertical do seu negócio e a Sebra fala a língua da sua operação.</p>
+      </div>
+      <div class="seg-grid" style="margin-top:52px">
+        {segmentos.map((s, i) => (
+          <div class="balloon reveal" data-delay={i % 3}>
+            <div class="balloon__body">
+              <span class="balloon__emoji" aria-hidden="true">{segEmoji[s.slug]}</span>
+              <h3 class="balloon__title">{s.nav}</h3>
+              <p class="balloon__text">{segTease[s.slug]}</p>
+              <a class="balloon__btn" href={`/segmentos/${s.slug}/`}>Acessar <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEGRAÇÕES teaser -->
+  <section class="section section--soft">
+    <div class="container split split--reverse">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Integrações</span>
+        <h2>Conectada ao que você já usa</h2>
+        <p class="split__lead">WhatsApp, Telegram, Google (Calendar, Drive, Meet), Asaas, Open Finance, providers fiscais e os conectores de IA — a Sebra se encaixa na sua rotina.</p>
+        <a class="btn btn--ghost" href="/integracoes/">Ver todas as integrações</a>
+      </div>
+      <div class="split__visual reveal" data-delay="1">
+        <div class="int-cloud">
+          {["WhatsApp","Telegram","Google","Asaas","Open Finance","Meet","Drive","NF-e"].map((n) => <span class="int-chip">{n}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <span class="eyebrow">Dúvidas frequentes</span>
+        <h2>Perguntas que aparecem antes da demonstração</h2>
+      </div>
+      <div class="reveal" style="margin-top:44px"><Faq /></div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="section section--wash contact" id="contato">
+    <div class="container contact__grid">
+      <div class="reveal">
+        <span class="eyebrow">Agende uma demonstração</span>
+        <h2 class="contact__title">Veja a Sebra funcionando antes de decidir</h2>
+        <p class="contact__lead">Preencha os dados e nossa equipe entra em contato para apresentar a plataforma, entender sua operação e mostrar onde ela gera resultado.</p>
+        <ul class="check-list">
+          <li>Demonstração guiada, sem compromisso</li>
+          <li>Análise da sua operação atual</li>
+          <li>Implantação conduzida com você</li>
+        </ul>
+      </div>
+      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* HERO */
+  .hero { position: relative; overflow: hidden; padding-block: clamp(56px, 8vw, 104px); }
+  .hero__bg { position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(900px 460px at 82% -10%, rgba(8,87,255,.22), transparent 58%),
+      radial-gradient(700px 420px at 8% 8%, rgba(61,139,255,.14), transparent 60%),
+      linear-gradient(180deg, #eaf1ff 0%, #f5f8ff 55%, #ffffff 100%);
+  }
+  .hero__bg::after {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(8,87,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(8,87,255,.05) 1px, transparent 1px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(680px 400px at 78% 6%, #000, transparent 70%);
+    mask-image: radial-gradient(680px 400px at 78% 6%, #000, transparent 70%);
+  }
+  .hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
+  .hero__copy h1 { font-size: clamp(34px, 4.6vw, 58px); margin-top: 18px; }
+  .hero__lead { margin-top: 20px; font-size: clamp(16px, 1.4vw, 19px); color: var(--ink-soft); max-width: 540px; }
+  .hero__copy .btn-row { margin-top: 30px; }
+  .hero__points { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 10px; }
+  .hero__points li { position: relative; padding-left: 26px; font-size: 15px; color: var(--ink-soft); }
+  .hero__points li::before { content: ""; position: absolute; left: 0; top: 7px; width: 15px; height: 15px; border-radius: 50%; background: #e3edff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12l5 5L20 6' stroke='%230857ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat; }
+
+  /* Mock de tela (placeholder) */
+  .hero__visual { position: relative; }
+  .mock { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden; }
+  .mock__bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); background: #fafbfe; }
+  .mock__bar span { width: 10px; height: 10px; border-radius: 50%; background: #dbe2ee; }
+  .mock__bar em { margin-left: 10px; font-style: normal; font-size: 12px; color: var(--muted); }
+  .mock__body { padding: 20px; }
+  .mock__kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .mock__kpi { border: 1px solid var(--line-soft); border-radius: var(--r-sm); padding: 12px; position: relative; }
+  .mock__kpi small { display: block; font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .mock__kpi strong { font-family: var(--font-display); font-size: 20px; color: var(--navy); }
+  .mock__kpi i { position: absolute; top: 12px; right: 12px; font-style: normal; font-size: 10px; color: var(--muted); }
+  .mock__chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; margin-top: 18px; padding: 0 2px; }
+  .mock__chart span { flex: 1; height: var(--h); background: linear-gradient(180deg, #4d84ff, #0857ff); border-radius: 4px 4px 0 0; opacity: .9; }
+  .mock--doc .mock__doc { padding: 20px; display: flex; flex-direction: column; gap: 12px; min-height: 220px; }
+  .mock__doc-row { display: flex; align-items: center; justify-content: space-between; }
+  .mock__doc-row b { font-family: var(--font-display); color: var(--navy); font-size: 17px; }
+  .mock__doc-line { height: 12px; border-radius: 4px; background: var(--surface-3); width: 100%; }
+  .mock__badge { font-size: 11px; font-weight: 700; color: var(--ok); background: #e6f6ee; padding: 5px 10px; border-radius: 999px; }
+  .mock__badge--amber { color: #9a6700; background: #fdf3d7; }
+  .mock-chip { position: absolute; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow); padding: 10px 16px; font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; }
+  .mock-chip strong { color: var(--navy); }
+  .mock-chip__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px rgba(8,87,255,.15); }
+  .mock-chip__dot--ok { background: var(--ok); box-shadow: 0 0 0 4px rgba(18,144,90,.15); }
+  /* Fora do painel: um acima, outro abaixo — nunca por cima do conteúdo */
+  .mock-chip--1 { top: -18px; left: 16px; }
+  .mock-chip--2 { bottom: -18px; right: 16px; }
+
+  /* Trust strip / carrossel */
+  .strip { padding: 30px 0 34px; border-block: 1px solid var(--line-soft); background: linear-gradient(180deg,#fff, #f7f9ff); overflow: hidden; }
+  .strip__label { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 0 22px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .strip__label span { position: relative; }
+  .strip__label::before, .strip__label::after { content: ""; height: 1px; width: min(80px, 12vw); background: linear-gradient(90deg, transparent, var(--line)); }
+  .strip__label::after { background: linear-gradient(90deg, var(--line), transparent); }
+  /* máscara que desvanece nas bordas */
+  .strip__mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); overflow: hidden; }
+  .strip__track { display: flex; gap: 44px; width: max-content; animation: marquee 34s linear infinite; padding-inline: 22px; }
+  .strip__item { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: #7f8aa3; white-space: nowrap; position: relative; padding-left: 26px; transition: color .2s ease; }
+  .strip__item::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 7px; height: 7px; border-radius: 50%; background: var(--brand); opacity: .45; }
+  .strip:hover .strip__track { animation-play-state: paused; }
+  .strip__item:hover { color: var(--brand); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .strip__track { animation: none; } }
+
+  .card__idx { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--brand); }
+  .card__idx + h3 { margin-top: 10px; }
+
+  .sol-card { display: block; }
+  .sol-card__more { display: inline-block; margin-top: 16px; font-weight: 600; font-size: 14px; color: var(--brand); }
+
+  .stats-grid { text-align: center; }
+  .stats-grid .stat { text-align: center; }
+  .stats-grid .stat__num { color: #fff; }
+
+  /* Split */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .split--reverse .split__copy { order: 2; }
+  .split__lead { margin-top: 18px; font-size: 17px; color: var(--ink-soft); }
+  .check-list { list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 12px; }
+  .check-list li { position: relative; padding-left: 30px; color: var(--ink-soft); font-size: 15.5px; }
+  .check-list li::before { content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #e3edff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12l5 5L20 6' stroke='%230857ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/11px no-repeat; }
+
+  .int-cloud { display: flex; flex-wrap: wrap; gap: 12px; }
+  .int-chip { background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 14px 20px; font-weight: 600; font-size: 15px; color: var(--ink-soft); box-shadow: var(--shadow-sm); }
+
+  /* Balões dos segmentos */
+  .seg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .balloon { position: relative; }
+  .balloon__body {
+    position: relative; background: #fff; border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 24px 22px 22px;
+    box-shadow: var(--shadow-sm);
+    transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease, border-color .2s ease;
+    height: 100%;
+  }
+  /* rabinho do balão */
+  .balloon__body::after {
+    content: ""; position: absolute; left: 30px; bottom: -9px; width: 18px; height: 18px;
+    background: #fff; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    transform: rotate(45deg); transition: border-color .2s ease;
+  }
+  .balloon:hover .balloon__body { transform: translateY(-6px); box-shadow: var(--shadow); border-color: rgba(8,87,255,.35); }
+  .balloon:hover .balloon__body::after { border-color: rgba(8,87,255,.35); }
+  .balloon__emoji { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--grad-brand-soft); font-size: 22px; margin-bottom: 14px; }
+  .balloon__title { font-size: 18px; }
+  .balloon__text { margin-top: 8px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; min-height: 60px; }
+  .balloon__btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-weight: 700; font-size: 14px; color: var(--brand); }
+  .balloon__btn span { transition: transform .2s ease; }
+  .balloon:hover .balloon__btn span { transform: translateX(4px); }
+  @media (max-width: 980px) { .seg-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .seg-grid { grid-template-columns: 1fr; } .balloon__text { min-height: 0; } }
+
+  /* Contato */
+  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
+  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
+  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
+  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
+
+  @media (max-width: 940px) {
+    .hero__grid, .split, .contact__grid { grid-template-columns: 1fr; }
+    .split--reverse .split__copy { order: 0; }
+    .hero__visual { margin-top: 8px; }
+    .mock-chip { display: none; }
+  }
+</style>

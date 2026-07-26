@@ -1,0 +1,71 @@
+---
+import Base from "../layouts/Base.astro";
+import ContactForm from "../components/ContactForm.astro";
+import "../styles/internal.css";
+
+const grupos = [
+  { nome: "Comunicação & Atendimento", itens: ["WhatsApp", "Telegram", "Chat interno", "Chamadas de voz e vídeo"] },
+  { nome: "Financeiro & Bancos", itens: ["Asaas (PIX e boleto)", "Open Finance (Pluggy)", "Conciliação OFX"] },
+  { nome: "Fiscal & Governo", itens: ["Focus NFe", "PlugNotas", "Certificado Digital A1", "Certidões (CND)"] },
+  { nome: "Google & Produtividade", itens: ["Google Calendar", "Google Drive", "Google Meet", "Microsoft 365"] },
+  { nome: "Conectores de IA", itens: ["Gmail", "Slack", "Notion", "HubSpot", "GitHub", "Figma", "Canva"] },
+];
+---
+<Base title="Integrações | Sebra" description="A Sebra se conecta ao que você já usa: WhatsApp, Telegram, Google, Asaas, Open Finance, providers fiscais e conectores de IA.">
+  <section class="ip-hero">
+    <div class="container">
+      <div class="s-head s-head--center reveal" style="margin-inline:auto">
+        <p class="ip-crumbs" style="text-align:center"><a href="/">Início</a> · Integrações</p>
+        <span class="eyebrow">Integrações</span>
+        <h1>Conectada ao que a sua empresa já usa</h1>
+        <p>A Sebra se encaixa na sua rotina: comunicação, bancos, governo, Google e inteligência artificial num fluxo só.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        {grupos.map((g, i) => (
+          <article class="card reveal" data-delay={i % 2}>
+            <h3>{g.nome}</h3>
+            <div class="int-tags">
+              {g.itens.map((it) => <span class="int-tag">{it}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="reveal" style="text-align:center;margin-top:32px;color:var(--muted);font-size:14px">
+        Precisa de uma integração específica? Fale com a nossa equipe — avaliamos a conexão com o seu sistema.
+      </p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-band__inner reveal">
+      <div><h2>Menos ferramenta solta, mais operação conectada</h2><p>Veja como a Sebra se integra ao seu dia a dia numa demonstração.</p></div>
+      <a class="btn btn--light btn--lg" href="#contato">Agende uma demonstração</a>
+    </div>
+  </section>
+
+  <section class="section contact" id="contato">
+    <div class="container contact__grid">
+      <div class="reveal">
+        <span class="eyebrow">Fale com a gente</span>
+        <h2 class="contact__title">Quer conectar a Sebra ao seu fluxo?</h2>
+        <p class="contact__lead">Preencha os dados e mostramos as integrações funcionando na sua operação.</p>
+      </div>
+      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .int-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .int-tag { font-size: 14px; font-weight: 600; color: var(--ink-soft); background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r-sm); padding: 8px 14px; }
+  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
+  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
+  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
+  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
+  @media (max-width: 940px) { .contact__grid { grid-template-columns: 1fr; } }
+</style>

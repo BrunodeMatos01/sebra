@@ -1,0 +1,105 @@
+---
+// Formulário de demonstração. A lógica de envio (EmailJS) e os IDs dos campos
+// (nome/empresa/whatsapp/email/mensagem) são preservados do site antigo.
+import { site } from "../data/site";
+---
+<form class="cf" id="demo-form" method="POST" novalidate>
+  <div class="cf__row">
+    <label class="cf__field">
+      <span>Nome</span>
+      <input type="text" id="nome" name="nome" autocomplete="name" placeholder="Seu nome" required />
+    </label>
+    <label class="cf__field">
+      <span>Empresa</span>
+      <input type="text" id="empresa" name="empresa" autocomplete="organization" placeholder="Nome da empresa" required />
+    </label>
+  </div>
+  <div class="cf__row">
+    <label class="cf__field">
+      <span>WhatsApp</span>
+      <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" placeholder="(00) 00000-0000" required />
+    </label>
+    <label class="cf__field">
+      <span>E-mail</span>
+      <input type="email" id="email" name="email" autocomplete="email" placeholder="voce@empresa.com" required />
+    </label>
+  </div>
+  <label class="cf__field">
+    <span>O que você quer melhorar?</span>
+    <textarea id="mensagem" name="mensagem" rows="4" placeholder="Ex.: responder leads mais rápido, centralizar atendimento, emitir nota, controlar o financeiro..."></textarea>
+  </label>
+  <button class="btn btn--primary btn--lg cf__submit" type="submit">Solicitar demonstração</button>
+  <p class="cf__feedback" id="form-feedback" role="status" aria-live="polite"></p>
+</form>
+
+<script is:inline define:vars={{ ejs: site.emailjs }}>
+  (function () {
+    if (window.emailjs) window.emailjs.init(ejs.publicKey);
+    const form = document.getElementById("demo-form");
+    if (!form) return;
+    const btn = form.querySelector(".cf__submit");
+    const feedback = document.getElementById("form-feedback");
+    const label = btn ? btn.textContent : "Solicitar demonstração";
+
+    const setFeedback = (msg, ok) => {
+      if (!feedback) return;
+      feedback.textContent = msg;
+      feedback.style.color = ok ? "#12905a" : "#c53434";
+    };
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const nome = document.getElementById("nome").value.trim();
+      const empresa = document.getElementById("empresa").value.trim();
+      const whatsapp = document.getElementById("whatsapp").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const mensagem = document.getElementById("mensagem").value.trim();
+
+      if (!nome || !empresa || !whatsapp || !email) {
+        setFeedback("Por favor, preencha nome, empresa, WhatsApp e e-mail.", false);
+        return;
+      }
+      if (!window.emailjs) {
+        setFeedback("Falha ao carregar o envio. Recarregue a página e tente de novo.", false);
+        return;
+      }
+
+      const params = { nome, empresa, whatsapp, email, mensagem, data: new Date().toLocaleString("pt-BR") };
+      btn.disabled = true;
+      btn.textContent = "Enviando...";
+      setFeedback("", true);
+
+      window.emailjs.send(ejs.serviceId, ejs.templateId, params)
+        .then(function () {
+          setFeedback("Recebemos seu pedido! Nossa equipe entra em contato em breve.", true);
+          form.reset();
+        })
+        .catch(function () {
+          setFeedback("Ocorreu um erro ao enviar. Tente novamente ou fale no WhatsApp.", false);
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = label;
+        });
+    });
+  })();
+</script>
+
+<style>
+  .cf { display: grid; gap: 16px; }
+  .cf__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cf__field { display: flex; flex-direction: column; gap: 7px; }
+  .cf__field > span { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+  .cf__field input, .cf__field textarea {
+    font-family: var(--font); font-size: 15px; color: var(--ink);
+    background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm);
+    padding: 13px 14px; transition: border-color .15s ease, box-shadow .15s ease;
+    resize: vertical;
+  }
+  .cf__field input:focus, .cf__field textarea:focus {
+    outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(8,87,255,.12);
+  }
+  .cf__submit { width: 100%; margin-top: 4px; }
+  .cf__feedback { min-height: 20px; font-size: 14px; font-weight: 600; text-align: center; margin: 0; }
+  @media (max-width: 560px) { .cf__row { grid-template-columns: 1fr; } }
+</style>

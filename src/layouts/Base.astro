@@ -1,0 +1,172 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site, waLink } from "../data/site";
+import "../styles/sebra.css";
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = "Sebra | ERP e CRM com IA para atender, vender e gerir",
+  description = "A plataforma brasileira completa: atendimento com IA no WhatsApp, comercial, financeiro, emissão fiscal, estoque e RH — tudo num lugar só.",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Sebra" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0857ff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/img/logo-sebra.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/png" href="/img/logo-sebra.png" />
+    <link rel="apple-touch-icon" href="/img/logo-sebra.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Analytics — preservado do site antigo -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`}></script>
+    <script is:inline define:vars={{ gaId: site.gaId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", gaId);
+    </script>
+
+    <!-- EmailJS — preservado do site antigo (formulário de demonstração) -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Sebra",
+      description: description,
+      url: "https://sebraoficial.com",
+      sameAs: [site.instagram],
+      knowsAbout: [
+        "ERP com inteligência artificial", "Automação de WhatsApp", "CRM comercial",
+        "Emissão de nota fiscal eletrônica", "Controle financeiro", "Gestão de estoque",
+        "Recursos humanos", "Licitações e órgãos públicos",
+      ],
+    })} />
+  </head>
+
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Botão flutuante de WhatsApp -->
+    <a
+      class="wa-float"
+      href={waLink(site.whatsappPrimary, "Olá! Quero conhecer a Sebra.")}
+      target="_blank" rel="noopener"
+      aria-label="Falar no WhatsApp"
+    >
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.16c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.79-1.1-4.56-3.94-4.7-4.13-.14-.19-1.13-1.5-1.13-2.86s.71-2.03.96-2.31c.25-.28.55-.35.73-.35.18 0 .37 0 .53.01.17.01.4-.06.62.48.24.57.81 1.98.88 2.12.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.81.87-1.09.18-.28.37-.23.62-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.11.07.65-.17 1.32Z"/></svg>
+    </a>
+
+    <script>
+      // Header: sombra ao rolar
+      const header = document.querySelector("[data-header]");
+      const onScroll = () => header?.classList.toggle("is-scrolled", window.scrollY > 8);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      // Menu mobile
+      const burger = document.querySelector("[data-burger]");
+      const mobile = document.querySelector("[data-mobile]");
+      burger?.addEventListener("click", () => {
+        const open = mobile?.classList.toggle("is-open");
+        mobile?.toggleAttribute("hidden", !open);
+        burger.setAttribute("aria-expanded", String(!!open));
+      });
+
+      // Dropdown por clique (além do hover) — acessível e mobile-friendly no desktop
+      document.querySelectorAll("[data-dropdown]").forEach((group) => {
+        const btn = group.querySelector("button");
+        btn?.addEventListener("click", (e) => {
+          e.preventDefault();
+          const expanded = btn.getAttribute("aria-expanded") === "true";
+          document.querySelectorAll("[data-dropdown] button").forEach((b) => b.setAttribute("aria-expanded", "false"));
+          btn.setAttribute("aria-expanded", String(!expanded));
+        });
+      });
+      document.addEventListener("click", (e) => {
+        if (!(e.target as HTMLElement).closest("[data-dropdown]"))
+          document.querySelectorAll("[data-dropdown] button").forEach((b) => b.setAttribute("aria-expanded", "false"));
+      });
+
+      // Reveal on scroll
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) { entry.target.classList.add("is-in"); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+      // Números que sobem
+      const fmt = (n: number, suffix: string, decimals: number) =>
+        n.toLocaleString("pt-BR", { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+      const countIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          countIO.unobserve(el);
+          const target = parseFloat(el.dataset.count || "0");
+          const suffix = el.dataset.suffix || "";
+          const decimals = parseInt(el.dataset.decimals || "0");
+          const dur = 1400; const start = performance.now();
+          const tick = (now: number) => {
+            const p = Math.min((now - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = fmt(target * eased, suffix, decimals);
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = fmt(target, suffix, decimals);
+          };
+          requestAnimationFrame(tick);
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll("[data-count]").forEach((el) => countIO.observe(el));
+
+      // FAQ acordeão
+      document.querySelectorAll("[data-faq] > .faq__q").forEach((q) => {
+        q.addEventListener("click", () => {
+          const item = q.parentElement!;
+          const open = item.classList.contains("is-open");
+          item.parentElement!.querySelectorAll(".faq__item.is-open").forEach((i) => i.classList.remove("is-open"));
+          if (!open) item.classList.add("is-open");
+        });
+      });
+    </script>
+
+    <style>
+      .wa-float {
+        position: fixed; right: 22px; bottom: 22px; z-index: 70;
+        width: 56px; height: 56px; border-radius: 50%;
+        display: grid; place-items: center;
+        background: #25d366; color: #fff;
+        box-shadow: 0 10px 30px rgba(37,211,102,.4);
+        transition: transform .18s ease;
+      }
+      .wa-float:hover { transform: scale(1.06); }
+      @media (max-width: 620px) { .wa-float { right: 16px; bottom: 16px; } }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+---
+import Base from "../../layouts/Base.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import { solucoes } from "../../data/solucoes";
+import "../../styles/internal.css";
+
+export function getStaticPaths() {
+  return solucoes.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+---
+<Base title={`${s.nav} | Sebra`} description={s.lead}>
+  <!-- HERO -->
+  <section class="ip-hero">
+    <div class="container ip-hero__grid">
+      <div class="reveal">
+        <p class="ip-crumbs"><a href="/">Início</a> · Soluções · {s.nav}</p>
+        <span class="eyebrow">{s.eyebrow}</span>
+        <h1>{s.title}</h1>
+        <p class="ip-hero__lead">{s.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn--primary btn--lg" href="/#contato">Agende uma demonstração</a>
+          <a class="btn btn--ghost btn--lg" href="/planos/">Ver planos</a>
+        </div>
+      </div>
+      <div class="reveal" data-delay="1">
+        <!-- PLACEHOLDER: trocar por print real da tela de {s.nav} -->
+        <div class="ip-panel">
+          <div class="ip-panel__bar"><span></span><span></span><span></span><em>app.sebra · {s.nav}</em></div>
+          <div class="ip-panel__body">
+            <div class="ip-panel__line" style="width:60%"></div>
+            <div class="ip-panel__line"></div>
+            <div class="ip-panel__line" style="width:82%"></div>
+            <div class="ip-panel__chips">
+              {s.features.slice(0,4).map((f) => <span class="ip-panel__chip">{f.title}</span>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section">
+    <div class="container">
+      <div class="ip-intro reveal"><p>{s.intro}</p></div>
+
+      <!-- DORES -->
+      <div class="pain-list">
+        {s.pains.map((p, i) => (
+          <div class="pain reveal" data-delay={i % 3}>
+            <div class="pain__problem"><span class="pain__tag">A dor</span><p>{p.problem}</p></div>
+            <div class="pain__answer"><span class="pain__tag">Com a Sebra</span><p>{p.answer}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNÇÕES -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <span class="eyebrow">O que está incluído</span>
+        <h2>Funções de {s.nav}</h2>
+      </div>
+      <div class="grid grid--3" style="margin-top:48px">
+        {s.features.map((f, i) => (
+          <article class="card reveal" data-delay={i % 3}>
+            <div class="card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>{f.title}</h3><p>{f.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS (se houver) -->
+  {s.stats && (
+    <section class="section section--navy">
+      <div class="container">
+        <div class="grid grid--3 stats-grid reveal">
+          {s.stats.map((st) => (
+            <div class="stat"><div class="stat__num">{st.num}</div><div class="stat__label">{st.label}</div></div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA + FORM -->
+  <section class="section contact" id="contato">
+    <div class="container contact__grid">
+      <div class="reveal">
+        <span class="eyebrow">Vamos conversar</span>
+        <h2 class="contact__title">{s.closing}</h2>
+        <p class="contact__lead">Agende uma demonstração e veja {s.nav} funcionando na sua operação.</p>
+      </div>
+      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stats-grid { text-align: center; }
+  .stats-grid .stat { text-align: center; }
+  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
+  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
+  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
+  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
+  @media (max-width: 940px) { .contact__grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,94 @@
+---
+import Base from "../layouts/Base.astro";
+import ContactForm from "../components/ContactForm.astro";
+import "../styles/internal.css";
+
+const planos = [
+  {
+    nome: "Essencial",
+    resumo: "Para começar a organizar o atendimento e o comercial.",
+    itens: ["Atendimento WhatsApp + Telegram", "IA de atendimento", "Funil e Cliente 360", "Tarefas e agendamentos", "Relatórios comerciais"],
+    destaque: false,
+  },
+  {
+    nome: "Profissional",
+    resumo: "A operação comercial e financeira conectada.",
+    itens: ["Tudo do Essencial", "Financeiro completo (contas, DRE, cobrança)", "Produtos, estoque e precificação", "Propostas e cotações", "Automações e permissões por cargo"],
+    destaque: true,
+  },
+  {
+    nome: "Completo",
+    resumo: "A empresa inteira, incluindo fiscal e verticais.",
+    itens: ["Tudo do Profissional", "Emissão fiscal (NF-e, NFS-e, NFC-e)", "RH completo", "Verticais (PDV, WMS, MRP, Obras, Licitações...)", "Open Finance e integrações avançadas"],
+    destaque: false,
+  },
+];
+---
+<Base title="Planos | Sebra" description="A Sebra é modular: você contrata o que a sua empresa precisa e ativa o resto quando quiser. Monte o plano ideal e fale com a nossa equipe.">
+  <section class="ip-hero">
+    <div class="container">
+      <div class="s-head s-head--center reveal" style="margin-inline:auto">
+        <p class="ip-crumbs" style="text-align:center"><a href="/">Início</a> · Planos</p>
+        <span class="eyebrow">Planos</span>
+        <h1>Modular do seu jeito. Pague pelo que usa.</h1>
+        <p>A Sebra é montada por módulos: comece pelo que dói mais e ative o resto quando o negócio pedir. O valor é feito sob medida para o tamanho da sua operação.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--3 plans">
+        {planos.map((p, i) => (
+          <article class={`card plan reveal${p.destaque ? " plan--hot" : ""}`} data-delay={i % 3}>
+            {p.destaque && <span class="plan__flag">Mais escolhido</span>}
+            <h3>{p.nome}</h3>
+            <p class="plan__resume">{p.resumo}</p>
+            <ul class="plan__list">
+              {p.itens.map((it) => <li>{it}</li>)}
+            </ul>
+            <a class={`btn ${p.destaque ? "btn--primary" : "btn--ghost"} plan__cta`} href="#contato">Fazer meu orçamento</a>
+          </article>
+        ))}
+      </div>
+      <p class="reveal" style="text-align:center;margin-top:28px;color:var(--muted);font-size:14px">
+        Todo plano inclui implantação conduzida e suporte por WhatsApp com pessoas de verdade.
+      </p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-band__inner reveal">
+      <div><h2>Monte o plano ideal para o seu negócio</h2><p>Conte a sua operação e a gente desenha a combinação de módulos certa para você.</p></div>
+      <a class="btn btn--light btn--lg" href="#contato">Falar com a equipe</a>
+    </div>
+  </section>
+
+  <section class="section contact" id="contato">
+    <div class="container contact__grid">
+      <div class="reveal">
+        <span class="eyebrow">Orçamento sem compromisso</span>
+        <h2 class="contact__title">Vamos montar o seu plano</h2>
+        <p class="contact__lead">Preencha os dados e a nossa equipe entra em contato com uma proposta sob medida para o tamanho da sua empresa.</p>
+      </div>
+      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .plans { align-items: stretch; }
+  .plan { display: flex; flex-direction: column; position: relative; }
+  .plan--hot { border-color: var(--brand); box-shadow: 0 20px 50px rgba(8,87,255,.12); }
+  .plan__flag { position: absolute; top: -12px; left: 28px; background: var(--brand); color: #fff; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
+  .plan__resume { color: var(--ink-soft); margin-top: 8px; font-size: 15px; }
+  .plan__list { list-style: none; padding: 0; margin: 22px 0; display: grid; gap: 11px; flex: 1; }
+  .plan__list li { position: relative; padding-left: 28px; font-size: 15px; color: var(--ink-soft); }
+  .plan__list li::before { content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #e3edff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12l5 5L20 6' stroke='%230857ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/11px no-repeat; }
+  .plan__cta { width: 100%; margin-top: auto; }
+  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
+  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
+  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
+  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
+  @media (max-width: 940px) { .contact__grid { grid-template-columns: 1fr; } }
+</style>
