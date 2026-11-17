@@ -1,0 +1,250 @@
+---
+// Formulário de contato → WhatsApp.
+// A pessoa preenche UMA vez; o site monta a mensagem organizada e abre o
+// WhatsApp comercial com tudo escrito. Ela só aperta "enviar" lá.
+// Pode haver mais de um na mesma página (embutido + modal): tudo é escopado
+// pelo atributo [data-leadform].
+import { site } from "../data/site";
+import { planos } from "../data/planos";
+import { segmentos } from "../data/segmentos";
+
+export interface Props {
+  uid: string;            // único na página (ids dos campos)
+  plano?: string;         // plano pré-selecionado
+  origem?: string;        // de onde veio (aparece na mensagem para o time)
+  submitLabel?: string;
+}
+const { uid, plano = "", origem = "", submitLabel = "Enviar e falar no WhatsApp" } = Astro.props;
+
+const necessidades = [
+  "Financeiro e lucro do mês", "Notas fiscais", "Orçamentos", "Boletos e recebimentos",
+  "Estoque e preços", "Compras", "Clientes e vendas", "Multi-empresa (vários CNPJs)",
+  "Serviços e contratos", "PDV / ordens de serviço", "Licitações e contratos públicos",
+];
+const ramos = [...segmentos.map((s) => s.nav), "Fornecedor do governo", "Outro"];
+const f = (n: string) => `${uid}-${n}`;
+---
+<form class="lf" data-leadform data-origem={origem} novalidate
+  data-wa={site.whatsapp}
+  data-email-backup={site.emailBackup ? "1" : undefined}
+  data-ejs={site.emailBackup ? JSON.stringify(site.emailjs) : undefined}>
+  <!-- Armadilha para robôs: invisível para pessoas, robôs preenchem e são ignorados -->
+  <div class="lf__hp" aria-hidden="true">
+    <label>Não preencha este campo<input type="text" name="site_url" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <div class="lf__row">
+    <label class="lf__field">
+      <span>Seu nome <em>*</em></span>
+      <input type="text" id={f("nome")} name="nome" maxlength="80" autocomplete="name" placeholder="Como podemos te chamar" required />
+    </label>
+    <label class="lf__field">
+      <span>Empresa <em>*</em></span>
+      <input type="text" id={f("empresa")} name="empresa" maxlength="120" autocomplete="organization" placeholder="Nome da empresa" required />
+    </label>
+  </div>
+  <div class="lf__row">
+    <label class="lf__field">
+      <span>WhatsApp <em>*</em></span>
+      <input type="tel" id={f("whatsapp")} name="whatsapp" maxlength="20" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000" required />
+    </label>
+    <label class="lf__field">
+      <span>CNPJ <small>(opcional)</small></span>
+      <input type="text" id={f("cnpj")} name="cnpj" maxlength="18" inputmode="numeric" placeholder="00.000.000/0000-00" />
+    </label>
+  </div>
+
+  <label class="lf__field">
+    <span>Ramo da empresa</span>
+    <select id={f("ramo")} name="ramo">
+      <option value="">Selecione</option>
+      {ramos.map((r) => <option value={r}>{r}</option>)}
+    </select>
+  </label>
+
+  <fieldset class="lf__group">
+    <legend>Sua empresa vende para o governo?</legend>
+    <div class="lf__chips">
+      <label class="lf__chip"><input type="radio" name="gov" value="Sim, já vendo para órgãos públicos" /><span>Sim, já vendo</span></label>
+      <label class="lf__chip"><input type="radio" name="gov" value="Ainda não, quero começar" /><span>Quero começar</span></label>
+      <label class="lf__chip"><input type="radio" name="gov" value="Não, só para empresas e pessoas" /><span>Não vendo</span></label>
+    </div>
+  </fieldset>
+
+  <fieldset class="lf__group">
+    <legend>O que você quer resolver? <small>(marque quantos quiser)</small></legend>
+    <div class="lf__chips">
+      {necessidades.map((n) => (
+        <label class="lf__chip"><input type="checkbox" name="precisa" value={n} /><span>{n}</span></label>
+      ))}
+    </div>
+  </fieldset>
+
+  <label class="lf__field">
+    <span>Plano de interesse</span>
+    <select id={f("plano")} name="plano">
+      <option value="">Ainda não sei, quero ajuda para escolher</option>
+      {planos.map((p) => <option value={p.nome} selected={p.nome === plano}>{p.nome}</option>)}
+    </select>
+  </label>
+
+  <label class="lf__field">
+    <span>Quer contar mais alguma coisa? <small>(opcional)</small></span>
+    <textarea id={f("mensagem")} name="mensagem" rows="3" maxlength="1000" placeholder="Ex.: temos 2 CNPJs, emitimos umas 300 notas por mês e queremos o financeiro no automático..."></textarea>
+  </label>
+
+  <button class="btn btn--wa btn--lg lf__submit" type="submit">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z"/></svg>
+    {submitLabel}
+  </button>
+  <p class="lf__note">Abrimos o WhatsApp com a sua mensagem pronta. É só tocar em enviar. Seus dados não vão para nenhuma lista.</p>
+  <p class="lf__feedback" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  type Ejs = { publicKey: string; serviceId: string; templateId: string };
+  declare global { interface Window { gtag?: (...a: unknown[]) => void } }
+
+  const maskPhone = (v: string) => {
+    const d = v.replace(/\D/g, "").slice(0, 11);
+    if (d.length <= 2) return d.length ? `(${d}` : "";
+    if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+    return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  };
+  const maskCnpj = (v: string) => {
+    const d = v.replace(/\D/g, "").slice(0, 14);
+    return d
+      .replace(/^(\d{2})(\d)/, "$1.$2")
+      .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/\.(\d{3})(\d)/, ".$1/$2")
+      .replace(/(\d{4})(\d)/, "$1-$2");
+  };
+
+  // Cópia por e-mail pela API REST oficial do EmailJS (sem carregar script de terceiro).
+  const sendEmailCopy = (ejs: Ejs, params: Record<string, string>) =>
+    fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ service_id: ejs.serviceId, template_id: ejs.templateId, user_id: ejs.publicKey, template_params: params }),
+    }).catch(() => {});
+  // Texto limpo: tira caracteres de controle e corta no limite.
+  const clean = (v: string, max: number) => v.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, max);
+
+  document.querySelectorAll<HTMLFormElement>("[data-leadform]").forEach((form) => {
+    const $ = <T extends HTMLElement>(sel: string) => form.querySelector<T>(sel)!;
+    const phone = $<HTMLInputElement>('[name="whatsapp"]');
+    const cnpj = $<HTMLInputElement>('[name="cnpj"]');
+    const feedback = $<HTMLParagraphElement>(".lf__feedback");
+    phone.addEventListener("input", () => (phone.value = maskPhone(phone.value)));
+    cnpj.addEventListener("input", () => (cnpj.value = maskCnpj(cnpj.value)));
+
+    const say = (msg: string, ok: boolean, link?: { url: string; text: string }) => {
+      feedback.replaceChildren(document.createTextNode(msg));
+      if (link) {
+        const a = document.createElement("a");
+        a.href = link.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = link.text;
+        feedback.append(" ", a, ".");
+      }
+      feedback.dataset.state = ok ? "ok" : "err";
+    };
+    const startedAt = Date.now();
+    let lastSend = 0;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const v = (k: string) => clean(String(fd.get(k) ?? ""), k === "mensagem" ? 1000 : 160);
+      // Robô: preencheu a armadilha ou enviou rápido demais (menos de 2s). Ignora em silêncio.
+      if (v("site_url") || Date.now() - startedAt < 2000) return;
+      // Limite simples contra cliques repetidos.
+      if (Date.now() - lastSend < 4000) return;
+      lastSend = Date.now();
+      const nome = v("nome"), empresa = v("empresa"), whats = v("whatsapp");
+
+      form.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+      const faltando: HTMLElement[] = [];
+      if (!nome) faltando.push($('[name="nome"]'));
+      if (!empresa) faltando.push($('[name="empresa"]'));
+      if (whats.replace(/\D/g, "").length < 10) faltando.push(phone);
+      if (faltando.length) {
+        faltando.forEach((el) => el.classList.add("is-invalid"));
+        faltando[0].focus();
+        say("Preencha nome, empresa e um WhatsApp com DDD para continuarmos.", false);
+        return;
+      }
+
+      const precisa = fd.getAll("precisa").map((x) => clean(String(x), 60)).slice(0, 12);
+      const linhas: string[] = ["Olá, Sebra! Vim pelo site e quero conversar.", ""];
+      linhas.push(`*Nome:* ${nome}`);
+      linhas.push(`*Empresa:* ${empresa}${v("cnpj") ? ` (CNPJ ${v("cnpj")})` : ""}`);
+      linhas.push(`*WhatsApp:* ${whats}`);
+      if (v("ramo")) linhas.push(`*Ramo:* ${v("ramo")}`);
+      if (v("gov")) linhas.push(`*Vende para o governo:* ${v("gov")}`);
+      linhas.push(`*Plano de interesse:* ${v("plano") || "Quero ajuda para escolher"}`);
+      if (precisa.length) linhas.push(`*Quero resolver:* ${precisa.join(", ")}`);
+      if (v("mensagem")) linhas.push(`*Mensagem:* ${v("mensagem")}`);
+      linhas.push("", `_Enviado de ${form.dataset.origem || location.pathname}_`);
+      const texto = linhas.join("\n");
+      const url = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(texto)}`;
+
+      window.gtag?.("event", "generate_lead", {
+        method: "whatsapp_form",
+        plano: v("plano") || "indefinido",
+        origem: form.dataset.origem || location.pathname,
+      });
+
+      // Cópia opcional por e-mail (ligada em site.ts → emailBackup).
+      if (form.dataset.emailBackup && form.dataset.ejs) {
+        sendEmailCopy(JSON.parse(form.dataset.ejs), {
+          nome, empresa, whatsapp: whats, email: "", mensagem: texto, data: new Date().toLocaleString("pt-BR"),
+        });
+      }
+
+      // Sem "noopener" no window.open: com ele o navegador sempre devolve null
+      // e não dá para saber se abriu. Cortamos o vínculo logo depois.
+      const win = window.open(url, "_blank");
+      if (win) { try { win.opener = null; } catch { /* ignore */ } }
+      if (win) say("Pronto! Abrimos o WhatsApp com a sua mensagem. Se não abriu,", true, { url, text: "toque aqui" });
+      else say("Quase lá:", true, { url, text: "toque aqui para abrir o WhatsApp com a mensagem pronta" });
+    });
+  });
+</script>
+
+<style>
+  .lf { display: grid; gap: 16px; position: relative; }
+  .lf__hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  .lf__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .lf__field { display: flex; flex-direction: column; gap: 7px; }
+  .lf__field > span, .lf__group legend { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .lf__field em { color: var(--danger); font-style: normal; }
+  .lf__field small, .lf__group small { color: var(--muted); font-weight: 500; }
+  .lf input[type="text"], .lf input[type="tel"], .lf select, .lf textarea {
+    font: inherit; font-size: 15px; color: var(--ink); width: 100%;
+    background: #fff; border: 1px solid var(--line-strong); border-radius: var(--r-sm);
+    padding: 12px 14px; transition: border-color .15s ease, box-shadow .15s ease; resize: vertical;
+  }
+  .lf input:focus, .lf select:focus, .lf textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(8,87,255,.14); }
+  .lf .is-invalid { border-color: var(--danger) !important; box-shadow: 0 0 0 3px rgba(197,52,52,.12) !important; }
+  .lf__group { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .lf__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lf__chip { position: relative; cursor: pointer; }
+  .lf__chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .lf__chip span {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 38px;
+    padding: 8px 13px; border: 1px solid var(--line-strong); border-radius: 999px;
+    font-size: 13.5px; font-weight: 500; color: var(--ink-soft); background: #fff;
+    transition: all .15s ease; user-select: none;
+  }
+  .lf__chip:hover span { border-color: var(--brand); color: var(--brand); }
+  .lf__chip input:checked + span { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .lf__chip input:checked + span::before { content: "✓"; font-weight: 700; }
+  .lf__chip input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .lf__submit { width: 100%; margin-top: 2px; }
+  .lf__note { font-size: 12.5px; color: var(--muted); text-align: center; margin: -4px 0 0; }
+  .lf__feedback { min-height: 0; font-size: 14px; font-weight: 600; text-align: center; margin: 0; }
+  .lf__feedback:empty { display: none; }
+  .lf__feedback[data-state="ok"] { color: var(--ok); }
+  .lf__feedback[data-state="err"] { color: var(--danger); }
+  .lf__feedback a { text-decoration: underline; }
+  @media (max-width: 560px) { .lf__row { grid-template-columns: 1fr; } }
+</style>

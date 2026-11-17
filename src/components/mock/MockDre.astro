@@ -1,0 +1,36 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const linhas = [
+  { l: "Receita bruta de vendas", v: ["R$ 382.400", "R$ 401.900", "R$ 428.700"], t: "" },
+  { l: "(−) Impostos sobre vendas", v: ["R$ 32.120", "R$ 33.760", "R$ 36.010"], t: "neg" },
+  { l: "Receita líquida", v: ["R$ 350.280", "R$ 368.140", "R$ 392.690"], t: "sub" },
+  { l: "(−) Custo das mercadorias vendidas", v: ["R$ 201.300", "R$ 209.800", "R$ 221.400"], t: "neg" },
+  { l: "Lucro bruto", v: ["R$ 148.980", "R$ 158.340", "R$ 171.290"], t: "sub" },
+  { l: "(−) Despesas com pessoal", v: ["R$ 46.900", "R$ 47.600", "R$ 48.300"], t: "neg" },
+  { l: "(−) Despesas administrativas", v: ["R$ 28.400", "R$ 27.100", "R$ 29.800"], t: "neg" },
+  { l: "(−) Comissões de vendedores", v: ["R$ 11.470", "R$ 12.060", "R$ 12.860"], t: "neg" },
+  { l: "Lucro líquido do mês", v: ["R$ 62.210", "R$ 71.580", "R$ 80.330"], t: "total" },
+];
+---
+<AppFrame title="DRE / Fluxo de Caixa" subtitle="Resultado por competência e fluxo de caixa por período" group="financeiro" active="Financeiro" h={740}
+  actions={[{ label: "Excel", icon: "file" }, { label: "PDF", primary: true, icon: "file" }]}>
+  <div class="kg">
+    <div class="kc"><small>Receita líquida (nov)</small><b>R$ 392,7 mil</b><Icon name="receipt" size={18} class="c-blue" /></div>
+    <div class="kc"><small>Lucro bruto</small><b>R$ 171,3 mil</b><em>margem de 43,6%</em><Icon name="chart" size={18} class="c-vio" /></div>
+    <div class="kc kc--ok"><small>Lucro líquido</small><b>R$ 80,3 mil</b><em>+12% sobre outubro</em><Icon name="star" size={18} class="c-ok" /></div>
+    <div class="kc"><small>Margem líquida</small><b>20,5%</b><Icon name="pie" size={18} class="c-blue" /></div>
+  </div>
+  <div class="tb"><span class="is-on">DRE por competência</span><span>Fluxo de caixa</span><span>Resultado das vendas</span></div>
+  <table class="tbl">
+    <thead><tr><th style="width:43%">Demonstrativo</th><th class="num" style="width:19%">Setembro</th><th class="num" style="width:19%">Outubro</th><th class="num" style="width:19%">Novembro</th></tr></thead>
+    <tbody>
+      {linhas.map((x) => (
+        <tr style={x.t === "total" ? "background:#ecfdf5" : x.t === "sub" ? "background:#f8fafc" : ""}>
+          <td>{x.t ? <b style={x.t === "total" ? "color:#047857" : ""}>{x.l}</b> : x.l}</td>
+          {x.v.map((v) => <td class="num" style={x.t === "neg" ? "color:#b91c1c" : x.t === "total" ? "color:#047857;font-weight:700" : x.t === "sub" ? "font-weight:600;color:#0f172a" : ""}>{v}</td>)}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</AppFrame>

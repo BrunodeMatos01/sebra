@@ -4,8 +4,21 @@
     {
       "name": "sebra-dev",
       "runtimeExecutable": "C:/PROGRA~1/nodejs/node.exe",
-      "runtimeArgs": ["node_modules/astro/astro.js", "dev", "--port", "4321"],
+      "runtimeArgs": [
+        "node_modules/astro/astro.js",
+        "dev",
+        "--port",
+        "4321"
+      ],
       "port": 4321
+    },
+    {
+      "name": "sebra-secure",
+      "runtimeExecutable": "C:/PROGRA~1/nodejs/node.exe",
+      "runtimeArgs": [
+        "scripts/serve-secure.mjs"
+      ],
+      "port": 4322
     }
   ]
 }

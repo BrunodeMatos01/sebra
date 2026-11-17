@@ -1,0 +1,39 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const campos = [
+  ["Razão social", "HORIZONTE CONSTRUÇÕES E INCORPORAÇÕES LTDA"],
+  ["Nome fantasia", "Construtora Horizonte"],
+  ["Situação cadastral", "Ativa"],
+  ["Endereço", "Rua das Palmeiras, 1.250 · Centro"],
+  ["Cidade / UF", "Joinville / SC · CEP 89201-000"],
+  ["Atividade principal", "Construção de edifícios"],
+];
+---
+<AppFrame title="Central de Contatos" subtitle="Clientes, contatos e fornecedores da empresa" group="vendas" active="Central de Contatos" h={720}
+  actions={[{ label: "Importar planilha", icon: "upload" }, { label: "Novo cliente", primary: true, icon: "users" }]}>
+  <div class="row2" style="margin-top:0;grid-template-columns:1fr 1.25fr">
+    <div>
+      <div class="tb" style="margin-top:0"><span class="is-on">Clientes</span><span>Contatos</span><span>Fornecedores</span><span>CNPJs</span></div>
+      {[["Construtora Horizonte", "Cliente ativo · 14 notas"], ["Clínica Bem Viver", "Pós-venda · apta a recompra"], ["Mercado Central", "Cliente ativo · 31 notas"], ["Escola Novo Saber", "Lead · orçamento enviado"], ["Transportes Rota Sul", "Fornecedor · frete"]].map(([n, d], i) => (
+        <div class="rc" style={i === 0 ? "border-color:#93c5fd;background:#eff6ff" : ""}>
+          <span class="rc__ic rc__ic--blue" style="font-weight:800;font-size:13px">{n.split(" ").map((w) => w[0]).slice(0, 2).join("")}</span>
+          <span class="rc__tx"><b>{n}</b><span>{d}</span></span>
+        </div>
+      ))}
+    </div>
+    <div class="panel" style="box-shadow:0 20px 50px -20px rgba(15,23,42,.35)">
+      <p class="st">Novo cliente <small>etapa 1 de 3 · dados da empresa</small></p>
+      <div class="fl" style="margin:0 0 12px">
+        <span class="in" style="color:var(--a-ink);font-weight:600">12.345.678/0001-90</span>
+        <span class="mb mb--ok" style="height:38px"><Icon name="checkCircle" size={15} />Encontrado na Receita</span>
+      </div>
+      {campos.map(([k, v]) => (
+        <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--a-line-2)">
+          <span style="color:var(--a-mute)">{k}</span><b style="font-weight:600;text-align:right">{v}</b>
+        </div>
+      ))}
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><span class="mb mb--ghost">Voltar</span><span class="mb">Próximo: contato e fiscal</span></div>
+    </div>
+  </div>
+</AppFrame>

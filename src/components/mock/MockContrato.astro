@@ -1,0 +1,48 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const itens = [
+  { d: "Resma papel A4 75g", c: 500, b: 420, e: 320, u: "R$ 24,90" },
+  { d: "Copo descartável 200ml (caixa)", c: 1200, b: 1200, e: 1200, u: "R$ 61,80" },
+  { d: "Detergente neutro 5L", c: 300, b: 95, e: 95, u: "R$ 18,40" },
+];
+const emp = [
+  { n: "2026NE00412", v: "R$ 48.000,00", f: "R$ 48.000,00", r: "R$ 48.000,00", s: ["Pago", "green"] },
+  { n: "2026NE00587", v: "R$ 36.500,00", f: "R$ 22.140,00", r: "R$ 11.070,00", s: ["Parcialmente pago", "amber"] },
+  { n: "2026NE00733", v: "R$ 20.000,00", f: "R$ 0,00", r: "R$ 0,00", s: ["Empenhado", "blue"] },
+];
+---
+<AppFrame title="Contrato 087/2026" subtitle="Secretaria Municipal de Educação · Pregão eletrônico 041/2026" group="financeiro" active="Contratos Públicos" h={760}
+  actions={[{ label: "Comprar para o contrato", icon: "cart" }, { label: "Emitir nota", primary: true, icon: "receipt" }]}>
+  <div class="kg">
+    <div class="kc"><small>Valor do contrato</small><b>R$ 104,5 mil</b><em>vigência até 03/2027</em><Icon name="contract" size={18} class="c-blue" /></div>
+    <div class="kc"><small>Faturado (notas)</small><b>R$ 70,1 mil</b><em>67% do contrato</em><Icon name="receipt" size={18} class="c-vio" /></div>
+    <div class="kc kc--ok"><small>Recebido</small><b>R$ 59,1 mil</b><em>pelo extrato</em><Icon name="bank" size={18} class="c-ok" /></div>
+    <div class="kc kc--warn"><small>Saldo de empenho</small><b>R$ 34,4 mil</b><em>a faturar</em><Icon name="landmark" size={18} class="c-warn" /></div>
+  </div>
+  <p class="st" style="margin-top:18px">Itens do contrato <small>saldo calculado pelas notas emitidas</small></p>
+  <table class="tbl">
+    <thead><tr><th style="width:32%">Item</th><th class="num" style="width:12%">Contratado</th><th class="num" style="width:12%">Comprado</th><th class="num" style="width:12%">Entregue</th><th style="width:32%">Saldo</th></tr></thead>
+    <tbody>
+      {itens.map((i) => {
+        const pct = Math.round((i.e / i.c) * 100);
+        return (
+          <tr>
+            <td><b>{i.d}</b><span class="sub">{i.u} por unidade</span></td>
+            <td class="num">{i.c}</td><td class="num">{i.b}</td><td class="num">{i.e}</td>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class={`bar${pct === 100 ? " bar--ok" : ""}`} style="flex:1"><span style={`width:${pct}%`}></span></div><b style="font-size:12.5px;min-width:72px">{i.c - i.e === 0 ? "entregue" : `faltam ${i.c - i.e}`}</b></div></td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+  <p class="st" style="margin-top:18px">Empenhos <small>faturado e recebido se atualizam sozinhos</small></p>
+  <table class="tbl">
+    <thead><tr><th style="width:22%">Empenho</th><th class="num" style="width:19%">Empenhado</th><th class="num" style="width:19%">Faturado</th><th class="num" style="width:19%">Recebido</th><th style="width:21%">Situação</th></tr></thead>
+    <tbody>
+      {emp.map((e) => (
+        <tr><td><b>{e.n}</b></td><td class="num">{e.v}</td><td class="num">{e.f}</td><td class="num">{e.r}</td><td><span class={`pill pill--${e.s[1]}`}>{e.s[0]}</span></td></tr>
+      ))}
+    </tbody>
+  </table>
+</AppFrame>

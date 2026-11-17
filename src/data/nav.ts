@@ -1,42 +1,48 @@
-// Estrutura do header. Os itens com `children` viram dropdown (setinha) e
-// cada filho leva a uma página dedicada — o padrão pedido, inspirado no
-// clickmassa mas com a identidade Sebra.
+// Menu do site, montado a partir dos dados (mude o módulo lá e o menu acompanha).
+import { solucoes } from "./solucoes";
+import { segmentos } from "./segmentos";
 
-export type NavChild = { label: string; href: string; desc?: string };
-export type NavItem = { label: string; href?: string; children?: NavChild[] };
+export type NavChild = { label: string; href: string; desc?: string; icon?: string };
+export type NavItem = { label: string; href?: string; children?: NavChild[]; highlight?: boolean; wide?: boolean; footer?: { label: string; href: string } };
 
 export const nav: NavItem[] = [
   {
-    label: "Soluções",
+    label: "ERP completo",
+    wide: true,
     children: [
-      { label: "Inteligência Artificial", href: "/solucoes/ia/", desc: "Atende, qualifica e agenda sozinha no WhatsApp." },
-      { label: "Comercial & CRM", href: "/solucoes/comercial/", desc: "Funil, Cliente 360, propostas e recompra." },
-      { label: "Atendimento omnichannel", href: "/solucoes/atendimento/", desc: "WhatsApp, Telegram e chat interno num painel." },
-      { label: "Financeiro", href: "/solucoes/financeiro/", desc: "Contas, DRE, cobrança automática e conciliação." },
-      { label: "Fiscal & Governo", href: "/solucoes/fiscal/", desc: "NF-e, NFS-e, certificado A1 e certidões." },
-      { label: "Estoque & Produtos", href: "/solucoes/estoque/", desc: "Catálogo, precificação, PDV, WMS e compras." },
-      { label: "Recursos Humanos", href: "/solucoes/rh/", desc: "Folha, ponto, férias, documentos e recrutamento." },
+      ...solucoes.map((s) => ({ label: s.nav, href: `/solucoes/${s.slug}/`, desc: s.menuDesc, icon: s.icon })),
+      { label: "Licitações", href: "/licitacoes/", desc: "Editais, contratos, empenhos e certidões", icon: "gavel" },
     ],
+    footer: { label: "Ver todos os módulos na página inicial", href: "/#modulos" },
   },
   {
     label: "Segmentos",
     children: [
-      { label: "Varejo", href: "/segmentos/varejo/", desc: "Balcão, PDV e venda pelo WhatsApp." },
-      { label: "Indústria", href: "/segmentos/industria/", desc: "Produção, ficha técnica e ordens." },
-      { label: "Distribuidor", href: "/segmentos/distribuidor/", desc: "Multi-armazém, cotações e logística." },
-      { label: "Serviços", href: "/segmentos/servicos/", desc: "Ordens de serviço e agenda técnica." },
-      { label: "Construção civil", href: "/segmentos/construcao/", desc: "Obras, medições e retenção de INSS." },
-      { label: "Salão & Clínica", href: "/segmentos/salao/", desc: "Agenda por profissional e ficha do cliente." },
-      { label: "Governo & Licitações", href: "/segmentos/licitacoes/", desc: "Editais, habilitação e certidões." },
+      ...segmentos.map((s) => ({ label: s.nav, href: `/segmentos/${s.slug}/`, desc: s.menuDesc, icon: s.icon })),
+      { label: "Fornecedores do governo", href: "/licitacoes/", desc: "Produto, serviço ou obra para órgãos públicos", icon: "landmark" },
     ],
   },
-  { label: "Integrações", href: "/integracoes/" },
+  {
+    label: "Licitações",
+    highlight: true,
+    children: [
+      { label: "Visão geral", href: "/licitacoes/", desc: "Do edital ao dinheiro na conta", icon: "gavel" },
+      { label: "Busca de editais no PNCP", href: "/licitacoes/#pncp", desc: "Editais abertos do Brasil inteiro", icon: "search" },
+      { label: "Quadro Kanban de licitações", href: "/licitacoes/#kanban", desc: "O cartão anda junto com o status", icon: "layers" },
+      { label: "Certidões e habilitação", href: "/licitacoes/#certidoes", desc: "Nenhuma certidão vence sem aviso", icon: "shield" },
+      { label: "Contratos e itens", href: "/licitacoes/#contratos", desc: "Saldo de ata por item", icon: "contract" },
+      { label: "Empenhos", href: "/licitacoes/#empenhos", desc: "Faturado e recebido calculados", icon: "landmark" },
+      { label: "Resultado por licitação", href: "/licitacoes/#resultado", desc: "O lucro de cada processo", icon: "chart" },
+    ],
+  },
   { label: "Planos", href: "/planos/" },
   {
     label: "Empresa",
     children: [
-      { label: "Quem somos", href: "/empresa/", desc: "A história e o propósito da Sebra." },
-      { label: "Contato", href: "/#contato", desc: "Fale com a nossa equipe." },
+      { label: "Quem somos", href: "/empresa/", desc: "Quem é a Sebra e como trabalhamos", icon: "building" },
+      { label: "Segurança", href: "/seguranca/", desc: "Como protegemos seus dados", icon: "lock" },
+      { label: "Integrações", href: "/integracoes/", desc: "SEFAZ, bancos, PNCP e mais", icon: "link" },
+      { label: "Fale com a gente", href: "/#contato", desc: "Atendimento pelo WhatsApp", icon: "chat" },
     ],
   },
 ];

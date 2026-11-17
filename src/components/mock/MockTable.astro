@@ -1,0 +1,36 @@
+---
+// Tela genérica parametrizada (KPIs + tabela), no visual e tamanho reais.
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+import type { MockSpec } from "../../data/mock-types";
+export interface Props { spec: MockSpec }
+const { spec } = Astro.props;
+const isNum = (i: number) => spec.num?.includes(i);
+const kIcons = ["chart", "checkCircle", "wallet", "clock"];
+const kColors = ["c-blue", "c-ok", "c-vio", "c-warn"];
+---
+<AppFrame title={spec.title} subtitle={spec.subtitle} actions={spec.actions ?? []}
+  group={(spec.group as any) ?? "financeiro"} active={spec.active} h={spec.h ?? 640}>
+  {spec.kpis && (
+    <div class={`kg${spec.kpis.length === 3 ? " kg--3" : ""}`}>
+      {spec.kpis.map((k, i) => <div class={`kc${k.tone ? ` kc--${k.tone}` : ""}`}><small>{k.l}</small><b>{k.v}</b>{k.sub && <em>{k.sub}</em>}<Icon name={k.icon ?? kIcons[i % 4]} size={18} class={kColors[i % 4]} /></div>)}
+    </div>
+  )}
+  {spec.tabs ? (
+    <div class="tb">{spec.tabs.map((t, i) => <span class={i === 0 ? "is-on" : ""}>{t}</span>)}</div>
+  ) : <div style="height:16px"></div>}
+  <table class="tbl">
+    <thead><tr>{spec.cols.map((c, i) => <th class={isNum(i) ? "num" : ""} style={spec.widths ? `width:${spec.widths[i]}%` : ""}>{c}</th>)}</tr></thead>
+    <tbody>
+      {spec.rows.map((r) => (
+        <tr>
+          {r.map((c, i) => (
+            <td class={isNum(i) ? "num" : ""}>
+              {typeof c === "string" ? (i === 0 ? <b>{c}</b> : c) : <span class={`pill pill--${c.tone}`}>{c.pill}</span>}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</AppFrame>

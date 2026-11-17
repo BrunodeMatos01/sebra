@@ -1,362 +1,408 @@
 ---
 import Base from "../layouts/Base.astro";
-import ContactForm from "../components/ContactForm.astro";
 import Faq from "../components/Faq.astro";
-import { solucoes } from "../data/solucoes";
+import ContactSection from "../components/ContactSection.astro";
+import Icon from "../components/Icon.astro";
+import Brand from "../components/Brand.astro";
+import Stage from "../components/mock/Stage.astro";
+import Mock from "../components/mock/Mock.astro";
+import MockFinanceiro from "../components/mock/MockFinanceiro.astro";
+import MockOrcamento from "../components/mock/MockOrcamento.astro";
+import MockLicitacao from "../components/mock/MockLicitacao.astro";
+import MockDre from "../components/mock/MockDre.astro";
+import MockContrato from "../components/mock/MockContrato.astro";
+import { faqHome } from "../data/faq";
+import { solucoes, getSolucao } from "../data/solucoes";
 import { segmentos } from "../data/segmentos";
+import { waLink, waMsg } from "../data/site";
 
-const trust = ["WhatsApp", "Telegram", "Chat interno", "Kanban", "NF-e", "PDV", "Financeiro", "DRE", "Estoque", "RH", "Relatórios", "Open Finance"];
+// Abas do explorador: os módulos mais fortes, nesta ordem.
+const abas = ["financeiro", "orcamentos", "fiscal", "comercial", "estoque", "compras", "multi-empresa"].map((s) => getSolucao(s)!);
+const pick = (s: (typeof solucoes)[number]) => {
+  const itens = s.groups.flatMap((g) => g.items);
+  const destaques = s.highlights.map((h) => h.title);
+  return [...s.highlights, ...itens.filter((i) => !destaques.includes(i.title))].slice(0, 7);
+};
+const outros = solucoes.filter((s) => !abas.includes(s));
+// Nome curto na aba (cabe tudo numa linha); o nome completo aparece no painel.
+const curto: Record<string, string> = { comercial: "Clientes", estoque: "Estoque" };
 
-// Balões dos segmentos — emoji + frase curta
-const segEmoji: Record<string, string> = {
-  varejo: "🛍️", industria: "🏭", distribuidor: "📦", servicos: "🛠️",
-  construcao: "👷", salao: "💇", licitacoes: "⚖️",
-};
-const segTease: Record<string, string> = {
-  varejo: "Venda no balcão e no WhatsApp, com estoque e caixa integrados.",
-  industria: "Da ficha técnica à nota fiscal, com custo real sob controle.",
-  distribuidor: "Vários depósitos, cotações e logística num só lugar.",
-  servicos: "Ordens de serviço, agenda técnica e cobrança automática.",
-  construcao: "Obras, medições e retenção de INSS do jeito do setor.",
-  salao: "Bot que agenda sozinho e a ficha completa do cliente.",
-  licitacoes: "Editais, habilitação e certidões sempre em dia.",
-};
+const jornadaGov = [
+  { i: "search", t: "Edital", d: "Busca no PNCP" }, { i: "shield", t: "Habilitação", d: "Certidões em dia" },
+  { i: "gavel", t: "Disputa", d: "Prazos e lances" }, { i: "contract", t: "Contrato", d: "Saldo por item" },
+  { i: "landmark", t: "Empenho", d: "Calculado sozinho" }, { i: "receipt", t: "Nota", d: "Com retenções" },
+  { i: "bank", t: "Recebimento", d: "Baixa automática" }, { i: "chart", t: "Lucro", d: "Por licitação" },
+];
+const seguranca = [
+  { i: "key", t: "Certificado A1 cifrado", d: "O arquivo e a senha do certificado ficam cifrados com AES-256." },
+  { i: "lock", t: "Cada empresa no seu espaço", d: "Os dados de uma empresa nunca aparecem para outra." },
+  { i: "eye", t: "Acesso por perfil e valor", d: "Cada pessoa vê o que precisa. Despesa alta pede aprovação." },
+  { i: "history", t: "Tudo fica registrado", d: "Auditoria das ações sensíveis e verificação em duas etapas." },
+];
+const etapas = [
+  { t: "Diagnóstico", d: "Entendemos sua operação e o que precisa ligar." },
+  { t: "Coleta", d: "Reunimos cadastros, certificado e saldos." },
+  { t: "Validação", d: "Conferimos os dados antes de importar." },
+  { t: "Importação", d: "Trazemos clientes, produtos e contas." },
+  { t: "Homologação", d: "Testamos com você o dia a dia." },
+  { t: "Go-live", d: "Liberamos e seguimos acompanhando." },
+];
 ---
-<Base>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero__bg" aria-hidden="true"></div>
+<Base
+  title="Sebra ERP com IA | Sistema de gestão empresarial completo"
+  description="ERP completo: orçamento que vira nota, financeiro com lucro real do mês, NF-e, estoque, compras, multi-empresa e licitações. Fale com a Sebra no WhatsApp."
+  faq={faqHome}
+>
+  <!-- 1. HERÓI -->
+  <section class="hero showcase">
     <div class="container hero__grid">
-      <div class="hero__copy reveal">
-        <span class="tag">Plataforma brasileira · IA nativa</span>
-        <h1>A empresa inteira num só lugar, com <span class="accent">inteligência artificial</span></h1>
-        <p class="hero__lead">Atenda no WhatsApp, venda com organização, emita nota fiscal, controle o financeiro e o estoque — tudo conectado, tudo com IA trabalhando por você.</p>
+      <div class="hero__copy">
+        <p class="eyebrow">Sistema de gestão empresarial · ERP</p>
+        <h1>Sua empresa inteira <span class="accent">num sistema só</span>.</h1>
+        <p class="hero__lead">Orçamento que vira nota fiscal, financeiro que mostra o lucro real do mês, estoque com o preço certo, compras, clientes e equipe. E, para quem vende ao governo, o controle completo de licitações e contratos.</p>
         <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="#contato">Agende uma demonstração</a>
-          <a class="btn btn--ghost btn--lg" href="/solucoes/ia/">Ver a plataforma</a>
+          <a class="btn btn--wa btn--lg" href={waLink(waMsg.geral)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Falar com um especialista</a>
+          <a class="btn btn--ghost btn--on-navy btn--lg" href="#modulos">Conhecer os módulos <Icon name="arrowDown" size={18} /></a>
         </div>
-        <ul class="hero__points">
-          <li>Emissão fiscal de verdade (NF-e, NFS-e, NFC-e)</li>
-          <li>IA que atende e qualifica 24 horas</li>
-          <li>Financeiro, estoque e RH integrados</li>
+        <ul class="hero__proof">
+          <li><Icon name="check" size={16} stroke={2.6} />NF-e, NFS-e e NFC-e</li>
+          <li><Icon name="check" size={16} stroke={2.6} />Conciliação bancária automática</li>
+          <li><Icon name="check" size={16} stroke={2.6} />Implantação conduzida</li>
         </ul>
       </div>
-
-      <div class="hero__visual reveal" data-delay="1">
-        <!-- PLACEHOLDER: trocar por print real do dashboard da plataforma -->
-        <div class="mock" aria-label="Painel da Sebra">
-          <div class="mock__bar"><span></span><span></span><span></span><em>app.sebra · Painel</em></div>
-          <div class="mock__body">
-            <div class="mock__kpis">
-              <div class="mock__kpi"><small>Negócios ganhos</small><strong data-count="547089" data-decimals="0" data-suffix="">0</strong><i>R$</i></div>
-              <div class="mock__kpi"><small>Em aberto</small><strong data-count="477069" data-decimals="0">0</strong><i>R$</i></div>
-              <div class="mock__kpi"><small>Leads no mês</small><strong data-count="1246" data-decimals="0">0</strong></div>
-            </div>
-            <div class="mock__chart" aria-hidden="true">
-              <span style="--h:38%"></span><span style="--h:56%"></span><span style="--h:44%"></span>
-              <span style="--h:72%"></span><span style="--h:60%"></span><span style="--h:88%"></span>
-              <span style="--h:70%"></span><span style="--h:96%"></span>
-            </div>
-          </div>
+      <div class="hero__visual">
+        <div class="cascade">
+          <div class="cascade__item"><MockLicitacao /></div>
+          <div class="cascade__item"><MockOrcamento /></div>
+          <div class="cascade__item"><MockFinanceiro /></div>
         </div>
-        <div class="mock-chip mock-chip--1"><span class="mock-chip__dot"></span>IA qualificou <strong>Lead quente</strong></div>
-        <div class="mock-chip mock-chip--2"><span class="mock-chip__dot mock-chip__dot--ok"></span>NF-e <strong>autorizada</strong></div>
       </div>
     </div>
+    <p class="demo-tag container">Telas da plataforma com dados de demonstração.</p>
   </section>
 
-  <!-- TRUST STRIP -->
-  <section class="strip" aria-label="O que a Sebra conecta">
+  <!-- 2. QUAL É O SEU RAMO -->
+  <section class="ramos" id="segmentos" aria-labelledby="ramos-t">
     <div class="container">
-      <p class="strip__label"><span>Uma operação inteira conectada</span></p>
-    </div>
-    <div class="strip__mask">
-      <div class="strip__track">
-        {[...trust, ...trust].map((t) => <span class="strip__item">{t}</span>)}
+      <div class="ramos__head">
+        <h2 id="ramos-t">Qual é o seu ramo?</h2>
+        <p>A Sebra atende empresas de todos os tamanhos e segmentos. Escolha o seu e veja o sistema do seu jeito.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- PROBLEMAS -->
-  <section class="section section--soft">
-    <div class="container">
-      <div class="s-head reveal">
-        <span class="eyebrow">O custo da desorganização</span>
-        <h2>Cada sistema solto é dinheiro deixado na mesa</h2>
-        <p>Quem usa um CRM, um Bling, o WhatsApp no celular e uma planilha do contador perde tempo, histórico e venda. A Sebra junta tudo numa operação só.</p>
-      </div>
-      <div class="grid grid--3" style="margin-top:48px">
-        <article class="card reveal"><span class="card__idx">01</span><h3>Lead esfriando</h3><p>O cliente chama, espera, compara e fecha com quem respondeu primeiro.</p></article>
-        <article class="card reveal" data-delay="1"><span class="card__idx">02</span><h3>Dado espalhado</h3><p>Atendimento num lugar, financeiro noutro, nota num terceiro. Ninguém enxerga o todo.</p></article>
-        <article class="card reveal" data-delay="2"><span class="card__idx">03</span><h3>Decisão no escuro</h3><p>Sem relatório e sem número confiável, você não sabe onde vende nem onde perde.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <!-- SOLUÇÕES -->
-  <section class="section section--tint">
-    <div class="container">
-      <div class="s-head s-head--center reveal">
-        <span class="eyebrow">A plataforma</span>
-        <h2>Tudo que a sua empresa precisa, num lugar só</h2>
-        <p>Mais de 80 funções organizadas em áreas que conversam entre si. Comece pelo que dói mais e ative o resto quando quiser.</p>
-      </div>
-      <div class="grid grid--3" style="margin-top:52px">
-        {solucoes.map((s, i) => (
-          <a class="card sol-card reveal" href={`/solucoes/${s.slug}/`} data-delay={i % 3}>
-            <div class="card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-            <h3>{s.nav}</h3>
-            <p>{s.lead}</p>
-            <span class="sol-card__more">Ver detalhes →</span>
+      <div class="ramos__grid">
+        {segmentos.map((s) => (
+          <a class="ramo" href={`/segmentos/${s.slug}/`}>
+            <div class="ramo__ic"><Icon name={s.icon} size={22} /></div>
+            <div class="ramo__tx"><p class="ramo__t">{s.nav}</p><p class="ramo__d">{s.menuDesc}</p></div>
+            <Icon name="arrow" size={17} class="ramo__go" />
           </a>
         ))}
+        <a class="ramo ramo--gov" href="/licitacoes/">
+          <div class="ramo__ic"><Icon name="landmark" size={22} /></div>
+          <div class="ramo__tx"><p class="ramo__t">Fornecedores do governo</p><p class="ramo__d">Licitações, contratos e empenhos</p></div>
+          <Icon name="arrow" size={17} class="ramo__go" />
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- NÚMEROS -->
-  <section class="section section--navy">
+  <!-- 3. EXPLORADOR DE MÓDULOS -->
+  <section class="section section--tint" id="modulos">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <span class="eyebrow">Feita para escalar</span>
-        <h2>Uma plataforma, resultado de verdade</h2>
+        <p class="eyebrow">O sistema</p>
+        <h2>Módulos completos. Um sistema só.</h2>
+        <p>Cada módulo é completo sozinho e conversa com todos os outros: o orçamento vira nota, a nota vira conta a receber, o extrato dá a baixa e o resultado aparece no fim do mês.</p>
       </div>
-      <div class="grid grid--4 stats-grid" style="margin-top:52px">
-        <div class="stat reveal"><div class="stat__num" data-count="80" data-suffix="+">0</div><div class="stat__label">Funções integradas</div></div>
-        <div class="stat reveal" data-delay="1"><div class="stat__num" data-count="9" data-suffix="">0</div><div class="stat__label">Verticais por segmento</div></div>
-        <div class="stat reveal" data-delay="2"><div class="stat__num" data-count="24" data-suffix="/7">0</div><div class="stat__label">Atendimento com IA</div></div>
-        <div class="stat reveal" data-delay="3"><div class="stat__num" data-count="100" data-suffix="%">0</div><div class="stat__label">Dados sob seu controle</div></div>
-      </div>
-    </div>
-  </section>
 
-  <!-- DESTAQUE FISCAL / GOVERNO -->
-  <section class="section section--wash">
-    <div class="container split">
-      <div class="split__copy reveal">
-        <span class="eyebrow">O diferencial no Brasil</span>
-        <h2>Emissão fiscal e conexão com o governo, nativas</h2>
-        <p class="split__lead">Enquanto outros sistemas param no CRM, a Sebra emite nota, guarda o certificado A1, controla certidões e prepara o pacote do contador. Aposente o eNotas e a planilha.</p>
-        <ul class="check-list">
-          <li>NF-e, NFS-e e NFC-e por provider homologado</li>
-          <li>Certificado A1 criptografado, com alerta de vencimento</li>
-          <li>Certidões negativas (federal, estadual, municipal, FGTS, trabalhista)</li>
-          <li>Substituição tributária e guarda legal do XML por 5 anos</li>
-          <li>Open Finance e cobrança automática PIX/boleto</li>
-        </ul>
-        <a class="btn btn--primary" href="/solucoes/fiscal/">Conhecer o módulo fiscal</a>
-      </div>
-      <div class="split__visual reveal" data-delay="1">
-        <!-- PLACEHOLDER: trocar por print da tela fiscal / NF-e -->
-        <div class="mock mock--doc" aria-label="Emissão fiscal">
-          <div class="mock__bar"><span></span><span></span><span></span><em>Fiscal · NF-e</em></div>
-          <div class="mock__doc">
-            <div class="mock__doc-row"><b>NF-e 000.128</b><span class="mock__badge">Autorizada</span></div>
-            <div class="mock__doc-line"></div><div class="mock__doc-line" style="width:80%"></div><div class="mock__doc-line" style="width:64%"></div>
-            <div class="mock__doc-row" style="margin-top:auto"><small>Certificado A1</small><span class="mock__badge mock__badge--amber">Vence em 42 dias</span></div>
-          </div>
+      <div class="ex reveal" data-tabs>
+        <div class="ex__tabs" role="tablist" aria-label="Módulos da Sebra">
+          {abas.map((s, i) => (
+            <button class="ex__tab" type="button" role="tab" id={`tab-${s.slug}`} aria-controls={`pan-${s.slug}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+              <Icon name={s.icon} size={17} />{curto[s.slug] ?? s.nav}
+            </button>
+          ))}
+          <a class="ex__tab ex__tab--lic" href="/licitacoes/"><Icon name="gavel" size={17} />Licitações</a>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEGMENTOS — balões, cada um com botão para a página -->
-  <section class="section section--tint">
-    <div class="container">
-      <div class="s-head s-head--center reveal">
-        <span class="eyebrow">Segmentos</span>
-        <h2>A mesma plataforma, do jeito que o seu ramo precisa</h2>
-        <p>Ative a vertical do seu negócio e a Sebra fala a língua da sua operação.</p>
-      </div>
-      <div class="seg-grid" style="margin-top:52px">
-        {segmentos.map((s, i) => (
-          <div class="balloon reveal" data-delay={i % 3}>
-            <div class="balloon__body">
-              <span class="balloon__emoji" aria-hidden="true">{segEmoji[s.slug]}</span>
-              <h3 class="balloon__title">{s.nav}</h3>
-              <p class="balloon__text">{segTease[s.slug]}</p>
-              <a class="balloon__btn" href={`/segmentos/${s.slug}/`}>Acessar <span aria-hidden="true">→</span></a>
+        {abas.map((s, i) => (
+          <div class="ex__panel" role="tabpanel" id={`pan-${s.slug}`} aria-labelledby={`tab-${s.slug}`} hidden={i !== 0}>
+            <div class="ex__copy">
+              <p class="ex__k">{s.eyebrow}</p>
+              <h3 class="ex__t">{s.title}</h3>
+              <p class="ex__lead">{s.lead}</p>
+              <ul class="ex__list">
+                {pick(s).map((f) => <li><Icon name="check" size={16} stroke={2.6} class="ex__ck" /><span class="ex__li"><strong>{f.title}.</strong> {f.desc}</span></li>)}
+              </ul>
+              <a class="btn btn--primary" href={`/solucoes/${s.slug}/`}>Ver todas as funções de {s.nav.toLowerCase()} <Icon name="arrow" size={18} /></a>
             </div>
+            <div class="ex__visual"><Stage face="right" tilt={7} class="light"><Mock m={s.mock} /></Stage></div>
           </div>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- INTEGRAÇÕES teaser -->
-  <section class="section section--soft">
-    <div class="container split split--reverse">
-      <div class="split__copy reveal">
-        <span class="eyebrow">Integrações</span>
-        <h2>Conectada ao que você já usa</h2>
-        <p class="split__lead">WhatsApp, Telegram, Google (Calendar, Drive, Meet), Asaas, Open Finance, providers fiscais e os conectores de IA — a Sebra se encaixa na sua rotina.</p>
-        <a class="btn btn--ghost" href="/integracoes/">Ver todas as integrações</a>
-      </div>
-      <div class="split__visual reveal" data-delay="1">
-        <div class="int-cloud">
-          {["WhatsApp","Telegram","Google","Asaas","Open Finance","Meet","Drive","NF-e"].map((n) => <span class="int-chip">{n}</span>)}
+      <div class="more">
+        <p class="more__k">E ainda:</p>
+        <div class="more__grid">
+          {outros.map((s) => (
+            <a class="more__item" href={`/solucoes/${s.slug}/`}>
+              <div class="more__ic"><Icon name={s.icon} size={19} /></div>
+              <div><p class="more__t">{s.nav}</p><p class="more__d">{s.menuDesc}</p></div>
+            </a>
+          ))}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="section section--tint">
+  <!-- 4. LUCRO REAL -->
+  <section class="section showcase">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <p class="eyebrow">Financeiro de verdade</p>
+        <h2>Quanto a sua empresa lucrou este mês?</h2>
+        <p class="split__lead">A maioria das empresas só descobre quando o contador fecha o balanço. Na Sebra o DRE se monta sozinho a partir das notas e dos lançamentos: você sabe quanto vendeu, quanto custou e quanto sobrou, no dia que quiser.</p>
+        <ul class="check-list">
+          <li><strong>DRE por competência</strong> e fluxo de caixa por período</li>
+          <li><strong>Resultado das vendas</strong> calculado pelas notas autorizadas</li>
+          <li><strong>Conciliação automática</strong>: o extrato dá baixa nas notas pagas</li>
+          <li><strong>Boleto</strong> com baixa automática quando é pago</li>
+          <li>Comissões, centro de custo e aprovação por valor</li>
+        </ul>
+        <a class="btn btn--light" href="/solucoes/financeiro/">Ver todas as funções do financeiro <Icon name="arrow" size={18} /></a>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={9}><MockDre /></Stage></div>
+    </div>
+  </section>
+
+  <!-- 5. FATOS -->
+  <section class="section facts">
+    <div class="container">
+      <div class="facts__grid">
+        <div class="fact reveal"><div class="fact__ic"><Icon name="receipt" size={22} /></div><p class="fact__n">Nota fiscal completa</p><p class="fact__l">NF-e, NFS-e e NFC-e emitidas por emissor homologado</p></div>
+        <div class="fact reveal" data-delay="1"><div class="fact__ic"><Icon name="zap" size={22} /></div><p class="fact__n">Financeiro no automático</p><p class="fact__l">O extrato do banco dá baixa nas notas pagas sozinho</p></div>
+        <div class="fact reveal" data-delay="2"><div class="fact__ic"><Icon name="shield" size={22} /></div><p class="fact__n">Documentos protegidos</p><p class="fact__l">Notas e XMLs guardados com segurança e cópia de segurança</p></div>
+        <div class="fact reveal" data-delay="3"><div class="fact__ic"><Icon name="key" size={22} /></div><p class="fact__n">Certificado cifrado</p><p class="fact__l">Seu certificado digital protegido com criptografia</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LICITAÇÕES -->
+  <section class="section showcase gov" id="licitacoes">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <span class="eyebrow">Dúvidas frequentes</span>
-        <h2>Perguntas que aparecem antes da demonstração</h2>
+        <p class="eyebrow">Especialidade Sebra</p>
+        <h2>Vende para o governo? Aqui a Sebra é especialista.</h2>
+        <p>O módulo de licitações acompanha a disputa e continua depois da vitória: contrato com saldo por item, empenho calculado sozinho, nota com retenção, boleto, recebimento e o lucro de cada processo.</p>
       </div>
-      <div class="reveal" style="margin-top:44px"><Faq /></div>
+      <ol class="gov__steps reveal">
+        {jornadaGov.map((j) => <li><div class="gov__ic"><Icon name={j.i} size={19} /></div><p class="gov__t">{j.t}</p><p class="gov__d">{j.d}</p></li>)}
+      </ol>
+      <div class="split gov__split">
+        <div class="split__copy reveal">
+          <ul class="check-list">
+            <li><strong>Busca de editais no PNCP</strong>, a base oficial de todo órgão sob a Lei 14.133</li>
+            <li><strong>Quadro Kanban ligado à licitação</strong>: moveu o cartão, mudou o status, e vice-versa</li>
+            <li><strong>Certidões com aviso</strong> antes de vencer e checklist de habilitação</li>
+            <li><strong>Saldo de ata por item</strong>: contratado, comprado, entregue e o que falta</li>
+            <li><strong>Empenhos</strong> com faturado e recebido calculados pelas notas</li>
+            <li><strong>AF em PDF vira nota</strong>, até 50 de uma vez (CINCATARINA)</li>
+            <li><strong>Resultado por licitação</strong> com custo real das compras</li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn--light btn--lg" href="/licitacoes/">Conhecer o módulo de licitações</a>
+            <a class="btn btn--wa btn--lg" href={waLink(waMsg.licitacao)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Ver funcionando</a>
+          </div>
+        </div>
+        <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={9}><MockContrato /></Stage></div>
+      </div>
     </div>
   </section>
 
-  <!-- CONTATO -->
-  <section class="section section--wash contact" id="contato">
-    <div class="container contact__grid">
-      <div class="reveal">
-        <span class="eyebrow">Agende uma demonstração</span>
-        <h2 class="contact__title">Veja a Sebra funcionando antes de decidir</h2>
-        <p class="contact__lead">Preencha os dados e nossa equipe entra em contato para apresentar a plataforma, entender sua operação e mostrar onde ela gera resultado.</p>
-        <ul class="check-list">
-          <li>Demonstração guiada, sem compromisso</li>
-          <li>Análise da sua operação atual</li>
-          <li>Implantação conduzida com você</li>
-        </ul>
+  <!-- 7. CONFIANÇA -->
+  <section class="section">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">Responsabilidade</p>
+        <h2>Você vai confiar à Sebra o coração da sua empresa. A gente leva isso a sério.</h2>
+        <p>Certificado digital, notas, dados bancários e financeiros. Cuidamos de cada um como se fosse nosso.</p>
       </div>
-      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
+      <div class="grid grid--4 trust">
+        {seguranca.map((s, i) => (
+          <article class="card reveal" data-delay={i}>
+            <div class="card__icon"><Icon name={s.i} size={22} /></div>
+            <h3>{s.t}</h3><p>{s.d}</p>
+          </article>
+        ))}
+      </div>
+      <p class="trust__more reveal"><a class="link-arrow" href="/seguranca/">Como protegemos seus dados <Icon name="arrow" size={16} /></a></p>
+
+      <div class="steps reveal">
+        <div class="steps__head">
+          <h3>Como colocamos a Sebra para rodar na sua empresa</h3>
+          <p>Implantação conduzida pela nossa equipe, em seis etapas. Você continua trabalhando enquanto isso.</p>
+        </div>
+        <ol class="steps__list">
+          {etapas.map((e, i) => (
+            <li><p class="steps__n">{String(i + 1).padStart(2, "0")}</p><p class="steps__t">{e.t}</p><p class="steps__d">{e.d}</p></li>
+          ))}
+        </ol>
+      </div>
     </div>
   </section>
+
+  <!-- 8. FAQ -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">Perguntas frequentes</p>
+        <h2>O que perguntam antes de fechar com a Sebra</h2>
+      </div>
+      <div class="reveal" style="margin-top:44px"><Faq items={faqHome} /></div>
+    </div>
+  </section>
+
+  <!-- 9. PLANOS + CONTATO -->
+  <section class="cta-band">
+    <div class="container cta-band__inner reveal">
+      <div>
+        <h2>Veja os planos e escolha o que combina com a sua empresa</h2>
+        <p>Do essencial ao grupo com vários CNPJs, com o módulo de licitações para quem vende ao governo.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--light btn--lg" href="/planos/">Ver os planos</a>
+        <a class="btn btn--wa btn--lg" href={waLink(waMsg.planos)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Falar agora</a>
+      </div>
+    </div>
+  </section>
+
+  <ContactSection origem="Página inicial" uid="home" />
 </Base>
 
+<script>
+  // Abas do explorador (teclado: setas esquerda/direita)
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('button[role="tab"]')];
+    const select = (t: HTMLButtonElement, focus = false) => {
+      tabs.forEach((x) => {
+        const on = x === t;
+        x.setAttribute("aria-selected", String(on));
+        x.tabIndex = on ? 0 : -1;
+        const pan = document.getElementById(x.getAttribute("aria-controls")!);
+        if (pan) pan.hidden = !on;
+      });
+      if (focus) t.focus();
+      window.dispatchEvent(new Event("resize"));
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(t));
+      t.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") select(tabs[(i + 1) % tabs.length], true);
+        if (e.key === "ArrowLeft") select(tabs[(i - 1 + tabs.length) % tabs.length], true);
+      });
+    });
+  });
+</script>
+
 <style>
-  /* HERO */
-  .hero { position: relative; overflow: hidden; padding-block: clamp(56px, 8vw, 104px); }
-  .hero__bg { position: absolute; inset: 0; z-index: -1;
-    background:
-      radial-gradient(900px 460px at 82% -10%, rgba(8,87,255,.22), transparent 58%),
-      radial-gradient(700px 420px at 8% 8%, rgba(61,139,255,.14), transparent 60%),
-      linear-gradient(180deg, #eaf1ff 0%, #f5f8ff 55%, #ffffff 100%);
-  }
-  .hero__bg::after {
-    content: ""; position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(8,87,255,.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(8,87,255,.05) 1px, transparent 1px);
-    background-size: 46px 46px;
-    -webkit-mask-image: radial-gradient(680px 400px at 78% 6%, #000, transparent 70%);
-    mask-image: radial-gradient(680px 400px at 78% 6%, #000, transparent 70%);
-  }
-  .hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
-  .hero__copy h1 { font-size: clamp(34px, 4.6vw, 58px); margin-top: 18px; }
-  .hero__lead { margin-top: 20px; font-size: clamp(16px, 1.4vw, 19px); color: var(--ink-soft); max-width: 540px; }
-  .hero__copy .btn-row { margin-top: 30px; }
-  .hero__points { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 10px; }
-  .hero__points li { position: relative; padding-left: 26px; font-size: 15px; color: var(--ink-soft); }
-  .hero__points li::before { content: ""; position: absolute; left: 0; top: 7px; width: 15px; height: 15px; border-radius: 50%; background: #e3edff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12l5 5L20 6' stroke='%230857ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat; }
+  /* HERÓI */
+  .hero { padding-block: clamp(56px, 7vw, 92px) clamp(24px, 3vw, 36px); }
+  .hero__grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: clamp(28px, 4vw, 52px); align-items: center; }
+  .hero h1 { font-size: clamp(38px, 5.2vw, 64px); color: #fff; letter-spacing: -.03em; line-height: 1.04; }
+  .hero__lead { margin-top: 22px; font-size: clamp(16.5px, 1.35vw, 19px); color: var(--on-dark-soft); max-width: 560px; line-height: 1.62; }
+  .hero .btn-row { margin-top: 30px; }
+  .hero__proof { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; }
+  .hero__proof li { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; color: var(--on-dark-soft); }
+  .hero__proof :global(svg) { color: #4ade80; }
+  .hero__visual { min-width: 0; }
+  @media (max-width: 940px) { .hero__grid { grid-template-columns: 1fr; } }
 
-  /* Mock de tela (placeholder) */
-  .hero__visual { position: relative; }
-  .mock { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); overflow: hidden; }
-  .mock__bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); background: #fafbfe; }
-  .mock__bar span { width: 10px; height: 10px; border-radius: 50%; background: #dbe2ee; }
-  .mock__bar em { margin-left: 10px; font-style: normal; font-size: 12px; color: var(--muted); }
-  .mock__body { padding: 20px; }
-  .mock__kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
-  .mock__kpi { border: 1px solid var(--line-soft); border-radius: var(--r-sm); padding: 12px; position: relative; }
-  .mock__kpi small { display: block; font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
-  .mock__kpi strong { font-family: var(--font-display); font-size: 20px; color: var(--navy); }
-  .mock__kpi i { position: absolute; top: 12px; right: 12px; font-style: normal; font-size: 10px; color: var(--muted); }
-  .mock__chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; margin-top: 18px; padding: 0 2px; }
-  .mock__chart span { flex: 1; height: var(--h); background: linear-gradient(180deg, #4d84ff, #0857ff); border-radius: 4px 4px 0 0; opacity: .9; }
-  .mock--doc .mock__doc { padding: 20px; display: flex; flex-direction: column; gap: 12px; min-height: 220px; }
-  .mock__doc-row { display: flex; align-items: center; justify-content: space-between; }
-  .mock__doc-row b { font-family: var(--font-display); color: var(--navy); font-size: 17px; }
-  .mock__doc-line { height: 12px; border-radius: 4px; background: var(--surface-3); width: 100%; }
-  .mock__badge { font-size: 11px; font-weight: 700; color: var(--ok); background: #e6f6ee; padding: 5px 10px; border-radius: 999px; }
-  .mock__badge--amber { color: #9a6700; background: #fdf3d7; }
-  .mock-chip { position: absolute; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow); padding: 10px 16px; font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; }
-  .mock-chip strong { color: var(--navy); }
-  .mock-chip__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px rgba(8,87,255,.15); }
-  .mock-chip__dot--ok { background: var(--ok); box-shadow: 0 0 0 4px rgba(18,144,90,.15); }
-  /* Fora do painel: um acima, outro abaixo — nunca por cima do conteúdo */
-  .mock-chip--1 { top: -18px; left: 16px; }
-  .mock-chip--2 { bottom: -18px; right: 16px; }
+  /* RAMOS */
+  .ramos { background: #fff; padding-block: clamp(44px, 6vw, 72px); border-bottom: 1px solid var(--line-soft); }
+  .ramos__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .ramos__head h2 { font-size: clamp(26px, 3vw, 36px); }
+  .ramos__head p { color: var(--ink-soft); max-width: 520px; font-size: 16.5px; }
+  .ramos__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
+  .ramo { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: var(--r-md); border: 1px solid var(--line); background: #fff; transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+  .ramo:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .ramo__ic { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); transition: background .2s ease, color .2s ease; }
+  .ramo:hover .ramo__ic { background: var(--grad-brand); color: #fff; }
+  .ramo__tx { flex: 1; min-width: 0; }
+  .ramo__t { font-weight: 700; color: var(--ink); font-size: 15.5px; }
+  .ramo__d { color: var(--muted); font-size: 13.5px; margin-top: 2px; line-height: 1.4; }
+  .ramo :global(.ramo__go) { color: var(--muted); flex-shrink: 0; transition: transform .2s ease, color .2s ease; }
+  .ramo:hover :global(.ramo__go) { color: var(--brand); transform: translateX(3px); }
+  .ramo--gov { background: var(--navy-900); border-color: var(--navy-900); }
+  .ramo--gov .ramo__t { color: #fff; }
+  .ramo--gov .ramo__d { color: var(--on-dark-soft); }
+  .ramo--gov .ramo__ic { background: rgba(110,160,255,.18); color: var(--brand-light); }
+  .ramo--gov:hover .ramo__ic { background: var(--brand); color: #fff; }
+  @media (max-width: 1020px) { .ramos__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .ramos__grid { grid-template-columns: 1fr; } }
 
-  /* Trust strip / carrossel */
-  .strip { padding: 30px 0 34px; border-block: 1px solid var(--line-soft); background: linear-gradient(180deg,#fff, #f7f9ff); overflow: hidden; }
-  .strip__label { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 0 22px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-  .strip__label span { position: relative; }
-  .strip__label::before, .strip__label::after { content: ""; height: 1px; width: min(80px, 12vw); background: linear-gradient(90deg, transparent, var(--line)); }
-  .strip__label::after { background: linear-gradient(90deg, var(--line), transparent); }
-  /* máscara que desvanece nas bordas */
-  .strip__mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); overflow: hidden; }
-  .strip__track { display: flex; gap: 44px; width: max-content; animation: marquee 34s linear infinite; padding-inline: 22px; }
-  .strip__item { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: #7f8aa3; white-space: nowrap; position: relative; padding-left: 26px; transition: color .2s ease; }
-  .strip__item::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 7px; height: 7px; border-radius: 50%; background: var(--brand); opacity: .45; }
-  .strip:hover .strip__track { animation-play-state: paused; }
-  .strip__item:hover { color: var(--brand); }
-  @keyframes marquee { to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) { .strip__track { animation: none; } }
+  /* EXPLORADOR */
+  .ex { margin-top: 44px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
+  .ex__tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-bottom: 1px solid var(--line-soft); background: #fafcff; }
+  .ex__tab { display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 13px; border-radius: 11px; border: 0; background: none; font: inherit; font-weight: 600; font-size: 14.5px; color: var(--ink-soft); cursor: pointer; transition: background .15s ease, color .15s ease; }
+  .ex__tab:hover { background: #eef3ff; color: var(--brand); }
+  .ex__tab[aria-selected="true"] { background: var(--navy); color: #fff; }
+  .ex__tab--lic { margin-left: auto; background: linear-gradient(135deg, #fff7e6, #ffefd1); color: #8a4b00; border: 1px solid #f5d08a; }
+  .ex__tab--lic:hover { background: linear-gradient(135deg, #ffefd1, #ffe3ad); color: #6b3a00; }
+  @media (max-width: 1100px) { .ex__tab--lic { margin-left: 0; } }
+  .ex__panel { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px; align-items: center; padding: clamp(22px, 3.5vw, 40px); }
+  .ex__panel[hidden] { display: none; }
+  .ex__k { font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
+  .ex__t { font-size: clamp(23px, 2.5vw, 31px); margin-top: 10px; }
+  .ex__lead { margin-top: 12px; color: var(--ink-soft); font-size: 16px; }
+  .ex__list { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 11px; }
+  .ex__list li { display: flex; gap: 10px; align-items: flex-start; }
+  .ex :global(.ex__ck) { color: var(--brand); flex-shrink: 0; margin-top: 4px; }
+  .ex__li { font-size: 15px; color: var(--ink-soft); line-height: 1.5; }
+  .ex__li strong { color: var(--ink); }
+  .ex__visual { min-width: 0; }
+  @media (max-width: 980px) { .ex__panel { grid-template-columns: 1fr; } }
 
-  .card__idx { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--brand); }
-  .card__idx + h3 { margin-top: 10px; }
+  .more { margin-top: 36px; }
+  .more__k { font-weight: 700; color: var(--ink); text-align: center; }
+  .more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+  .more__item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); transition: border-color .2s ease, transform .2s ease; }
+  .more__item:hover { border-color: var(--brand); transform: translateY(-2px); }
+  .more__ic { flex-shrink: 0; width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
+  .more__t { font-weight: 700; color: var(--ink); font-size: 15px; }
+  .more__d { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+  @media (max-width: 900px) { .more__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .more__grid { grid-template-columns: 1fr; } }
 
-  .sol-card { display: block; }
-  .sol-card__more { display: inline-block; margin-top: 16px; font-weight: 600; font-size: 14px; color: var(--brand); }
+  /* FATOS */
+  .facts { background: #fff; padding-block: clamp(48px, 6vw, 72px); border-bottom: 1px solid var(--line-soft); }
+  .facts__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .fact { padding: 22px; border-radius: var(--r-md); background: linear-gradient(180deg, #f6f9ff, #fff); border: 1px solid var(--line); }
+  .fact__ic { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; margin-bottom: 14px; }
+  .fact__n { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--navy); letter-spacing: -.01em; line-height: 1.25; }
+  .fact__l { margin-top: 8px; color: var(--ink-soft); font-size: 15px; line-height: 1.45; }
+  @media (max-width: 900px) { .facts__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .facts__grid { grid-template-columns: 1fr; } }
 
-  .stats-grid { text-align: center; }
-  .stats-grid .stat { text-align: center; }
-  .stats-grid .stat__num { color: #fff; }
+  /* LICITAÇÕES */
+  .gov__steps { list-style: none; padding: 0; margin: 44px 0 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; }
+  .gov__steps li { text-align: center; padding: 16px 8px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); }
+  .gov__ic { width: 42px; height: 42px; margin: 0 auto 10px; border-radius: 11px; display: grid; place-items: center; background: rgba(110,160,255,.16); color: var(--brand-light); }
+  .gov__t { font-family: var(--font-display); font-weight: 700; color: #fff; font-size: 15px; }
+  .gov__d { color: var(--on-dark-mute); font-size: 12.5px; margin-top: 2px; }
+  .gov__split { margin-top: 40px; }
+  @media (max-width: 980px) { .gov__steps { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 480px) { .gov__steps { grid-template-columns: repeat(2, 1fr); } }
 
-  /* Split */
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .split--reverse .split__copy { order: 2; }
-  .split__lead { margin-top: 18px; font-size: 17px; color: var(--ink-soft); }
-  .check-list { list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 12px; }
-  .check-list li { position: relative; padding-left: 30px; color: var(--ink-soft); font-size: 15.5px; }
-  .check-list li::before { content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #e3edff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12l5 5L20 6' stroke='%230857ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/11px no-repeat; }
-
-  .int-cloud { display: flex; flex-wrap: wrap; gap: 12px; }
-  .int-chip { background: #fff; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 14px 20px; font-weight: 600; font-size: 15px; color: var(--ink-soft); box-shadow: var(--shadow-sm); }
-
-  /* Balões dos segmentos */
-  .seg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .balloon { position: relative; }
-  .balloon__body {
-    position: relative; background: #fff; border: 1px solid var(--line);
-    border-radius: var(--r-md); padding: 24px 22px 22px;
-    box-shadow: var(--shadow-sm);
-    transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease, border-color .2s ease;
-    height: 100%;
-  }
-  /* rabinho do balão */
-  .balloon__body::after {
-    content: ""; position: absolute; left: 30px; bottom: -9px; width: 18px; height: 18px;
-    background: #fff; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    transform: rotate(45deg); transition: border-color .2s ease;
-  }
-  .balloon:hover .balloon__body { transform: translateY(-6px); box-shadow: var(--shadow); border-color: rgba(8,87,255,.35); }
-  .balloon:hover .balloon__body::after { border-color: rgba(8,87,255,.35); }
-  .balloon__emoji { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--grad-brand-soft); font-size: 22px; margin-bottom: 14px; }
-  .balloon__title { font-size: 18px; }
-  .balloon__text { margin-top: 8px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; min-height: 60px; }
-  .balloon__btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-weight: 700; font-size: 14px; color: var(--brand); }
-  .balloon__btn span { transition: transform .2s ease; }
-  .balloon:hover .balloon__btn span { transform: translateX(4px); }
-  @media (max-width: 980px) { .seg-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 520px) { .seg-grid { grid-template-columns: 1fr; } .balloon__text { min-height: 0; } }
-
-  /* Contato */
-  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
-  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
-  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
-  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
-
-  @media (max-width: 940px) {
-    .hero__grid, .split, .contact__grid { grid-template-columns: 1fr; }
-    .split--reverse .split__copy { order: 0; }
-    .hero__visual { margin-top: 8px; }
-    .mock-chip { display: none; }
-  }
+  /* CONFIANÇA */
+  .trust { margin-top: 48px; }
+  .trust .card h3 { font-size: 17.5px; }
+  .trust__more { text-align: center; margin-top: 24px; }
+  .steps { margin-top: 48px; padding: clamp(24px, 4vw, 40px); border-radius: var(--r-lg); background: linear-gradient(135deg, #f4f8ff, #eaf1ff); border: 1px solid #dbe6fb; }
+  .steps__head h3 { font-size: clamp(21px, 2.2vw, 27px); }
+  .steps__head p { margin-top: 8px; color: var(--ink-soft); }
+  .steps__list { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+  .steps__list li { padding-top: 14px; border-top: 2px solid var(--brand); }
+  .steps__n { font-family: var(--font-display); font-weight: 800; color: var(--brand); font-size: 14px; }
+  .steps__t { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--ink); margin-top: 4px; }
+  .steps__d { font-size: 14px; color: var(--ink-soft); line-height: 1.5; margin-top: 4px; }
+  @media (max-width: 980px) { .steps__list { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 560px) { .steps__list { grid-template-columns: 1fr; } }
 </style>

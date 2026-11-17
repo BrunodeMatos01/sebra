@@ -1,0 +1,30 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const rows = [
+  { o: "Pregão 041/2026 · Secretaria de Educação", r: "R$ 104.500", c: "R$ 71.860", rec: "R$ 59.100", m: 31.2 },
+  { o: "Pregão 112/2026 · Fundo Municipal de Saúde", r: "R$ 186.750", c: "R$ 139.900", rec: "R$ 186.750", m: 25.1 },
+  { o: "Dispensa 018/2026 · Câmara Municipal", r: "R$ 74.120", c: "R$ 61.300", rec: "R$ 74.120", m: 17.3 },
+  { o: "Pregão 077/2026 · Secretaria de Obras", r: "R$ 58.900", c: "R$ 55.120", rec: "R$ 8.200", m: 6.4 },
+];
+---
+<AppFrame title="Financeiro · Resultado por licitação" subtitle="Receita, custos, lucro e margem de cada processo licitatório" group="financeiro" active="Financeiro">
+  <div class="kg">
+    <div class="kc"><small>Receita</small><b>R$ 424,3 mil</b><Icon name="receipt" size={18} class="c-blue" /></div>
+    <div class="kc"><small>Custos e impostos</small><b>R$ 328,2 mil</b><Icon name="cart" size={18} class="c-vio" /></div>
+    <div class="kc kc--ok"><small>Margem</small><b>22,6%</b><Icon name="chart" size={18} class="c-ok" /></div>
+    <div class="kc kc--warn"><small>A receber</small><b>R$ 96,4 mil</b><Icon name="clock" size={18} class="c-warn" /></div>
+  </div>
+  <div class="fl"><span class="sel">Todos os órgãos</span><span class="sel">Todos os status</span><span class="sel">Sessão de 01/01/2026 até 30/11/2026</span><span class="sel">Alíquota efetiva do Simples: 8,4%</span></div>
+  <table class="tbl">
+    <thead><tr><th style="width:36%">Licitação</th><th class="num" style="width:14%">Receita</th><th class="num" style="width:14%">Custos</th><th class="num" style="width:14%">Recebido</th><th style="width:22%">Margem</th></tr></thead>
+    <tbody>
+      {rows.map((x) => (
+        <tr>
+          <td><b>{x.o}</b></td><td class="num">{x.r}</td><td class="num">{x.c}</td><td class="num">{x.rec}</td>
+          <td><div style="display:flex;align-items:center;gap:10px"><div class={`bar${x.m > 20 ? " bar--ok" : x.m < 10 ? " bar--warn" : ""}`} style="flex:1"><span style={`width:${Math.min(100, x.m * 3)}%`}></span></div><b style="font-size:12.5px;min-width:44px">{x.m.toLocaleString("pt-BR")}%</b></div></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</AppFrame>

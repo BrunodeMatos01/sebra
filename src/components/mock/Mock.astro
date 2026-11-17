@@ -1,0 +1,26 @@
+---
+// Escolhe a tela de demonstração pela chave (ou monta uma tabela pela especificação).
+import MockFinanceiro from "./MockFinanceiro.astro";
+import MockDre from "./MockDre.astro";
+import MockOrcamento from "./MockOrcamento.astro";
+import MockCnpj from "./MockCnpj.astro";
+import MockProduto from "./MockProduto.astro";
+import MockCompras from "./MockCompras.astro";
+import MockConciliacao from "./MockConciliacao.astro";
+import MockLicitacao from "./MockLicitacao.astro";
+import MockContrato from "./MockContrato.astro";
+import MockTable from "./MockTable.astro";
+import type { MockSpec } from "../../data/mock-types";
+export interface Props { m: string | MockSpec }
+const { m } = Astro.props;
+---
+{typeof m !== "string" ? <MockTable spec={m} />
+: m === "financeiro" ? <MockFinanceiro />
+: m === "dre" ? <MockDre />
+: m === "orcamento" ? <MockOrcamento />
+: m === "cnpj" ? <MockCnpj />
+: m === "produto" ? <MockProduto />
+: m === "compras" ? <MockCompras />
+: m === "conciliacao" ? <MockConciliacao />
+: m === "contrato" ? <MockContrato />
+: <MockLicitacao />}

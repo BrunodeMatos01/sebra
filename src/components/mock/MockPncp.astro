@@ -1,0 +1,29 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const r = [
+  { o: "Prefeitura Municipal · Secretaria de Administração", obj: "Aquisição de papel A4 e materiais de escritório", m: "Pregão eletrônico", p: "25/11/2026", v: "R$ 96.400,00" },
+  { o: "Fundo Municipal de Saúde", obj: "Registro de preços de material de limpeza e higiene", m: "Pregão eletrônico", p: "27/11/2026", v: "R$ 214.800,00" },
+  { o: "Autarquia de Água e Esgoto", obj: "Fornecimento de uniformes e EPIs", m: "Dispensa", p: "22/11/2026", v: "R$ 38.250,00" },
+  { o: "Secretaria de Educação", obj: "Material de limpeza para unidades escolares", m: "Pregão eletrônico", p: "01/12/2026", v: "R$ 152.000,00" },
+  { o: "Hospital Municipal", obj: "Detergentes, desinfetantes e saneantes", m: "Concorrência", p: "05/12/2026", v: "R$ 318.700,00" },
+];
+---
+<AppFrame title="Buscar editais no PNCP" subtitle="Consulta direta ao Portal Nacional de Contratações Públicas (dados oficiais e públicos)" group="modulos" active="Licitação" h={700}>
+  <div class="fl" style="margin-top:0">
+    <span class="in" style="color:var(--a-ink)"><Icon name="search" size={16} />material de limpeza</span>
+    <span class="sel"><Icon name="map" size={15} />SC</span>
+    <span class="sel">Todas as modalidades</span>
+    <span class="mb" style="height:38px;padding:0 18px">Buscar</span>
+  </div>
+  <p class="st">Editais com proposta aberta <small>187 encontrados · mostrando os mais recentes</small></p>
+  {r.map((x) => (
+    <div class="rc">
+      <span class="rc__ic rc__ic--blue"><Icon name="landmark" size={18} /></span>
+      <span class="rc__tx"><b>{x.obj}</b><span>{x.o} · {x.m} · proposta até {x.p}</span></span>
+      <span class="rc__val">{x.v}</span>
+      <span class="mb mb--ghost">Ver edital</span>
+      <span class="mb">Acompanhar</span>
+    </div>
+  ))}
+</AppFrame>

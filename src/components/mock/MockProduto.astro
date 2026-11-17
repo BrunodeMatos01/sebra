@@ -1,0 +1,40 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const comp = [
+  ["Custo de aquisição (reposição)", "R$ 18,20"],
+  ["Importação + frete (%)", "4,0%"],
+  ["Impostos sobre a venda", "11,2%"],
+  ["Despesas operacionais", "9,5%"],
+  ["Comissão do vendedor", "3,0%"],
+  ["Margem desejada", "15,0%"],
+];
+---
+<AppFrame title="Produtos" subtitle="Catálogo, estoque e precificação da empresa" group="operacao" active="Produtos" h={720}
+  actions={[{ label: "Cotações", icon: "cart" }, { label: "Novo produto", primary: true, icon: "box" }]}>
+  <div class="tb" style="margin-top:0"><span>Catálogo e estoque</span><span class="is-on">Formação de preço</span><span>Pedidos e recebimento</span><span>Cotações</span><span>IA de reposição</span></div>
+  <div class="row2" style="margin-top:0;grid-template-columns:1.15fr 1fr">
+    <div class="panel">
+      <p class="st">Resma papel A4 75g <small>código 10482 · estoque 1.240 un</small></p>
+      {comp.map(([k, v]) => (
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--a-line-2)"><span style="color:var(--a-soft)">{k}</span><b>{v}</b></div>
+      ))}
+      <p style="font-size:12px;color:var(--a-mute);margin-top:10px">Markup divisor: custos + percentuais sobre a venda + margem desejada.</p>
+    </div>
+    <div>
+      <div class="panel" style="background:linear-gradient(135deg,#eff6ff,#fff);border-color:#bfdbfe">
+        <p style="font-size:12px;font-weight:700;letter-spacing:.07em;color:var(--a-mute);text-transform:uppercase">Preço sugerido</p>
+        <p style="font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--a-blue);letter-spacing:-.03em;margin-top:4px">R$ 24,90</p>
+        <p style="color:var(--a-soft)">Preço praticado hoje: <b>R$ 23,50</b></p>
+        <div class="bar bar--ok" style="margin-top:12px"><span style="width:76%"></span></div>
+        <p style="font-size:12.5px;color:#047857;margin-top:6px;font-weight:600">Viável: margem real de 15,0% sobre a venda</p>
+      </div>
+      <div class="panel" style="margin-top:12px">
+        <p class="st" style="margin-bottom:8px">Dados fiscais</p>
+        {[["NCM", "4802.56.10"], ["CST/CSOSN de ICMS", "102"], ["CST de IBS/CBS", "000"], ["cClassTrib", "000001"]].map(([k, v]) => (
+          <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:var(--a-mute)">{k}</span><b style="font-weight:600">{v}</b></div>
+        ))}
+      </div>
+    </div>
+  </div>
+</AppFrame>

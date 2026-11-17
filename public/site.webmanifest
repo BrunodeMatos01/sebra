@@ -1,0 +1,14 @@
+{
+  "name": "Sebra ERP com IA",
+  "short_name": "Sebra",
+  "description": "O ERP de quem vende para o governo.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#04102e",
+  "theme_color": "#04102e",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/img/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

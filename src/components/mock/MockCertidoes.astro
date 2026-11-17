@@ -1,0 +1,29 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const c = [
+  { n: "CND Federal (Receita Federal e PGFN)", o: "Receita Federal", e: "15/09/2026", v: "14/03/2027", s: ["Válida", "green"] },
+  { n: "CRF · Regularidade do FGTS", o: "Caixa Econômica Federal", e: "24/10/2026", v: "22/11/2026", s: ["Vence em 6 dias", "amber"] },
+  { n: "CNDT · Débitos Trabalhistas", o: "Tribunal Superior do Trabalho", e: "10/10/2026", v: "09/04/2027", s: ["Válida", "green"] },
+  { n: "CND Estadual", o: "Secretaria da Fazenda", e: "30/09/2026", v: "30/12/2026", s: ["Válida", "green"] },
+  { n: "CND Municipal", o: "Prefeitura", e: "03/08/2026", v: "02/11/2026", s: ["Vencida", "red"] },
+  { n: "Certidão de Falência e Recuperação", o: "Tribunal de Justiça", e: "01/11/2026", v: "31/01/2027", s: ["Válida", "green"] },
+];
+---
+<AppFrame title="Contratos Públicos" subtitle="Licitações, empenhos e certidões negativas" group="financeiro" active="Contratos Públicos"
+  actions={[{ label: "Contratos", icon: "landmark" }, { label: "Certidões", primary: true, icon: "shield" }]}>
+  <div class="kg">
+    <div class="kc kc--ok"><small>Válidas</small><b>4</b><Icon name="checkCircle" size={18} class="c-ok" /></div>
+    <div class="kc kc--warn"><small>Vencem em 15 dias</small><b>1</b><Icon name="bell" size={18} class="c-warn" /></div>
+    <div class="kc kc--bad"><small>Vencidas</small><b>1</b><Icon name="x" size={18} class="c-bad" /></div>
+    <div class="kc"><small>Aviso antecipado</small><b>10 dias</b><Icon name="clock" size={18} class="c-blue" /></div>
+  </div>
+  <table class="tbl" style="margin-top:16px">
+    <thead><tr><th style="width:34%">Certidão</th><th style="width:23%">Órgão emissor</th><th style="width:13%">Emitida em</th><th style="width:13%">Validade</th><th style="width:17%">Situação</th></tr></thead>
+    <tbody>
+      {c.map((x) => (
+        <tr><td><b>{x.n}</b></td><td>{x.o}</td><td>{x.e}</td><td>{x.v}</td><td><span class={`pill pill--${x.s[1]}`}>{x.s[0]}</span></td></tr>
+      ))}
+    </tbody>
+  </table>
+</AppFrame>

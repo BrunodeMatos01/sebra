@@ -1,0 +1,101 @@
+# =====================================================================
+# Sebra — configuração do servidor (Hostinger / Apache / LiteSpeed)
+# A linha da Content-Security-Policy é preenchida no build por
+# scripts/postbuild-security.mjs (hash de cada script embutido).
+# =====================================================================
+
+# Nada de listar pastas
+Options -Indexes
+
+# Página de erro própria
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1) Sempre HTTPS
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://sebraoficial.com%{REQUEST_URI} [L,R=301]
+
+  # 2) Sem "www" (um endereço só para o Google)
+  RewriteCond %{HTTP_HOST} ^www\.sebraoficial\.com$ [NC]
+  RewriteRule ^ https://sebraoficial.com%{REQUEST_URI} [L,R=301]
+
+  # 3) Bloqueia arquivos ocultos e sensíveis (exceto /.well-known/)
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+  RewriteRule \.(map|md|bak|old|orig|swp|log|sql|env|ini|sh|ps1|lock|json)$ - [F,L,NC]
+
+  # 4) Só GET, HEAD e OPTIONS (site estático)
+  RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|OPTIONS)$
+  RewriteRule ^ - [R=405,L]
+
+  # 5) Firewall leve: sondagens de ataque na URL (XSS, SQL, travessia, comandos)
+  RewriteCond %{QUERY_STRING} (<|%3C)[^>]*(script|iframe|svg|img|object|embed) [NC,OR]
+  RewriteCond %{QUERY_STRING} (javascript|vbscript|data)(:|%3A) [NC,OR]
+  RewriteCond %{QUERY_STRING} (\.\./|\.\.\\|%2e%2e|%252e) [NC,OR]
+  RewriteCond %{QUERY_STRING} (union(\s|\+|%20)+(all(\s|\+|%20)+)?select|select(\s|\+|%20).+from|insert(\s|\+|%20)+into|drop(\s|\+|%20)+table|sleep\(|benchmark\() [NC,OR]
+  RewriteCond %{QUERY_STRING} (etc/passwd|proc/self|boot\.ini|win\.ini|cmd\.exe|/bin/sh|base64_decode|eval\() [NC,OR]
+  RewriteCond %{QUERY_STRING} (\$\{jndi:|%24%7Bjndi) [NC]
+  RewriteRule ^ - [F,L]
+
+  # 6) Ferramentas de invasão conhecidas
+  RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|nmap|masscan|acunetix|netsparker|wpscan|dirbuster|gobuster|feroxbuster|nuclei|havij|zgrab|jaeles|commix|w3af) [NC]
+  RewriteRule ^ - [F,L]
+
+  # 7) Caminhos que robôs de ataque testam (este site não tem nenhum deles)
+  RewriteRule ^(wp-admin|wp-login\.php|wp-content|wp-includes|xmlrpc\.php|phpmyadmin|pma|adminer|cgi-bin|vendor|node_modules|server-status|\.git|\.svn|\.env|config\.php|admin\.php|shell\.php) - [F,L,NC]
+</IfModule>
+
+# O manifesto precisa continuar acessível
+<Files "site.webmanifest">
+  Require all granted
+</Files>
+
+<IfModule mod_headers.c>
+  # Força HTTPS no navegador por 1 ano
+  Header always set Strict-Transport-Security "max-age=31536000"
+  # Política de conteúdo: só scripts, estilos e conexões autorizados
+  Header always set Content-Security-Policy "__CSP__"
+  # Não pode ser embutido em outro site (clickjacking)
+  Header always set X-Frame-Options "DENY"
+  # Navegador não "adivinha" o tipo do arquivo
+  Header always set X-Content-Type-Options "nosniff"
+  # Não vaza o endereço completo para outros sites
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Desliga recursos que o site não usa
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()"
+  # Isola a janela (permite abrir o WhatsApp em popup)
+  Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+  Header always set Cross-Origin-Resource-Policy "same-site"
+  Header always set X-Permitted-Cross-Domain-Policies "none"
+  Header always set Origin-Agent-Cluster "?1"
+  Header always set X-DNS-Prefetch-Control "off"
+  # Não revela o servidor
+  Header always unset X-Powered-By
+  Header unset Server
+
+  # Cache: arquivos com hash (_astro) por 1 ano; HTML sempre revalida
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# Compressão
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml text/plain application/manifest+json
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType application/manifest+json "access plus 7 days"
+</IfModule>
+
+AddType application/manifest+json .webmanifest
+AddType text/plain .txt

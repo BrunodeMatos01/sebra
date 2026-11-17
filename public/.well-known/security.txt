@@ -1,0 +1,7 @@
+# Política de divulgação responsável da Sebra
+# Encontrou uma falha de segurança? Fale com a gente antes de divulgar.
+Contact: mailto:atendimento.sebra@gmail.com
+Contact: https://wa.me/5547997202716
+Expires: 2027-11-17T00:00:00.000Z
+Preferred-Languages: pt, en
+Canonical: https://sebraoficial.com/.well-known/security.txt

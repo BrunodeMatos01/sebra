@@ -1,0 +1,35 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const resp = [
+  { f: "Papelaria Atlântico", p: "R$ 17,40", pr: "5 dias", t: "R$ 7.308,00", best: true },
+  { f: "Distribuidora Vale Sul", p: "R$ 17,95", pr: "3 dias", t: "R$ 7.539,00", best: false },
+  { f: "Comercial Litoral", p: "R$ 18,60", pr: "7 dias", t: "R$ 7.812,00", best: false },
+  { f: "Atacado Serra Azul", p: "aguardando", pr: "-", t: "-", best: false },
+];
+---
+<AppFrame title="Cotação 0219 · Resma papel A4 75g" subtitle="420 unidades · grupo de transmissão: Papelaria" group="operacao" active="Produtos" h={700}
+  actions={[{ label: "Baixar PDF", icon: "file" }, { label: "Gerar pedido", primary: true, icon: "cart" }]}>
+  <div class="kg">
+    <div class="kc"><small>Fornecedores</small><b>4</b><em>cada um vê só a dele</em><Icon name="users" size={18} class="c-blue" /></div>
+    <div class="kc kc--ok"><small>Responderam</small><b>3</b><Icon name="checkCircle" size={18} class="c-ok" /></div>
+    <div class="kc kc--ok"><small>Melhor preço</small><b>R$ 17,40</b><em>Papelaria Atlântico</em><Icon name="star" size={18} class="c-ok" /></div>
+    <div class="kc"><small>Economia</small><b>R$ 504,00</b><em>contra a pior oferta</em><Icon name="wallet" size={18} class="c-vio" /></div>
+  </div>
+  <table class="tbl" style="margin-top:16px">
+    <thead><tr><th style="width:34%">Fornecedor</th><th class="num" style="width:16%">Preço unit.</th><th style="width:14%">Prazo</th><th class="num" style="width:18%">Total</th><th style="width:18%"></th></tr></thead>
+    <tbody>
+      {resp.map((r) => (
+        <tr style={r.best ? "background:#ecfdf5" : ""}>
+          <td><b>{r.f}</b></td><td class="num">{r.p}</td><td>{r.pr}</td><td class="num"><b>{r.t}</b></td>
+          <td>{r.best ? <span class="pill pill--green">Melhor oferta</span> : r.p === "aguardando" ? <span class="pill pill--gray">Sem resposta</span> : ""}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <div class="rc" style="margin-top:14px;background:#fffbeb;border-color:#fde68a">
+    <span class="rc__ic rc__ic--warn"><Icon name="shield" size={18} /></span>
+    <span class="rc__tx"><b>Exigirá aprovação ao gerar o pedido</b><span>Acima de R$ 5.000,00 · regra de aprovação do Financeiro</span></span>
+    <span class="mb mb--ghost">Ver regra</span>
+  </div>
+</AppFrame>

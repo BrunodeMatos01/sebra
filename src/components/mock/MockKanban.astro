@@ -1,0 +1,46 @@
+---
+// Réplica do quadro Kanban de licitações (Central de Vendas ligada à Licitação).
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const cols = [
+  { t: "Acompanhando", c: "#64748b", cards: [
+    { o: "Autarquia de Água e Esgoto", d: "Hipoclorito de sódio 12%", v: "R$ 133.600", s: "Sessão 02/12" },
+    { o: "Secretaria de Obras", d: "Uniformes e EPIs", v: "R$ 921.480", s: "Sessão 28/11" },
+  ] },
+  { t: "Proposta enviada", c: "#2563eb", cards: [
+    { o: "Secretaria de Educação", d: "Gêneros alimentícios", v: "R$ 412.300", s: "Sessão 18/11" },
+  ] },
+  { t: "Habilitado", c: "#7c3aed", cards: [
+    { o: "Fundo Municipal de Saúde", d: "Material de limpeza", v: "R$ 186.750", s: "Recurso até 22/11" },
+  ] },
+  { t: "Vencedor", c: "#059669", cards: [
+    { o: "Câmara Municipal", d: "Copos descartáveis 200ml", v: "R$ 74.120", s: "Gerar contrato", hot: true },
+  ] },
+  { t: "Em entrega", c: "#d97706", cards: [
+    { o: "Secretaria de Educação", d: "Contrato 087/2026", v: "R$ 104.500", s: "67% faturado" },
+  ] },
+];
+---
+<AppFrame title="Central de Vendas · Licitações" subtitle="Quadro ligado ao status de cada licitação" group={false} h={640}
+  actions={[{ label: "Lista", icon: "layers" }, { label: "Nova licitação", primary: true, icon: "gavel" }]}>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;height:100%">
+    {cols.map((col) => (
+      <div style="background:#f8fafc;border:1px solid var(--a-line);border-radius:13px;padding:10px;display:flex;flex-direction:column;gap:9px;min-width:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 4px 6px">
+          <b style={`font-size:13px;color:${col.c};white-space:nowrap`}>{col.t}</b>
+          <span class="pill pill--gray">{col.cards.length}</span>
+        </div>
+        {col.cards.map((k) => (
+          <div style={`background:#fff;border:1px solid ${k.hot ? "#86efac" : "var(--a-line)"};border-left:4px solid ${col.c};border-radius:10px;padding:11px 12px;box-shadow:0 2px 6px rgba(15,23,42,.05)`}>
+            <b style="display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{k.o}</b>
+            <span style="display:block;font-size:12px;color:var(--a-mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{k.d}</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px;gap:6px">
+              <b style="font-size:12.5px;white-space:nowrap">{k.v}</b>
+              <span style="font-size:11px;color:var(--a-soft);display:inline-flex;align-items:center;gap:4px;white-space:nowrap"><Icon name="clock" size={12} />{k.s}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</AppFrame>

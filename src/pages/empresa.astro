@@ -1,23 +1,30 @@
 ---
 import Base from "../layouts/Base.astro";
-import ContactForm from "../components/ContactForm.astro";
+import ContactSection from "../components/ContactSection.astro";
+import Icon from "../components/Icon.astro";
+import Brand from "../components/Brand.astro";
+import { site, waLink, waMsg } from "../data/site";
 import "../styles/internal.css";
 
-const valores = [
-  { t: "Uma plataforma, não um remendo", d: "Acreditamos que a empresa não deveria pagar por cinco sistemas que não conversam. Por isso a Sebra faz tudo num lugar só." },
-  { t: "Feita para o Brasil", d: "Nota fiscal, certidões, Open Finance, PIX. A Sebra fala a língua da burocracia brasileira para você não precisar." },
-  { t: "IA que trabalha, não que enfeita", d: "Nossa IA atende, qualifica e antecipa problemas. Ela existe para dar tempo de volta ao seu time." },
-  { t: "Gente de verdade no suporte", d: "Implantação conduzida e atendimento por WhatsApp com pessoas que entendem a sua operação." },
+const principios = [
+  { i: "layers", t: "Um sistema, não um remendo", d: "A empresa não deveria pagar por cinco sistemas que não conversam. Na Sebra o orçamento vira nota, a nota vira conta a receber e o extrato dá a baixa, sem digitar nada duas vezes." },
+  { i: "checkCircle", t: "Prometer só o que existe", d: "Tudo o que está neste site funciona hoje na plataforma. Quando algo ainda está sendo construído, a gente fala que está sendo construído." },
+  { i: "shield", t: "Responsabilidade com o seu dinheiro", d: "Um sistema que dá baixa em nota sozinho precisa errar zero. Por isso a conciliação só abate com soma exata e tudo que não fecha volta para uma pessoa decidir." },
+  { i: "users", t: "Gente de verdade do outro lado", d: "Implantação conduzida pela nossa equipe e atendimento pelo WhatsApp com quem conhece a sua operação pelo nome." },
 ];
 ---
-<Base title="Quem somos | Sebra ERP com IA" description="A Sebra nasceu para unir a operação inteira de uma empresa numa plataforma só, com inteligência artificial e conexão real com o governo brasileiro.">
-  <section class="ip-hero">
+<Base
+  title="Quem somos | Sebra, sistema de gestão empresarial"
+  description="A Sebra é um ERP brasileiro que reúne financeiro, notas, orçamentos, estoque, compras, equipe e licitações num sistema só. Conheça quem está por trás."
+  crumbs={[{ name: "Quem somos", href: "/empresa/" }]}
+>
+  <section class="ip-hero showcase">
     <div class="container">
-      <div class="s-head s-head--center reveal" style="margin-inline:auto">
-        <p class="ip-crumbs" style="text-align:center"><a href="/">Início</a> · Empresa</p>
-        <span class="eyebrow">Quem somos</span>
-        <h1>Uma plataforma para a empresa inteira respirar</h1>
-        <p>A Sebra existe para acabar com a bagunça de sistemas soltos. Reunimos atendimento, vendas, financeiro, fiscal, estoque e pessoas num lugar só — com IA trabalhando junto.</p>
+      <div class="s-head s-head--center" style="margin-inline:auto">
+        <p class="ip-crumbs ip-crumbs--dark" style="text-align:center"><a href="/">Início</a> · Quem somos</p>
+        <p class="eyebrow">Quem somos</p>
+        <h1>Nascemos para dar controle de verdade a quem toca uma empresa</h1>
+        <p class="ip-hero__lead" style="margin-inline:auto">A maioria das empresas brasileiras opera no improviso: um sistema para cada coisa, planilhas paralelas e retrabalho. A Sebra existe para acabar com isso.</p>
       </div>
     </div>
   </section>
@@ -25,23 +32,19 @@ const valores = [
   <section class="section">
     <div class="container split">
       <div class="reveal">
-        <span class="eyebrow">Nosso propósito</span>
-        <h2>Tecnologia que devolve tempo ao empresário</h2>
-        <p class="split__lead">A maioria das empresas brasileiras opera no improviso: um sistema para cada coisa, planilhas paralelas e retrabalho. Nascemos para mudar isso — dar ao pequeno e médio negócio o mesmo poder de operação que só os grandes tinham, de um jeito simples e acessível.</p>
-        <p style="margin-top:16px;color:var(--ink-soft)">Cada função da Sebra nasce de uma dor real de quem toca uma empresa no dia a dia. É por isso que ela cresce na direção certa: resolvendo problema, não empilhando recurso.</p>
+        <p class="eyebrow">Nossa visão</p>
+        <h2>Toda empresa merece o controle que só os grandes tinham</h2>
+        <p class="split__lead">Uma loja, uma distribuidora, uma prestadora de serviço ou uma indústria precisam das mesmas respostas: quanto vendi, quanto custou, quanto sobrou, quem me deve e o que preciso comprar. A Sebra responde tudo isso num sistema só, ligado de ponta a ponta.</p>
+        <p class="emp-p">E escolhemos ser especialistas num mercado que quase ninguém atende direito: o das empresas que vendem para o governo. Edital, certidão, contrato, empenho, AF e ordem bancária fazem parte do nosso vocabulário.</p>
       </div>
       <div class="reveal" data-delay="1">
-        <div class="ip-panel">
-          <div class="ip-panel__bar"><span></span><span></span><span></span><em>Sebra</em></div>
-          <div class="ip-panel__body">
-            <div class="ip-panel__chips">
-              <span class="ip-panel__chip">Atendimento</span><span class="ip-panel__chip">Vendas</span>
-              <span class="ip-panel__chip">Financeiro</span><span class="ip-panel__chip">Fiscal</span>
-              <span class="ip-panel__chip">Estoque</span><span class="ip-panel__chip">RH</span>
-              <span class="ip-panel__chip">IA</span>
-            </div>
-            <div class="ip-panel__line" style="margin-top:8px"></div>
-            <div class="ip-panel__line" style="width:70%"></div>
+        <div class="vision">
+          <p class="vision__q">"Sua empresa inteira num sistema só."</p>
+          <p class="vision__a">É a frase que guia cada decisão de produto da Sebra.</p>
+          <div class="vision__row">
+            <div class="vision__cell"><p class="vision__k">Vender</p><p class="vision__v">orçamento, nota e cliente</p></div>
+            <div class="vision__cell"><p class="vision__k">Controlar</p><p class="vision__v">estoque, compras e equipe</p></div>
+            <div class="vision__cell"><p class="vision__k">Lucrar</p><p class="vision__v">financeiro e resultado</p></div>
           </div>
         </div>
       </div>
@@ -50,33 +53,45 @@ const valores = [
 
   <section class="section section--tint">
     <div class="container">
-      <div class="s-head s-head--center reveal"><span class="eyebrow">No que acreditamos</span><h2>Os princípios da Sebra</h2></div>
+      <div class="s-head s-head--center reveal"><p class="eyebrow">No que acreditamos</p><h2>Os princípios da Sebra</h2></div>
       <div class="grid grid--2" style="margin-top:44px">
-        {valores.map((v, i) => (
-          <article class="card reveal" data-delay={i % 2}><h3>{v.t}</h3><p>{v.d}</p></article>
+        {principios.map((v, i) => (
+          <article class="card reveal" data-delay={i % 2}>
+            <div class="card__icon"><Icon name={v.i} size={22} /></div>
+            <h3>{v.t}</h3><p>{v.d}</p>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section contact" id="contato">
-    <div class="container contact__grid">
-      <div class="reveal">
-        <span class="eyebrow">Vamos nos conhecer</span>
-        <h2 class="contact__title">Veja a Sebra por dentro</h2>
-        <p class="contact__lead">Agende uma demonstração e entenda como a plataforma se encaixa na realidade da sua empresa.</p>
+  <section class="section section--navy">
+    <div class="container social reveal">
+      <div>
+        <p class="eyebrow">Acompanhe a Sebra</p>
+        <h2>Bastidores, novidades e dicas de gestão</h2>
+        <p style="margin-top:12px">No Instagram mostramos o produto evoluindo. No WhatsApp, você fala com o time.</p>
       </div>
-      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
+      <div class="btn-row">
+        <a class="btn btn--wa btn--lg" href={waLink(waMsg.geral)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> {site.whatsappDisplay}</a>
+        <a class="btn btn--light btn--lg" href={site.instagram} target="_blank" rel="noopener"><Brand name="instagram" size={18} /> {site.instagramHandle}</a>
+      </div>
     </div>
   </section>
+
+  <ContactSection origem="Página Quem somos" uid="empresa" title="Vamos nos conhecer?" lead="Conte um pouco da sua empresa. Respondemos pelo WhatsApp e, se fizer sentido, mostramos a Sebra rodando com o seu cenário." />
 </Base>
 
 <style>
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .split__lead { margin-top: 18px; font-size: 17px; color: var(--ink-soft); }
-  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
-  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
-  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
-  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
-  @media (max-width: 940px) { .split, .contact__grid { grid-template-columns: 1fr; } }
+  .emp-p { margin-top: 16px; color: var(--ink-soft); font-size: 17px; }
+  .vision { border-radius: var(--r-lg); padding: clamp(26px, 4vw, 40px); background: linear-gradient(160deg, #071a4a, #04102e); box-shadow: var(--shadow-lg); }
+  .vision__q { font-family: var(--font-display); font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.25; color: #fff; }
+  .vision__a { margin-top: 12px; color: var(--on-dark-mute); }
+  .vision__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 26px; }
+  .vision__cell { padding: 14px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
+  .vision__k { color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 15px; }
+  .vision__v { color: var(--on-dark-soft); font-size: 13px; margin-top: 4px; }
+  @media (max-width: 520px) { .vision__row { grid-template-columns: 1fr; } }
+  .social { display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .social h2 { font-size: clamp(24px, 2.8vw, 34px); max-width: 600px; }
 </style>

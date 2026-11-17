@@ -1,0 +1,18 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+---
+<AppFrame title="Conciliação de Recebimentos" subtitle="O extrato bancário fecha as notas fiscais sozinho" group="financeiro" active="A Receber"
+  actions={[{ label: "Importar extrato", icon: "upload" }, { label: "Lançar recebimento", primary: true, icon: "bank" }]}>
+  <div class="kg">
+    <div class="kc kc--ok"><small>Baixadas sozinhas</small><b>47</b><em>neste mês</em><Icon name="zap" size={18} class="c-ok" /></div>
+    <div class="kc"><small>Valor conciliado</small><b>R$ 286,1 mil</b><em>soma exata</em><Icon name="checkCircle" size={18} class="c-blue" /></div>
+    <div class="kc kc--warn"><small>Precisa de você</small><b>2</b><em>com o motivo</em><Icon name="eye" size={18} class="c-warn" /></div>
+    <div class="kc"><small>Baixa automática</small><b>Ligada</b><em>por empresa</em><Icon name="shield" size={18} class="c-vio" /></div>
+  </div>
+  <div class="tb"><span class="is-on">Precisa de você · 2</span><span>Lançados à mão</span><span>Aguardando</span><span>Resolvido · 47</span></div>
+  <div class="rc"><span class="rc__ic rc__ic--ok"><Icon name="check" size={18} stroke={2.6} /></span><span class="rc__tx"><b>TED · Fundo Municipal de Saúde</b><span>Baixou 3 notas: NF 1.284, 1.291 e 1.302 · soma exata com o extrato</span></span><span class="rc__val">R$ 18.640,00</span><span class="pill pill--green">Resolvido</span></div>
+  <div class="rc"><span class="rc__ic rc__ic--ok"><Icon name="check" size={18} stroke={2.6} /></span><span class="rc__tx"><b>Pix · Construtora Horizonte</b><span>Baixou NF 1.297 · boleto já conferido pelo banco</span></span><span class="rc__val">R$ 6.178,40</span><span class="pill pill--green">Resolvido</span></div>
+  <div class="rc"><span class="rc__ic rc__ic--warn"><Icon name="eye" size={18} /></span><span class="rc__tx"><b>TED · Secretaria de Educação</b><span>O motor já achou a nota certa. É só liberar.</span></span><span class="rc__val">R$ 11.070,00</span><span class="mb">Liberar</span></div>
+  <div class="rc"><span class="rc__ic rc__ic--blue"><Icon name="building" size={18} /></span><span class="rc__tx"><b>TED · CNPJ ainda sem cliente</b><span>Vincular este CNPJ a um cliente e rodar a baixa de novo</span></span><span class="rc__val">R$ 4.920,00</span><span class="mb mb--ghost">Cadastrar CNPJ</span></div>
+</AppFrame>

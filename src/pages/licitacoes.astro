@@ -1,0 +1,359 @@
+---
+import Base from "../layouts/Base.astro";
+import Faq from "../components/Faq.astro";
+import ContactSection from "../components/ContactSection.astro";
+import Icon from "../components/Icon.astro";
+import Brand from "../components/Brand.astro";
+import Stage from "../components/mock/Stage.astro";
+import MockLicitacao from "../components/mock/MockLicitacao.astro";
+import MockPncp from "../components/mock/MockPncp.astro";
+import MockCertidoes from "../components/mock/MockCertidoes.astro";
+import MockContrato from "../components/mock/MockContrato.astro";
+import MockConciliacao from "../components/mock/MockConciliacao.astro";
+import MockResultado from "../components/mock/MockResultado.astro";
+import MockKanban from "../components/mock/MockKanban.astro";
+import { faqLicitacoes } from "../data/faq";
+import { waLink, waMsg } from "../data/site";
+import "../styles/internal.css";
+
+const indice = [
+  { id: "pncp", t: "Editais no PNCP" },
+  { id: "disputa", t: "Disputa e prazos" },
+  { id: "kanban", t: "Quadro Kanban" },
+  { id: "certidoes", t: "Certidões" },
+  { id: "contratos", t: "Contratos e itens" },
+  { id: "empenhos", t: "Empenhos" },
+  { id: "compras", t: "Compras" },
+  { id: "faturamento", t: "Nota e boleto" },
+  { id: "recebimento", t: "Recebimento" },
+  { id: "resultado", t: "Resultado" },
+];
+
+const disputa = [
+  { t: "Cadastro completo da licitação", d: "Órgão, CNPJ, número do edital e do processo, objeto, plataforma da disputa e link do edital." },
+  { t: "Modalidade e critério", d: "Pregão, dispensa, inexigibilidade e concorrência. Menor preço, maior desconto, técnica e preço, melhor técnica." },
+  { t: "Modo de disputa", d: "Aberto, fechado, aberto e fechado ou fechado e aberto, como o edital pede." },
+  { t: "Todos os prazos", d: "Publicação, impugnação, prazo da proposta e sessão pública, com destaque para o que vence em até 7 dias." },
+  { t: "Lotes e itens com lance", d: "Cada lote ou item com quantidade, valor unitário do lance e produto do seu catálogo vinculado." },
+  { t: "Checklist de habilitação", d: "Os documentos que cada edital exige, conferidos um a um antes da sessão." },
+  { t: "Situação de cada processo", d: "Acompanhando, proposta enviada, habilitado, vencedor, perdedor, desclassificado ou cancelado." },
+  { t: "Linha do tempo", d: "Tudo que aconteceu na licitação, em ordem, para qualquer pessoa da equipe entender." },
+];
+
+const contrato = [
+  "Licitação vencida vira contrato com os itens ganhos, em um clique",
+  "Itens com número do lote, unidade, quantidade, valor unitário e marca",
+  "Saldo por item: contratado, comprado, recebido, entregue e o que falta",
+  "Acréscimo e supressão por aditivo, com limite percentual",
+  "Vigência com aviso, renovação, suspensão e rescisão",
+  "Reajuste por índice, data-base e periodicidade",
+  "Garantia contratual: apólice, carta de fiança ou comprovante, com validade",
+  "Gestor e fiscal do contrato no órgão, com contato",
+  "Dotação orçamentária, fonte de recurso e esfera",
+  "Prazo de entrega, prazo de pagamento, local de entrega e multa de mora",
+  "Número de controle e data de publicação no PNCP",
+  "Relatórios do contrato em Excel e PDF",
+];
+---
+<Base
+  title="Sistema para licitações e contratos públicos | Sebra ERP"
+  description="Sistema para licitação completo: editais no PNCP, certidões com aviso, saldo de contrato por item, controle de empenho, nota com retenção e boleto."
+  crumbs={[{ name: "Licitações", href: "/licitacoes/" }]}
+  faq={faqLicitacoes}
+  waText={waMsg.licitacao}
+>
+  <!-- HERO -->
+  <section class="lic-hero showcase">
+    <div class="container lic-hero__grid">
+      <div>
+        <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Licitações</p>
+        <span class="eyebrow">Licitações e contratos públicos</span>
+        <h1>Do edital ao dinheiro na conta, <span class="accent">sem planilha no meio</span>.</h1>
+        <p class="lic-hero__lead">O sistema para licitação que não para no edital. A Sebra acompanha a disputa, mantém sua habilitação em dia e continua depois da vitória: contrato, empenho, nota, boleto, recebimento e o lucro de cada processo.</p>
+        <div class="btn-row">
+          <a class="btn btn--wa btn--lg" href={waLink(waMsg.licitacao)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Ver funcionando no WhatsApp</a>
+          <a class="btn btn--ghost btn--on-navy btn--lg" href="/planos/">Ver planos</a>
+        </div>
+      </div>
+      <div class="lic-hero__visual"><Stage face="left" tilt={11}><MockLicitacao /></Stage></div>
+    </div>
+  </section>
+
+  <!-- ÍNDICE FIXO -->
+  <nav class="toc" aria-label="Nesta página">
+    <div class="container toc__inner">
+      {indice.map((x) => <a href={`#${x.id}`}>{x.t}</a>)}
+    </div>
+  </nav>
+
+  <!-- PNCP -->
+  <section class="section" id="pncp">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Busca de editais</span>
+        <h2>Busca de editais no PNCP, direto na fonte oficial</h2>
+        <p class="split__lead">Desde a Lei 14.133/2021, todo órgão publica suas contratações no Portal Nacional de Contratações Públicas. A Sebra consulta essa base oficial e gratuita por você, sem robô em site de terceiro e sem risco de bloqueio.</p>
+        <ul class="check-list">
+          <li>Busca por <strong>palavra-chave e estado</strong>, nos 27 estados</li>
+          <li><strong>Pregão eletrônico e presencial, dispensa, inexigibilidade, concorrência eletrônica e presencial</strong></li>
+          <li>Só editais com <strong>proposta ainda aberta</strong></li>
+          <li>Um clique transforma o edital em licitação acompanhada, com os dados preenchidos</li>
+          <li>Link "Ver edital no PNCP" sempre à mão</li>
+        </ul>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={9}><MockPncp /></Stage></div>
+    </div>
+  </section>
+
+  <!-- DISPUTA -->
+  <section class="section section--tint" id="disputa">
+    <div class="container">
+      <div class="s-head reveal">
+        <span class="eyebrow">Gestão de licitações</span>
+        <h2>Cada disputa organizada, com todos os prazos à vista</h2>
+        <p>Painel com o que está em acompanhamento, o que vence em até 7 dias, o que você já ganhou e o valor total em disputa. E, dentro de cada licitação, tudo o que o edital pede.</p>
+      </div>
+      <div class="grid grid--4 feat-grid">
+        {disputa.map((f, i) => (
+          <article class="card reveal" data-delay={i % 4}>
+            <div class="card__icon"><Icon name={["file", "target", "gavel", "clock", "layers", "checkCircle", "chart", "history"][i]} size={20} /></div>
+            <h3>{f.t}</h3><p>{f.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- KANBAN -->
+  <section class="section showcase" id="kanban">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Kanban de licitações</span>
+        <h2>O quadro Kanban que anda junto com cada licitação</h2>
+        <p class="split__lead">Quem acompanha licitação num quadro (como o Trello) e cadastra tudo de novo no sistema trabalha dobrado. Na Sebra o quadro e a licitação são a mesma coisa: mexeu num, o outro acompanha, nos dois sentidos.</p>
+        <ul class="check-list">
+          <li><strong>Licitação nova vira cartão</strong> no quadro, já na coluna do status dela</li>
+          <li><strong>Cartão criado no quadro vira licitação</strong>, sem cadastrar duas vezes</li>
+          <li><strong>Moveu o cartão, mudou o status</strong> da licitação, e fica registrado na linha do tempo</li>
+          <li><strong>Mudou o status, o cartão anda sozinho</strong> para a coluna certa</li>
+          <li>Cada coluna do quadro corresponde a um status: acompanhando, proposta enviada, habilitado, vencedor, em entrega</li>
+          <li>O cartão mostra os dados da licitação e os eventos dela, como o contrato gerado</li>
+          <li>Excluir o cartão não apaga a licitação: ela continua como registro oficial</li>
+        </ul>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={9}><MockKanban /></Stage></div>
+    </div>
+  </section>
+
+  <!-- CERTIDÕES -->
+  <section class="section" id="certidoes">
+    <div class="container split split--reverse">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Habilitação</span>
+        <h2>Controle de certidões negativas com aviso antes de vencer</h2>
+        <p class="split__lead">CND federal, CRF do FGTS, CNDT trabalhista, estadual, municipal e qualquer outra que o edital peça. Cada uma com validade, arquivo e o caminho para emitir a próxima.</p>
+        <ul class="check-list">
+          <li><strong>Aviso antecipado</strong>: você escolhe com quantos dias de antecedência</li>
+          <li>Órgão emissor, data de emissão, validade e código de controle</li>
+          <li>PDF guardado e <strong>link de validação</strong> para mandar ao pregoeiro</li>
+          <li>Botão para <strong>emitir no site oficial</strong> e cadastrar a nova emissão</li>
+          <li>Situação clara: válida, vence em breve, vencida ou não exigida</li>
+        </ul>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="right" tilt={9}><MockCertidoes /></Stage></div>
+    </div>
+  </section>
+
+  <!-- CONTRATOS -->
+  <section class="section showcase" id="contratos">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Gestão de contratos públicos</span>
+        <h2>Saldo de ata e de contrato, item por item, calculado sozinho</h2>
+        <p class="split__lead">Quem vende para prefeitura controla por item e quantidade. A Sebra também. Cada nota emitida abate o saldo do item certo, e você sabe exatamente quanto ainda pode faturar.</p>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={10}><MockContrato /></Stage></div>
+    </div>
+    <div class="container">
+      <ul class="cols-list reveal">
+        {contrato.map((c) => <li><Icon name="check" size={16} stroke={2.6} />{c}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- EMPENHOS -->
+  <section class="section" id="empenhos">
+    <div class="container">
+      <div class="s-head reveal">
+        <span class="eyebrow">Controle de empenho</span>
+        <h2>Empenho que se atualiza sozinho</h2>
+        <p>O sistema enxerga o que dá para enxergar e não chuta o que não dá. Faturado e recebido vêm das notas e dos pagamentos. A liquidação, que é ato interno do órgão, você marca com um botão.</p>
+      </div>
+      <div class="emp-flow reveal">
+        <div class="emp-step"><span class="emp-step__k">Empenho</span><b>Você cadastra</b><span>Número, valor empenhado, dotação e fonte de recurso.</span></div>
+        <div class="emp-step emp-step--auto"><span class="emp-step__k">Faturado</span><b>Automático</b><span>Soma das notas emitidas contra aquele empenho.</span></div>
+        <div class="emp-step"><span class="emp-step__k">Liquidação</span><b>Um botão</b><span>Marque liquidado com a data, e desfaça se precisar.</span></div>
+        <div class="emp-step emp-step--auto"><span class="emp-step__k">Pago</span><b>Automático</b><span>Parcelas pagas das notas do empenho, com a data do último recebimento.</span></div>
+      </div>
+      <p class="emp-note reveal">Situação calculada: <span class="pill pill--blue">Empenhado</span> <span class="pill pill--amber">Parcialmente pago</span> <span class="pill pill--green">Pago</span> · com saldo de empenho e ordem bancária.</p>
+    </div>
+  </section>
+
+  <!-- COMPRAS -->
+  <section class="section section--tint" id="compras">
+    <div class="container split split--reverse">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Compras para o contrato</span>
+        <h2>Ganhou 500 resmas? Compre 500 resmas, ligadas ao contrato</h2>
+        <p class="split__lead">Quem vende para o governo compra para entregar. Na Sebra, a compra sabe para qual contrato e item é, e o custo vai direto para o resultado daquela licitação.</p>
+        <ul class="check-list">
+          <li>Botão <strong>"Comprar para o contrato"</strong>: a cotação nasce com os itens e a quantidade que falta</li>
+          <li>Colunas <strong>Comprado</strong> e <strong>Recebido</strong> no contrato, com aviso se passar do contratado</li>
+          <li>Ao receber a mercadoria, a <strong>conta a pagar entra sozinha</strong>, com vencimento pela condição de pagamento</li>
+          <li>Cotação a vários fornecedores, aprovação e recebimento parcial</li>
+        </ul>
+      </div>
+      <div class="split__visual reveal" data-delay="1">
+        <div class="buy-card" role="img" aria-label="Exemplo de compra ligada ao contrato (dados de demonstração)">
+          <div class="buy-card__head"><b>Comprar para o contrato 087/2026</b><span class="pill pill--blue">Cotação</span></div>
+          <div class="buy-card__row"><span>Resma papel A4 75g</span><span>falta comprar <b>180</b></span></div>
+          <div class="buy-card__row"><span>Detergente neutro 5L</span><span>falta comprar <b>205</b></span></div>
+          <div class="buy-card__row buy-card__row--ok"><span>Copo descartável 200ml</span><span><Icon name="check" size={14} stroke={2.6} /> comprado</span></div>
+          <div class="buy-card__foot"><span>Ao receber: conta a pagar em 30 dias</span><span class="mini-btn">Criar cotação</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FATURAMENTO -->
+  <section class="section" id="faturamento">
+    <div class="container">
+      <div class="s-head reveal">
+        <span class="eyebrow">Nota fiscal para órgão público</span>
+        <h2>Nota com retenção, AF lida do PDF e boleto junto</h2>
+        <p>Faturar para o governo tem detalhes que sistema genérico ignora. A Sebra foi feita em cima deles.</p>
+      </div>
+      <div class="grid grid--3 feat-grid">
+        <article class="card reveal"><div class="card__icon"><Icon name="calc" size={20} /></div><h3>Retenções na fonte</h3><p>Cálculo de retenções para venda a órgão público, com alíquotas configuráveis e editáveis em cada nota antes de emitir.</p></article>
+        <article class="card reveal" data-delay="1"><div class="card__icon"><Icon name="upload" size={20} /></div><h3>AF em PDF vira nota</h3><p>Envie até 50 Autorizações de Fornecimento do CINCATARINA. A Sebra lê, acha o cliente pelo CNPJ, relaciona os itens e prepara a nota.</p></article>
+        <article class="card reveal" data-delay="2"><div class="card__icon"><Icon name="contract" size={20} /></div><h3>Saldo antes de emitir</h3><p>A nota sabe de qual contrato e empenho saiu e mostra quanto resta, para você nunca faturar além do contratado.</p></article>
+        <article class="card reveal"><div class="card__icon"><Icon name="barcode" size={20} /></div><h3>Boleto registrado</h3><p>Boleto Sicoob gerado da parcela da nota, com linha digitável, código de barras e PDF.</p></article>
+        <article class="card reveal" data-delay="1"><div class="card__icon"><Icon name="mail" size={20} /></div><h3>Nota e boleto por e-mail</h3><p>Um a um, em lote ou automático ao autorizar. O XML vai sempre anexado, para o setor fiscal do órgão.</p></article>
+        <article class="card reveal" data-delay="2"><div class="card__icon"><Icon name="sparkles" size={20} /></div><h3>Rejeição traduzida</h3><p>Quando a SEFAZ recusa, a Sebra explica em português claro o que aconteceu e o que fazer.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECEBIMENTO -->
+  <section class="section showcase" id="recebimento">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Conciliação de recebimentos</span>
+        <h2>O órgão paga. O sistema descobre quais notas foram pagas.</h2>
+        <p class="split__lead">Órgão público paga várias notas numa TED só, sem dizer quais. A Sebra cruza o CNPJ e os valores com as notas em aberto e dá baixa quando a soma fecha exatamente. Sem chute.</p>
+        <ul class="check-list">
+          <li><strong>Baixa automática</strong> por extrato OFX e PDF</li>
+          <li>O que não fecha vai para <strong>"Precisa de você"</strong>, com o motivo</li>
+          <li>CNPJ sem cadastro? Vincule ao cliente e rode a baixa de novo</li>
+          <li>Recebimento lançado à mão espera a nota certa e não é baixado sozinho</li>
+          <li>Chave de automático por empresa: aplica sozinho ou só sugere</li>
+        </ul>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={10}><MockConciliacao /></Stage></div>
+    </div>
+  </section>
+
+  <!-- RESULTADO -->
+  <section class="section" id="resultado">
+    <div class="container split split--reverse">
+      <div class="split__copy reveal">
+        <span class="eyebrow">Resultado por licitação</span>
+        <h2>O lucro real de cada processo que você ganhou</h2>
+        <p class="split__lead">Receita das notas, custo real das compras do contrato e impostos (inclusive pela alíquota efetiva do Simples). Margem, recebido, a receber e vencido, licitação por licitação.</p>
+        <ul class="check-list">
+          <li>Filtro por órgão, situação e período da sessão</li>
+          <li>Custo que vem das compras ligadas ao contrato, não de estimativa</li>
+          <li>Saiba em quais órgãos e produtos vale a pena disputar de novo</li>
+        </ul>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="right" tilt={9}><MockResultado /></Stage></div>
+    </div>
+  </section>
+
+  <!-- E O RESTO -->
+  <section class="cta-band">
+    <div class="container cta-band__inner reveal">
+      <div>
+        <h2>E tudo isso conversa com o ERP inteiro</h2>
+        <p>Financeiro, estoque, orçamentos, produtos, serviços e multi-empresa. Nada digitado duas vezes.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--light btn--lg" href="/solucoes/financeiro/">Ver o financeiro</a>
+        <a class="btn btn--wa btn--lg" href={waLink(waMsg.licitacao)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Falar agora</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <span class="eyebrow">Dúvidas sobre licitações</span>
+        <h2>Perguntas de quem vende para o governo</h2>
+      </div>
+      <div class="reveal" style="margin-top:44px"><Faq items={faqLicitacoes} /></div>
+    </div>
+  </section>
+
+  <ContactSection origem="Página de Licitações" uid="lic" waText={waMsg.licitacao}
+    title="Quer ver a sua próxima licitação rodando na Sebra?"
+    lead="Conte como você vende para o governo hoje. Na demonstração, usamos um contrato parecido com o seu: itens, empenhos, nota com retenção e a baixa pelo extrato." />
+</Base>
+
+<style>
+  .lic-hero { padding-block: clamp(56px, 7vw, 96px) clamp(36px, 5vw, 60px); }
+  .lic-hero__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(28px, 4vw, 56px); align-items: center; }
+  .lic-hero h1 { font-size: clamp(34px, 4.8vw, 58px); color: #fff; letter-spacing: -.03em; line-height: 1.06; }
+  .lic-hero__lead { margin-top: 20px; font-size: clamp(16.5px, 1.4vw, 19px); color: var(--on-dark-soft); max-width: 560px; }
+  .lic-hero .btn-row { margin-top: 30px; }
+  .lic-hero__visual { min-width: 0; }
+  @media (max-width: 940px) { .lic-hero__grid { grid-template-columns: 1fr; } }
+
+  .toc { position: sticky; top: var(--nav-h); z-index: 50; background: rgba(255,255,255,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .toc__inner { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 10px; }
+  .toc__inner::-webkit-scrollbar { display: none; }
+  .toc a { flex-shrink: 0; padding: 8px 13px; border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+  .toc a:hover { background: #f2f6ff; color: var(--brand); }
+
+  .feat-grid { margin-top: 44px; }
+  .feat-grid .card { padding: 24px; }
+  .feat-grid .card h3 { font-size: 17px; }
+  .feat-grid .card p { font-size: 14.5px; }
+
+  .cols-list { list-style: none; padding: 0; margin: 48px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 28px; }
+  .cols-list li { display: flex; gap: 10px; align-items: flex-start; color: var(--on-dark-soft); font-size: 15px; line-height: 1.5; padding: 12px 0; border-top: 1px solid rgba(255,255,255,.08); }
+  .cols-list li :global(svg) { color: #4ade80; flex-shrink: 0; margin-top: 3px; }
+  @media (max-width: 900px) { .cols-list { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .cols-list { grid-template-columns: 1fr; } }
+
+  .emp-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 44px; }
+  .emp-step { position: relative; padding: 22px; border-radius: var(--r-md); border: 1px solid var(--line); background: #fff; display: flex; flex-direction: column; gap: 6px; }
+  .emp-step--auto { border-color: rgba(8,87,255,.35); background: linear-gradient(180deg, #f4f8ff, #fff); }
+  .emp-step__k { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .emp-step b { font-family: var(--font-display); font-size: 19px; }
+  .emp-step--auto b { color: var(--brand); }
+  .emp-step span:last-child { font-size: 14.5px; color: var(--ink-soft); }
+  .emp-note { margin-top: 22px; color: var(--ink-soft); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .emp-note .pill { font-size: 12px; padding: 4px 10px; }
+  @media (max-width: 900px) { .emp-flow { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .emp-flow { grid-template-columns: 1fr; } }
+
+  .buy-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-lg); padding: 22px; max-width: 480px; margin-inline: auto; }
+  .buy-card__head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .buy-card__head b { font-family: var(--font-display); font-size: 17px; color: var(--navy); }
+  .buy-card__head .pill { font-size: 11.5px; padding: 4px 10px; }
+  .buy-card__row { display: flex; justify-content: space-between; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); font-size: 14.5px; color: var(--ink-soft); }
+  .buy-card__row b { color: var(--brand); }
+  .buy-card__row--ok span:last-child { color: var(--ok); font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .buy-card__foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; font-size: 13.5px; color: var(--muted); }
+  .buy-card .mini-btn { font-size: 12.5px; padding: 8px 12px; }
+</style>

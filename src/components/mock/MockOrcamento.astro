@@ -1,0 +1,38 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const itens = [
+  { d: "Cadeira ergonômica executiva", t: "Produto · NF-e", q: 12, u: "R$ 1.290,00", s: "R$ 15.480,00" },
+  { d: "Mesa em L 160cm", t: "Produto · NF-e", q: 6, u: "R$ 2.150,00", s: "R$ 12.900,00" },
+  { d: "Montagem e instalação", t: "Serviço · NFS-e", q: 1, u: "R$ 1.800,00", s: "R$ 1.800,00" },
+  { d: "Projeto de layout do escritório", t: "Serviço · NFS-e", q: 1, u: "R$ 2.400,00", s: "R$ 2.400,00" },
+];
+---
+<AppFrame title="Orçamento 0458 · versão 3" subtitle="Construtora Horizonte · emitido em 12/11 · válido por 15 dias" group="financeiro" active="Orçamentos" h={740}
+  actions={[{ label: "Visualizar PDF", icon: "file" }, { label: "Enviar por WhatsApp", icon: "chat" }, { label: "Gerar nota fiscal", primary: true, icon: "receipt" }]}>
+  <div class="kg">
+    <div class="kc kc--ok"><small>Situação</small><b>Aprovado</b><em>pelo cliente em 14/11</em><Icon name="checkCircle" size={18} class="c-ok" /></div>
+    <div class="kc"><small>Valor aprovado</small><b>R$ 31.212,00</b><em>com 3% de desconto</em><Icon name="wallet" size={18} class="c-blue" /></div>
+    <div class="kc"><small>Prazo de entrega</small><b>20 dias</b><Icon name="truck" size={18} class="c-vio" /></div>
+    <div class="kc"><small>Pagamento</small><b>3x boleto</b><em>30/60/90</em><Icon name="barcode" size={18} class="c-blue" /></div>
+  </div>
+  <table class="tbl" style="margin-top:16px">
+    <thead><tr><th style="width:40%">Item</th><th style="width:20%">Tipo</th><th class="num" style="width:8%">Qtd</th><th class="num" style="width:16%">Unitário</th><th class="num" style="width:16%">Subtotal</th></tr></thead>
+    <tbody>
+      {itens.map((i) => (
+        <tr><td><b>{i.d}</b></td><td><span class={`pill ${i.t.startsWith("Produto") ? "pill--blue" : "pill--violet"}`}>{i.t}</span></td><td class="num">{i.q}</td><td class="num">{i.u}</td><td class="num"><b>{i.s}</b></td></tr>
+      ))}
+    </tbody>
+  </table>
+  <div class="row2" style="grid-template-columns:1.3fr 1fr">
+    <div class="rc" style="margin:0;background:#eff6ff;border-color:#bfdbfe">
+      <span class="rc__ic rc__ic--blue"><Icon name="receipt" size={18} /></span>
+      <span class="rc__tx"><b>Este orçamento gera 2 notas</b><span>Produto sai em NF-e e serviço em NFS-e, como manda a lei.</span></span>
+    </div>
+    <div class="panel" style="padding:12px 16px">
+      <div style="display:flex;justify-content:space-between;color:var(--a-mute)"><span>Subtotal</span><span>R$ 32.580,00</span></div>
+      <div style="display:flex;justify-content:space-between;color:#b91c1c;margin-top:4px"><span>Desconto (3%)</span><span>− R$ 1.368,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:16px;margin-top:6px"><span>Total</span><span>R$ 31.212,00</span></div>
+    </div>
+  </div>
+</AppFrame>

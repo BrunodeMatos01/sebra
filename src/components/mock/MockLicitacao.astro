@@ -1,0 +1,35 @@
+---
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const rows = [
+  { orgao: "Secretaria Municipal de Educação", obj: "Gêneros alimentícios para merenda escolar", mod: "Pregão eletrônico", sessao: "18/11 · 09:00", valor: "R$ 412.300,00", st: ["Proposta enviada", "blue"] },
+  { orgao: "Fundo Municipal de Saúde", obj: "Material de limpeza e higiene", mod: "Pregão eletrônico", sessao: "20/11 · 14:00", valor: "R$ 186.750,00", st: ["Habilitado", "violet"] },
+  { orgao: "Consórcio Intermunicipal de Saúde", obj: "Resma de papel A4 75g", mod: "Dispensa", sessao: "21/11 · 10:00", valor: "R$ 58.900,00", st: ["Acompanhando", "gray"] },
+  { orgao: "Câmara Municipal", obj: "Copos descartáveis 200ml", mod: "Pregão eletrônico", sessao: "12/11 · 09:30", valor: "R$ 74.120,00", st: ["Vencedor", "green"] },
+  { orgao: "Secretaria de Obras", obj: "Uniformes e equipamentos de proteção", mod: "Concorrência", sessao: "28/11 · 08:30", valor: "R$ 921.480,00", st: ["Acompanhando", "gray"] },
+  { orgao: "Autarquia de Água e Esgoto", obj: "Hipoclorito de sódio 12%", mod: "Pregão eletrônico", sessao: "02/12 · 09:00", valor: "R$ 133.600,00", st: ["Proposta enviada", "blue"] },
+];
+---
+<AppFrame title="Licitação" subtitle="Editais, prazos, habilitação e propostas enviadas" group="modulos" active="Licitação"
+  actions={[{ label: "Buscar no PNCP", icon: "search" }, { label: "Nova licitação", primary: true, icon: "arrow" }]}>
+  <div class="kg">
+    <div class="kc"><small>Em acompanhamento</small><b>14</b><em>processos ativos</em><Icon name="gavel" size={18} class="c-blue" /></div>
+    <div class="kc kc--warn"><small>Prazo em até 7 dias</small><b>3</b><em>sessões próximas</em><Icon name="clock" size={18} class="c-warn" /></div>
+    <div class="kc kc--ok"><small>Vencidas (ganhas)</small><b>9</b><em>neste ano</em><Icon name="star" size={18} class="c-ok" /></div>
+    <div class="kc"><small>Valor em disputa</small><b>R$ 2,38 mi</b><em>soma dos estimados</em><Icon name="file" size={18} class="c-vio" /></div>
+  </div>
+  <div class="tb"><span class="is-on">Todas</span><span>Acompanhando</span><span>Proposta enviada</span><span>Habilitado</span><span>Vencedor</span><span>Perdedor</span><span>Desclassificado</span></div>
+  <table class="tbl">
+    <thead><tr><th style="width:38%">Órgão / objeto</th><th style="width:17%">Modalidade</th><th style="width:14%">Sessão pública</th><th class="num" style="width:16%">Valor estimado</th><th style="width:15%">Status</th></tr></thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <td><b>{r.orgao}</b><span class="sub">{r.obj}</span></td>
+          <td>{r.mod}</td><td>{r.sessao}</td>
+          <td class="num"><b>{r.valor}</b></td>
+          <td><span class={`pill pill--${r.st[1]}`}>{r.st[0]}</span></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</AppFrame>

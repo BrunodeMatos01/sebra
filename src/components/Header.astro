@@ -1,31 +1,39 @@
 ---
 import { nav } from "../data/nav";
-import { site } from "../data/site";
+import { site, waLink, waMsg } from "../data/site";
+import Brand from "./Brand.astro";
+import Icon from "./Icon.astro";
 ---
 <header class="hd" data-header>
   <div class="hd__inner container">
-    <a class="hd__brand" href="/" aria-label="Sebra — início">
-      <img src="/img/logo-sebra.png" alt="Sebra" width="46" height="46" />
-      <span>Sebra</span>
+    <a class="hd__brand" href="/" aria-label="Sebra, página inicial">
+      <img src="/img/logo-mark.png" alt="" width="62" height="48" />
+      <span class="hd__name">Sebra<small>Sistema de gestão empresarial</small></span>
     </a>
 
     <nav class="hd__nav" aria-label="Navegação principal">
       {nav.map((item) =>
         item.children ? (
           <div class="hd__group" data-dropdown>
-            <button class="hd__link hd__link--btn" type="button" aria-expanded="false">
+            <button class={`hd__link hd__link--btn${item.highlight ? " hd__link--hot" : ""}`} type="button" aria-expanded="false" aria-haspopup="true">
               {item.label}
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="hd__menu" role="menu">
+            <div class={`hd__menu${item.wide ? " hd__menu--wide" : ""}`}>
               <div class="hd__menu-grid">
                 {item.children.map((c) => (
-                  <a class="hd__menu-item" href={c.href} role="menuitem">
-                    <span class="hd__menu-title">{c.label}</span>
-                    {c.desc && <span class="hd__menu-desc">{c.desc}</span>}
+                  <a class="hd__menu-item" href={c.href}>
+                    {c.icon && <span class="hd__menu-ic"><Icon name={c.icon} size={18} /></span>}
+                    <span class="hd__menu-tx"><span class="hd__menu-title">{c.label}</span>{c.desc && <span class="hd__menu-desc">{c.desc}</span>}</span>
                   </a>
                 ))}
               </div>
+              {item.footer && <a class="hd__menu-more" href={item.footer.href}>{item.footer.label} <Icon name="arrow" size={15} /></a>}
+              {item.highlight && (
+                <a class="hd__menu-foot" href={waLink(waMsg.licitacao)} target="_blank" rel="noopener">
+                  <Brand name="whatsapp" size={18} /> Ver o módulo de licitações funcionando
+                </a>
+              )}
             </div>
           </div>
         ) : (
@@ -35,20 +43,23 @@ import { site } from "../data/site";
     </nav>
 
     <div class="hd__actions">
-      <a class="btn btn--ghost hd__login" href={site.appUrl}>Área do cliente</a>
-      <a class="btn btn--primary" href="/#contato">Agende uma demonstração</a>
+      <a class="hd__icon" href={site.instagram} target="_blank" rel="noopener" aria-label="Instagram da Sebra"><Brand name="instagram" size={20} /></a>
+      <a class="hd__login" href={site.appUrl}>Entrar</a>
+      <a class="btn btn--wa btn--sm" href={waLink(waMsg.geral)} target="_blank" rel="noopener">
+        <Brand name="whatsapp" size={18} /> Falar no WhatsApp
+      </a>
     </div>
 
-    <button class="hd__burger" type="button" aria-label="Abrir menu" aria-expanded="false" data-burger>
+    <a class="hd__wa-mobile" href={waLink(waMsg.geral)} target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><Brand name="whatsapp" size={22} /></a>
+    <button class="hd__burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-mobile" data-burger>
       <span></span><span></span><span></span>
     </button>
   </div>
 
-  <!-- Menu mobile -->
-  <div class="hd__mobile" data-mobile hidden>
+  <div class="hd__mobile" id="menu-mobile" data-mobile hidden>
     {nav.map((item) =>
       item.children ? (
-        <details class="hd__macc">
+        <details class="hd__macc" open={item.highlight}>
           <summary>{item.label}</summary>
           <div class="hd__macc-body">
             {item.children.map((c) => <a href={c.href}>{c.label}</a>)}
@@ -59,71 +70,91 @@ import { site } from "../data/site";
       )
     )}
     <div class="hd__mobile-cta">
-      <a class="btn btn--ghost" href={site.appUrl}>Área do cliente</a>
-      <a class="btn btn--primary" href="/#contato">Agende uma demonstração</a>
+      <a class="btn btn--wa btn--lg" href={waLink(waMsg.geral)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Falar no WhatsApp</a>
+      <div class="hd__mobile-row">
+        <a class="btn btn--ig" href={site.instagram} target="_blank" rel="noopener"><Brand name="instagram" size={18} /> Instagram</a>
+        <a class="btn btn--ghost" href={site.appUrl}>Entrar no sistema</a>
+      </div>
     </div>
   </div>
 </header>
 
 <style>
-  .hd {
-    position: sticky; top: 0; z-index: 60;
-    background: rgba(255,255,255,.86);
-    backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid var(--line-soft);
-    transition: box-shadow .2s ease, border-color .2s ease;
-  }
-  .hd.is-scrolled { box-shadow: 0 1px 0 rgba(11,18,32,.06), 0 10px 30px rgba(11,18,32,.05); }
-  .hd__inner { height: var(--nav-h); display: flex; align-items: center; gap: 28px; }
+  .hd { position: sticky; top: 0; z-index: 60; background: rgba(255,255,255,.9); backdrop-filter: saturate(180%) blur(14px); -webkit-backdrop-filter: saturate(180%) blur(14px); border-bottom: 1px solid var(--line-soft); transition: box-shadow .2s ease; }
+  .hd.is-scrolled { box-shadow: 0 1px 0 rgba(11,18,32,.06), 0 10px 30px rgba(11,18,32,.06); }
+  .hd__inner { height: var(--nav-h); display: flex; align-items: center; gap: 22px; }
 
-  .hd__brand { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--navy); letter-spacing: -.02em; }
-  .hd__brand img { border-radius: 8px; width: 46px; height: 46px; }
+  .hd__brand { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
+  .hd__brand img { width: auto; height: 46px; }
+  .hd__name { display: flex; flex-direction: column; font-family: var(--font-display); font-weight: 800; font-size: 23px; line-height: 1; color: var(--navy); letter-spacing: -.02em; }
+  .hd__name small { font-family: var(--font); font-weight: 600; font-size: 10.5px; letter-spacing: .02em; color: var(--muted); margin-top: 4px; }
 
-  .hd__nav { display: flex; align-items: center; gap: 4px; margin-left: 8px; }
-  .hd__link { display: inline-flex; align-items: center; gap: 5px; padding: 9px 14px; border-radius: var(--r-sm); font-size: 15px; font-weight: 500; color: var(--ink-soft); background: none; border: 0; cursor: pointer; font-family: var(--font); transition: color .15s ease, background .15s ease; }
-  .hd__link:hover, .hd__group:hover .hd__link--btn { color: var(--brand); background: #f2f6ff; }
+  .hd__nav { display: flex; align-items: center; gap: 2px; }
+  .hd__link { display: inline-flex; align-items: center; gap: 5px; padding: 10px 13px; border-radius: var(--r-sm); font-size: 15px; font-weight: 500; color: var(--ink-soft); background: none; border: 0; cursor: pointer; font-family: var(--font); transition: color .15s ease, background .15s ease; }
+  .hd__link:hover, .hd__group:hover .hd__link--btn, .hd__link[aria-expanded="true"] { color: var(--brand); background: #f2f6ff; }
+  .hd__link--hot { color: var(--navy); font-weight: 700; }
   .hd__link svg { transition: transform .2s ease; }
-  .hd__group:hover .hd__link svg { transform: rotate(180deg); }
+  .hd__group:hover .hd__link svg, .hd__link[aria-expanded="true"] svg { transform: rotate(180deg); }
 
-  .hd__actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+  .hd__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .hd__icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; color: var(--ink-soft); transition: color .15s ease, background .15s ease; }
+  .hd__icon:hover { color: #c13584; background: #fdf0f7; }
+  .hd__login { padding: 10px 12px; font-weight: 600; font-size: 15px; color: var(--ink-soft); border-radius: var(--r-sm); }
+  .hd__login:hover { color: var(--brand); background: #f2f6ff; }
 
-  /* Dropdown */
   .hd__group { position: relative; }
   .hd__menu {
     position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(6px);
-    min-width: 460px; background: #fff; border: 1px solid var(--line);
-    border-radius: var(--r-md); box-shadow: var(--shadow-lg); padding: 10px;
-    opacity: 0; visibility: hidden; transition: opacity .16s ease, transform .16s ease;
+    width: 540px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md);
+    box-shadow: var(--shadow-lg); padding: 10px; opacity: 0; visibility: hidden;
+    transition: opacity .16s ease, transform .16s ease, visibility .16s;
   }
-  .hd__group:hover .hd__menu, .hd__group:focus-within .hd__menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-  .hd__menu::before { content: ""; position: absolute; top: -10px; left: 0; right: 0; height: 10px; }
+  .hd__group:hover .hd__menu, .hd__group:focus-within .hd__menu, .hd__link[aria-expanded="true"] + .hd__menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .hd__menu::before { content: ""; position: absolute; top: -12px; left: 0; right: 0; height: 12px; }
   .hd__menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-  .hd__menu-item { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px; border-radius: var(--r-sm); transition: background .14s ease; }
+  .hd__menu--wide { width: min(820px, calc(100vw - 48px)); left: -40px; transform: translateY(6px); }
+  .hd__group:hover .hd__menu--wide, .hd__group:focus-within .hd__menu--wide, .hd__link[aria-expanded="true"] + .hd__menu--wide { transform: translateY(0); }
+  .hd__menu--wide .hd__menu-grid { grid-template-columns: repeat(3, 1fr); }
+  .hd__menu-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 12px; border-radius: var(--r-sm); transition: background .14s ease; }
+  .hd__menu-ic { flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); transition: background .15s ease, color .15s ease; }
+  .hd__menu-item:hover .hd__menu-ic { background: var(--grad-brand); color: #fff; }
+  .hd__menu-tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .hd__menu-more { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; padding: 11px; border-top: 1px solid var(--line-soft); font-weight: 600; font-size: 14px; color: var(--brand); }
   .hd__menu-item:hover { background: #f2f6ff; }
   .hd__menu-title { font-weight: 600; font-size: 14.5px; color: var(--ink); }
   .hd__menu-item:hover .hd__menu-title { color: var(--brand); }
-  .hd__menu-desc { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+  .hd__menu-desc { font-size: 13px; color: var(--muted); line-height: 1.45; }
+  .hd__menu-foot { display: flex; align-items: center; gap: 9px; margin-top: 8px; padding: 12px 14px; border-radius: var(--r-sm); background: #ecfdf3; color: #0b5d30; font-weight: 700; font-size: 14px; }
+  .hd__menu-foot:hover { background: #dcfae8; }
+  .hd__menu-foot svg { color: var(--wa-strong); }
 
-  .hd__burger { display: none; flex-direction: column; gap: 5px; width: 42px; height: 42px; align-items: center; justify-content: center; background: none; border: 1px solid var(--line); border-radius: var(--r-sm); cursor: pointer; margin-left: auto; }
+  .hd__wa-mobile { display: none; width: 44px; height: 44px; border-radius: 12px; background: var(--wa); color: #fff; place-items: center; margin-left: auto; }
+  .hd__burger { display: none; flex-direction: column; gap: 5px; width: 44px; height: 44px; align-items: center; justify-content: center; background: none; border: 1px solid var(--line-strong); border-radius: var(--r-sm); cursor: pointer; }
   .hd__burger span { width: 18px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
   .hd__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .hd__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
   .hd__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  .hd__mobile { display: none; flex-direction: column; padding: 12px 24px 22px; border-top: 1px solid var(--line-soft); background: #fff; }
+  .hd__mobile { display: none; flex-direction: column; padding: 8px 20px 24px; border-top: 1px solid var(--line-soft); background: #fff; max-height: calc(100dvh - var(--nav-h)); overflow-y: auto; }
   .hd__mobile[hidden] { display: none; }
-  .hd__mlink, .hd__macc > summary { display: block; padding: 13px 4px; font-weight: 600; font-size: 16px; color: var(--ink); border-bottom: 1px solid var(--line-soft); cursor: pointer; list-style: none; }
+  .hd__mlink, .hd__macc > summary { display: block; padding: 14px 4px; font-weight: 600; font-size: 16.5px; color: var(--ink); border-bottom: 1px solid var(--line-soft); cursor: pointer; list-style: none; }
   .hd__macc > summary::-webkit-details-marker { display: none; }
   .hd__macc > summary::after { content: "+"; float: right; color: var(--muted); font-weight: 400; }
   .hd__macc[open] > summary::after { content: "–"; }
-  .hd__macc-body { display: flex; flex-direction: column; padding: 4px 0 10px 14px; }
-  .hd__macc-body a { padding: 9px 4px; color: var(--ink-soft); font-size: 15px; }
-  .hd__mobile-cta { display: grid; gap: 10px; margin-top: 18px; }
+  .hd__macc-body { display: flex; flex-direction: column; padding: 4px 0 10px 12px; }
+  .hd__macc-body a { padding: 10px 4px; color: var(--ink-soft); font-size: 15.5px; }
+  .hd__mobile-cta { display: grid; gap: 10px; margin-top: 20px; }
   .hd__mobile-cta .btn { width: 100%; }
+  .hd__mobile-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  @media (max-width: 1080px) {
+  .hd__link, .hd__actions .btn { white-space: nowrap; }
+  @media (max-width: 1320px) { .hd__name small { display: none; } .hd__inner { gap: 16px; } .hd__link { padding: 10px 11px; } }
+  @media (max-width: 1180px) { .hd__login { display: none; } }
+  @media (max-width: 1060px) {
     .hd__nav, .hd__actions { display: none; }
     .hd__burger { display: flex; }
+    .hd__wa-mobile { display: grid; }
     .hd__mobile.is-open { display: flex; }
   }
+  @media (max-width: 380px) { .hd__name { font-size: 20px; } .hd__brand img { height: 40px; } }
 </style>

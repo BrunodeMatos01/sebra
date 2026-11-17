@@ -1,71 +1,56 @@
 ---
 import Base from "../layouts/Base.astro";
-import ContactForm from "../components/ContactForm.astro";
+import ContactSection from "../components/ContactSection.astro";
+import Icon from "../components/Icon.astro";
 import "../styles/internal.css";
 
+// Só integrações que existem em produção (conferido no código em 16/11/2026).
 const grupos = [
-  { nome: "Comunicação & Atendimento", itens: ["WhatsApp", "Telegram", "Chat interno", "Chamadas de voz e vídeo"] },
-  { nome: "Financeiro & Bancos", itens: ["Asaas (PIX e boleto)", "Open Finance (Pluggy)", "Conciliação OFX"] },
-  { nome: "Fiscal & Governo", itens: ["Focus NFe", "PlugNotas", "Certificado Digital A1", "Certidões (CND)"] },
-  { nome: "Google & Produtividade", itens: ["Google Calendar", "Google Drive", "Google Meet", "Microsoft 365"] },
-  { nome: "Conectores de IA", itens: ["Gmail", "Slack", "Notion", "HubSpot", "GitHub", "Figma", "Canva"] },
+  { i: "landmark", nome: "Governo e licitações", itens: ["PNCP: busca de editais abertos", "CINCATARINA: leitura das AFs em PDF", "Receita Federal: cadastro pelo CNPJ"] },
+  { i: "receipt", nome: "Fiscal", itens: ["Emissão por emissor homologado (Focus NFe)", "SEFAZ e prefeituras: NF-e, NFS-e e NFC-e", "IBPT: tributos aproximados", "Certificado digital A1"] },
+  { i: "bank", nome: "Bancos e recebimento", itens: ["Sicoob: boleto registrado com baixa automática", "Open Finance: sincronização do extrato", "Extrato em OFX", "Extrato em PDF (C6)"] },
+  { i: "chat", nome: "Comunicação", itens: ["WhatsApp", "Telegram", "E-mail (SMTP) para notas e boletos", "Chamadas de voz e vídeo"] },
+  { i: "clock", nome: "Agenda e produtividade", itens: ["Google Calendar", "Outlook", "Google Meet", "Exportação Excel e PDF"] },
+  { i: "bot", nome: "Inteligência artificial", itens: ["Assistente de IA dentro do sistema", "Leitura de boleto por foto e de XML", "Conectores de IA (plugins)"] },
 ];
 ---
-<Base title="Integrações | Sebra ERP com IA" description="A Sebra se conecta ao que você já usa: WhatsApp, Telegram, Google, Asaas, Open Finance, providers fiscais e conectores de IA.">
-  <section class="ip-hero">
+<Base
+  title="Integrações: PNCP, SEFAZ, bancos e mais | Sebra ERP com IA"
+  description="A Sebra se conecta ao PNCP, à SEFAZ, ao Sicoob, ao Open Finance, ao WhatsApp e ao Google. Veja todas as integrações do ERP para quem vende ao governo."
+  crumbs={[{ name: "Integrações", href: "/integracoes/" }]}
+>
+  <section class="ip-hero showcase">
     <div class="container">
-      <div class="s-head s-head--center reveal" style="margin-inline:auto">
-        <p class="ip-crumbs" style="text-align:center"><a href="/">Início</a> · Integrações</p>
+      <div class="s-head s-head--center" style="margin-inline:auto">
+        <p class="ip-crumbs ip-crumbs--dark" style="text-align:center"><a href="/">Início</a> · Integrações</p>
         <span class="eyebrow">Integrações</span>
-        <h1>Conectada ao que a sua empresa já usa</h1>
-        <p>A Sebra se encaixa na sua rotina: comunicação, bancos, governo, Google e inteligência artificial num fluxo só.</p>
+        <h1>Conectada ao governo, ao banco e ao que você já usa</h1>
+        <p class="ip-hero__lead" style="margin-inline:auto">Do portal oficial de contratações ao extrato do seu banco. A Sebra conversa com as fontes que importam para quem vende ao setor público.</p>
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--2">
+      <div class="grid grid--3">
         {grupos.map((g, i) => (
-          <article class="card reveal" data-delay={i % 2}>
-            <h3>{g.nome}</h3>
-            <div class="int-tags">
-              {g.itens.map((it) => <span class="int-tag">{it}</span>)}
-            </div>
+          <article class="card reveal" data-delay={i % 3}>
+            <div class="card__icon"><Icon name={g.i} size={22} /></div>
+            <h2 class="int-h">{g.nome}</h2>
+            <ul class="int-list">{g.itens.map((it) => <li><Icon name="check" size={15} stroke={2.6} />{it}</li>)}</ul>
           </article>
         ))}
       </div>
-      <p class="reveal" style="text-align:center;margin-top:32px;color:var(--muted);font-size:14px">
-        Precisa de uma integração específica? Fale com a nossa equipe — avaliamos a conexão com o seu sistema.
-      </p>
+      <p class="reveal" style="text-align:center;margin-top:32px;color:var(--muted);font-size:15px">Precisa de uma integração específica? Fale com a nossa equipe e avaliamos a conexão com o seu sistema.</p>
     </div>
   </section>
 
-  <section class="cta-band">
-    <div class="container cta-band__inner reveal">
-      <div><h2>Menos ferramenta solta, mais operação conectada</h2><p>Veja como a Sebra se integra ao seu dia a dia numa demonstração.</p></div>
-      <a class="btn btn--light btn--lg" href="#contato">Agende uma demonstração</a>
-    </div>
-  </section>
-
-  <section class="section contact" id="contato">
-    <div class="container contact__grid">
-      <div class="reveal">
-        <span class="eyebrow">Fale com a gente</span>
-        <h2 class="contact__title">Quer conectar a Sebra ao seu fluxo?</h2>
-        <p class="contact__lead">Preencha os dados e mostramos as integrações funcionando na sua operação.</p>
-      </div>
-      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
-    </div>
-  </section>
+  <ContactSection origem="Página de integrações" uid="integ" />
 </Base>
 
 <style>
-  .int-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .int-tag { font-size: 14px; font-weight: 600; color: var(--ink-soft); background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r-sm); padding: 8px 14px; }
-  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
-  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
-  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
-  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
-  @media (max-width: 940px) { .contact__grid { grid-template-columns: 1fr; } }
+  .int-h { font-size: 19px; }
+  .int-list { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 9px; }
+  .int-list li { display: flex; gap: 9px; align-items: flex-start; font-size: 14.5px; color: var(--ink-soft); }
+  .int-list li :global(svg) { color: var(--brand); flex-shrink: 0; margin-top: 4px; }
 </style>

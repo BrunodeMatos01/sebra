@@ -1,112 +1,176 @@
 ---
 import Base from "../../layouts/Base.astro";
-import ContactForm from "../../components/ContactForm.astro";
-import { solucoes } from "../../data/solucoes";
+import ContactSection from "../../components/ContactSection.astro";
+import Faq from "../../components/Faq.astro";
+import Icon from "../../components/Icon.astro";
+import Brand from "../../components/Brand.astro";
+import Stage from "../../components/mock/Stage.astro";
+import Mock from "../../components/mock/Mock.astro";
+import { solucoes, getSolucao, slugify } from "../../data/solucoes";
+import { waLink } from "../../data/site";
 import "../../styles/internal.css";
 
 export function getStaticPaths() {
   return solucoes.map((s) => ({ params: { slug: s.slug }, props: { s } }));
 }
 const { s } = Astro.props;
+const waText = `Olá! Vim pela página de ${s.nav} do site da Sebra e quero ver essa parte funcionando.`;
+const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
 ---
-<Base title={`${s.nav} | Sebra ERP com IA`} description={s.lead}>
-  <!-- HERO -->
-  <section class="ip-hero">
+<Base title={s.seoTitle} description={s.seoDesc} crumbs={[{ name: "ERP completo", href: "/#modulos" }, { name: s.nav, href: `/solucoes/${s.slug}/` }]} faq={s.faq} waText={waText}>
+  <section class="ip-hero showcase">
     <div class="container ip-hero__grid">
-      <div class="reveal">
-        <p class="ip-crumbs"><a href="/">Início</a> · Soluções · {s.nav}</p>
-        <span class="eyebrow">{s.eyebrow}</span>
+      <div>
+        <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · <a href="/#modulos">ERP completo</a> · {s.nav}</p>
+        <p class="eyebrow">{s.eyebrow}</p>
         <h1>{s.title}</h1>
         <p class="ip-hero__lead">{s.lead}</p>
         <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="/#contato">Agende uma demonstração</a>
-          <a class="btn btn--ghost btn--lg" href="/planos/">Ver planos</a>
+          <a class="btn btn--wa btn--lg" href={waLink(waText)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Ver funcionando</a>
+          <a class="btn btn--ghost btn--on-navy btn--lg" href="#funcoes">Ver todas as funções <Icon name="arrowDown" size={18} /></a>
         </div>
       </div>
-      <div class="reveal" data-delay="1">
-        <!-- PLACEHOLDER: trocar por print real da tela de {s.nav} -->
-        <div class="ip-panel">
-          <div class="ip-panel__bar"><span></span><span></span><span></span><em>app.sebra · {s.nav}</em></div>
-          <div class="ip-panel__body">
-            <div class="ip-panel__line" style="width:60%"></div>
-            <div class="ip-panel__line"></div>
-            <div class="ip-panel__line" style="width:82%"></div>
-            <div class="ip-panel__chips">
-              {s.features.slice(0,4).map((f) => <span class="ip-panel__chip">{f.title}</span>)}
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="ip-hero__visual"><Stage face="left" tilt={9}><Mock m={s.mock} /></Stage></div>
     </div>
   </section>
 
-  <!-- INTRO -->
   <section class="section">
     <div class="container">
       <div class="ip-intro reveal"><p>{s.intro}</p></div>
-
-      <!-- DORES -->
       <div class="pain-list">
         {s.pains.map((p, i) => (
           <div class="pain reveal" data-delay={i % 3}>
-            <div class="pain__problem"><span class="pain__tag">A dor</span><p>{p.problem}</p></div>
-            <div class="pain__answer"><span class="pain__tag">Com a Sebra</span><p>{p.answer}</p></div>
+            <div class="pain__problem"><p class="pain__tag">Sem a Sebra</p><p>{p.problem}</p></div>
+            <div class="pain__answer"><p class="pain__tag">Com a Sebra</p><p>{p.answer}</p></div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- FUNÇÕES -->
-  <section class="section section--tint">
+  <section class="section section--navy">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <span class="eyebrow">O que está incluído</span>
-        <h2>Funções de {s.nav}</h2>
+        <p class="eyebrow">O que mais impressiona</p>
+        <h2>Os destaques de {s.nav.toLowerCase()}</h2>
       </div>
-      <div class="grid grid--3" style="margin-top:48px">
-        {s.features.map((f, i) => (
-          <article class="card reveal" data-delay={i % 3}>
-            <div class="card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <h3>{f.title}</h3><p>{f.desc}</p>
+      <div class="hl-grid">
+        {s.highlights.map((h, i) => (
+          <article class="hl reveal" data-delay={i}>
+            <p class="hl__n">{String(i + 1).padStart(2, "0")}</p>
+            <h3>{h.title}</h3><p class="hl__d">{h.desc}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- NÚMEROS (se houver) -->
-  {s.stats && (
-    <section class="section section--navy">
-      <div class="container">
-        <div class="grid grid--3 stats-grid reveal">
-          {s.stats.map((st) => (
-            <div class="stat"><div class="stat__num">{st.num}</div><div class="stat__label">{st.label}</div></div>
-          ))}
-        </div>
+  <section class="section section--tint" id="funcoes">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">Tudo o que está incluído</p>
+        <h2>Todas as funções de {s.nav.toLowerCase()}</h2>
+        <p>Cada função abaixo já existe na plataforma e funciona ligada ao resto do sistema.</p>
       </div>
-    </section>
-  )}
+      <nav class="gnav reveal" aria-label="Grupos de funções">
+        {s.groups.map((g) => <a href={`#${slugify(g.title)}`}><Icon name={g.icon} size={16} />{g.title}</a>)}
+      </nav>
 
-  <!-- CTA + FORM -->
-  <section class="section contact" id="contato">
-    <div class="container contact__grid">
-      <div class="reveal">
-        <span class="eyebrow">Vamos conversar</span>
-        <h2 class="contact__title">{s.closing}</h2>
-        <p class="contact__lead">Agende uma demonstração e veja {s.nav} funcionando na sua operação.</p>
-      </div>
-      <div class="contact__form reveal" data-delay="1"><ContactForm /></div>
+      {s.groups.map((g, gi) => (
+        <section class="fgroup reveal" id={slugify(g.title)} aria-labelledby={`g-${slugify(g.title)}`}>
+          <header class="fgroup__head">
+            <div class="fgroup__ic"><Icon name={g.icon} size={22} /></div>
+            <div>
+              <h2 class="fgroup__title" id={`g-${slugify(g.title)}`}>{g.title}</h2>
+              {g.intro && <p class="fgroup__intro">{g.intro}</p>}
+            </div>
+          </header>
+          <div class="fgroup__grid">
+            {g.items.map((f) => (
+              <article class="fitem" id={slugify(f.title)}>
+                <div class="fitem__ic"><Icon name="check" size={15} stroke={2.6} /></div>
+                <div><h3 class="fitem__t">{f.title}</h3><p class="fitem__d">{f.desc}</p></div>
+              </article>
+            ))}
+          </div>
+          {gi === 0 && s.mock2 && (
+            <div class="fgroup__mock"><Stage face="right" tilt={7} class="light"><Mock m={s.mock2} /></Stage></div>
+          )}
+        </section>
+      ))}
     </div>
   </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">Perguntas frequentes</p>
+        <h2>Dúvidas sobre {s.nav.toLowerCase()}</h2>
+      </div>
+      <div class="reveal" style="margin-top:40px"><Faq items={s.faq} /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="s-head reveal"><p class="eyebrow">Tudo conectado</p><h2>Funciona junto com</h2></div>
+      <div class="others">
+        {related.map((o) => (
+          <a class="other reveal" href={`/solucoes/${o.slug}/`}>
+            <div class="other__ic"><Icon name={o.icon} size={20} /></div>
+            <div><p class="other__t">{o.nav}</p><p class="other__d">{o.menuDesc}</p></div>
+          </a>
+        ))}
+        <a class="other other--lic reveal" href="/licitacoes/">
+          <div class="other__ic"><Icon name="gavel" size={20} /></div>
+          <div><p class="other__t">Licitações e contratos públicos</p><p class="other__d">Para quem também vende ao governo</p></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <ContactSection origem={`Página ${s.nav}`} uid={`sol-${s.slug}`} waText={waText}
+    title={s.closing}
+    lead={`Preencha uma vez e abrimos o WhatsApp com a sua mensagem pronta. Mostramos ${s.nav.toLowerCase()} funcionando com um cenário parecido com o seu.`} />
 </Base>
 
 <style>
-  .stats-grid { text-align: center; }
-  .stats-grid .stat { text-align: center; }
-  .contact__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: start; }
-  .contact__title { margin-top: 14px; font-size: clamp(26px, 3vw, 38px); }
-  .contact__lead { margin-top: 16px; font-size: 17px; color: var(--ink-soft); }
-  .contact__form { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow); }
-  @media (max-width: 940px) { .contact__grid { grid-template-columns: 1fr; } }
+  .hl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 48px; }
+  .hl { padding: 26px; border-radius: var(--r-md); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); }
+  .hl__n { font-family: var(--font-display); font-weight: 800; color: var(--brand-light); font-size: 15px; }
+  .hl h3 { font-size: 19px; margin-top: 12px; }
+  .hl__d { margin-top: 10px; font-size: 15px; color: var(--on-dark-soft); }
+  @media (max-width: 900px) { .hl-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .hl-grid { grid-template-columns: 1fr; } }
+
+  .gnav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
+  .gnav a { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; background: #fff; border: 1px solid var(--line-strong); font-weight: 600; font-size: 14.5px; color: var(--ink); transition: border-color .15s ease, color .15s ease; }
+  .gnav a:hover { border-color: var(--brand); color: var(--brand); }
+
+  .fgroup { margin-top: 32px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(22px, 3vw, 36px); scroll-margin-top: calc(var(--nav-h) + 20px); }
+  .fgroup__head { display: flex; gap: 16px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--line-soft); }
+  .fgroup__ic { flex-shrink: 0; width: 50px; height: 50px; border-radius: 13px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; }
+  .fgroup__title { font-size: clamp(21px, 2.2vw, 26px); }
+  .fgroup__intro { margin-top: 4px; color: var(--ink-soft); }
+  .fgroup__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 36px; margin-top: 6px; }
+  .fitem { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--line-soft); scroll-margin-top: calc(var(--nav-h) + 20px); }
+  .fitem__ic { flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: #e8f0ff; color: var(--brand); margin-top: 1px; }
+  .fitem__t { font-family: var(--font); font-size: 16px; font-weight: 700; letter-spacing: 0; line-height: 1.35; }
+  .fitem__d { font-size: 14.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.55; }
+  .fitem:target { background: #f2f7ff; border-radius: 10px; padding-inline: 10px; }
+  .fgroup__mock { margin-top: 28px; padding: 30px 6% 0; border-radius: var(--r-md); background: linear-gradient(170deg, #0b1442, #050a24); }
+  @media (max-width: 760px) { .fgroup__grid { grid-template-columns: 1fr; } .fgroup__mock { padding: 16px; } }
+
+  .others { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
+  .other { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+  .other:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .other__ic { flex-shrink: 0; width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
+  .other__t { font-weight: 700; color: var(--ink); font-size: 15.5px; }
+  .other__d { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+  .other--lic { background: var(--navy-900); border-color: var(--navy-900); }
+  .other--lic .other__t { color: #fff; }
+  .other--lic .other__d { color: var(--on-dark-soft); }
+  .other--lic .other__ic { background: rgba(110,160,255,.18); color: var(--brand-light); }
+  @media (max-width: 900px) { .others { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .others { grid-template-columns: 1fr; } }
 </style>

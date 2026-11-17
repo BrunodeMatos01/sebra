@@ -6,6 +6,15 @@ export default defineConfig({
   site: "https://sebraoficial.com",
   // Gera /solucoes/ia/index.html em vez de /solucoes/ia.html — links limpos
   // que funcionam em hospedagem estática comum (Apache/LiteSpeed da Hostinger).
-  build: { format: "directory" },
+  // inlineStylesheets: "never" -> todo CSS vai para arquivo externo (CSP mais rígida)
+  build: { format: "directory", inlineStylesheets: "never" },
+  trailingSlash: "ignore",
   compressHTML: true,
+  // Endereços antigos que mudaram: geram uma página que redireciona
+  // (e avisa o Google com canonical para o endereço novo).
+  redirects: {
+    "/segmentos/licitacoes": "/licitacoes/",
+    "/solucoes/ia": "/solucoes/atendimento/",
+    "/solucoes/rh": "/",
+  },
 });

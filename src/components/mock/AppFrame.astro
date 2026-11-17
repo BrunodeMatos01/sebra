@@ -1,0 +1,79 @@
+---
+// Moldura que replica o shell da plataforma, no tamanho real (1200px).
+// Um script reduz a tela com `zoom` para caber no espaço, com texto nítido.
+import Icon from "../Icon.astro";
+import "../../styles/mock.css";
+
+export interface Props {
+  title: string;
+  subtitle?: string;
+  group?: keyof typeof GROUPS | false; // grupo do menu aberto (false = sem menu lateral)
+  active?: string;                       // item ativo do menu
+  actions?: { label: string; primary?: boolean; icon?: string }[];
+  h?: number;                            // altura de desenho (px)
+  label?: string;
+  bg?: boolean;                          // fundo cinza claro no conteúdo
+}
+
+const GROUPS = {
+  pessoal: { t: "PESSOAL", items: [["Início", "building"], ["Caixa de Entrada", "mail"], ["Agendamentos", "clock"], ["Tarefas", "checkCircle"], ["Chat Interno", "chat"]] },
+  vendas: { t: "VENDAS & COMERCIAL", items: [["Conversas", "chat"], ["Central de Vendas", "layers"], ["Central de Contatos", "users"]] },
+  financeiro: { t: "FINANCEIRO & FISCAL", items: [["Financeiro", "wallet"], ["A Receber", "bank"], ["Orçamentos", "file"], ["Notas Fiscais", "receipt"], ["Certificado Digital", "shield"], ["Contratos", "contract"], ["Contratos Públicos", "landmark"]] },
+  operacao: { t: "OPERAÇÃO", items: [["Suporte", "chat"], ["Produtos", "box"], ["Serviços", "handshake"], ["Agendas", "clock"], ["Anexos", "file"]] },
+  modulos: { t: "MÓDULOS", items: [["Obras", "hardhat"], ["Ordens de Serviço", "wrench"], ["PDV / Frente de caixa", "barcode"], ["Multi-armazém / WMS", "box"], ["Gestão de frota", "truck"], ["Produção / MRP", "factory"], ["Licitação", "gavel"], ["Multi-empresa", "building"]] },
+  analytics: { t: "ANALYTICS", items: [["Analytics", "chart"]] },
+} as const;
+const ORDER = ["pessoal", "vendas", "financeiro", "operacao", "modulos", "analytics"] as const;
+
+const { title, subtitle, group = "financeiro", active, actions = [], h = 720, label, bg = false } = Astro.props;
+const W = 1200;
+---
+<div class="mk" data-mk style={`--mk-w:${W};--mk-h:${h}`} role="img" aria-label={label ?? `Tela de ${title} da plataforma Sebra, com dados de demonstração`}>
+  <div class="app" aria-hidden="true">
+    <div class="a-top">
+      <span class="a-logo"><img src="/img/logo-sebra-64.png" alt="" width="30" height="30" loading="lazy" decoding="async" />SEBRA</span>
+      <span class="a-title"><b>{title}</b>{subtitle && <small>{subtitle}</small>}</span>
+      <span class="a-acts">
+        {actions.map((a) => <span class={`a-btn${a.primary ? " a-btn--pri" : ""}`}>{a.icon && <Icon name={a.icon} size={15} stroke={2.2} />}{a.label}</span>)}
+        <span class="a-ico"><Icon name="checkCircle" size={17} /></span>
+        <span class="a-ico"><Icon name="bell" size={17} /><i>3</i></span>
+        <span class="a-user">09:41<span>AS</span></span>
+      </span>
+    </div>
+    <div class={`a-body${group ? "" : " a-body--full"}`}>
+      {group && (
+        <div class="a-side">
+          {ORDER.map((g) => (
+            g === group ? (
+              <>
+                <span class="a-grp">{GROUPS[g].t}<Icon name="arrowDown" size={12} stroke={2.4} /></span>
+                {GROUPS[g].items.map(([n, ic]) => (
+                  <span class={`a-nav${n === active ? " is-on" : ""}`}><Icon name={ic} size={17} />{n}</span>
+                ))}
+              </>
+            ) : (
+              <span class="a-grp">{GROUPS[g].t}<Icon name="arrow" size={12} stroke={2.4} /></span>
+            )
+          ))}
+        </div>
+      )}
+      <div class={`a-main${bg ? " a-main--bg" : ""}`}><slot /></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Reduz cada tela de 1200px para a largura disponível. `zoom` redesenha o
+  // texto no tamanho final (nítido); sem suporte, cai para transform.
+  const useZoom = typeof CSS !== "undefined" && CSS.supports("zoom", "0.5");
+  const fit = (mk: HTMLElement) => {
+    const app = mk.firstElementChild as HTMLElement | null;
+    if (!app) return;
+    const s = mk.clientWidth / 1200;
+    if (!s) return;
+    if (useZoom) { app.style.zoom = String(s); app.style.transform = ""; }
+    else app.style.transform = `scale(${s})`;
+  };
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => fit(e.target as HTMLElement)));
+  document.querySelectorAll<HTMLElement>("[data-mk]").forEach((mk) => { fit(mk); ro.observe(mk); });
+</script>
