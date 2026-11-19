@@ -25,8 +25,8 @@ export interface Props {
   noindex?: boolean;
 }
 const {
-  title = "Sebra ERP com IA | Sistema de gestão empresarial completo",
-  description = "ERP completo: orçamento que vira nota, financeiro com lucro real do mês, NF-e, estoque, compras, multi-empresa e licitações. Fale com a Sebra.",
+  title = "Sebra ERP com IA | Sistema de licitação, ERP e automação empresarial",
+  description = "Sistema de licitação e ERP com notas fiscais, orçamentos, estoque e financeiro, mais automação de processos sob medida para a sua empresa.",
   image = "/img/og-image.png",
   crumbs = [],
   faq = [],
@@ -65,7 +65,7 @@ const graph: object[] = [
     "@type": "SoftwareApplication",
     name: "Sebra",
     applicationCategory: "BusinessApplication",
-    applicationSubCategory: "ERP: gestão financeira, fiscal, estoque, compras e licitações",
+    applicationSubCategory: "Sistema de licitação, ERP e automação empresarial",
     operatingSystem: "Web",
     url: site.url,
     inLanguage: "pt-BR",
@@ -73,7 +73,7 @@ const graph: object[] = [
     publisher: { "@id": `${site.url}/#org` },
     ...(offers.length ? { offers } : {}),
     featureList: [
-      "Busca de editais no PNCP", "Gestão de licitações e habilitação", "Quadro Kanban de licitações", "Controle de certidões negativas",
+      "Busca de editais no PNCP", "Gestão de licitações e habilitação", "Quadro Kanban de licitações", "Automação de processos sob medida", "Controle de certidões negativas",
       "Contratos públicos com saldo por item", "Controle de empenhos", "NF-e, NFS-e e NFC-e com retenções",
       "Boleto registrado com baixa automática", "Conciliação bancária automática", "Resultado por licitação",
       "Financeiro completo, DRE e fluxo de caixa", "Estoque, compras e orçamentos", "Multi-empresa",

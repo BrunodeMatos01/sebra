@@ -1,20 +1,15 @@
-// Planos da Sebra. RASCUNHO: nomes, itens e PREÇOS serão fechados com o time.
-// Os planos servem a qualquer ramo; Licitações é um módulo que se soma a
-// qualquer plano.
-//
-// Para publicar um preço: troque `preco: null` por, por exemplo,
-//   preco: { valor: "R$ 497", periodo: "/mês", nota: "no plano anual" }
-// `null` mostra "Valor sob consulta".
+// Planos da Sebra. Licitação incluída a partir do Profissional (adicional no Essencial).
+// `preco: null` mostra "Valor sob consulta"; `prefixo` aparece antes do valor
+// (ex.: "A partir de"). A tabela comparativa da página de planos lê `recursos`.
 
 export type Plano = {
   slug: string;
   nome: string;
   publico: string;
   resumo: string;
-  preco: null | { valor: string; periodo?: string; nota?: string };
-  implantacao?: string;
+  preco: null | { valor: string; periodo?: string; prefixo?: string; nota?: string };
+  cta: string;
   destaque?: boolean;
-  addon?: boolean;
   itens: string[];
 };
 
@@ -22,68 +17,68 @@ export const planos: Plano[] = [
   {
     slug: "essencial",
     nome: "Essencial",
-    publico: "Para organizar a empresa, emitir nota e controlar o dinheiro.",
-    resumo: "O básico bem feito, num sistema só.",
-    preco: { valor: "R$ 417", periodo: "/mês" },
+    publico: "Para prestadores de serviço e empresas que querem se organizar.",
+    resumo: "Nota fiscal, orçamentos e financeiro num sistema só.",
+    preco: { valor: "R$ 327", periodo: "/mês" },
+    cta: "Assinar",
     itens: [
-      "Financeiro: contas a pagar e receber e fluxo de caixa",
-      "Notas fiscais: NF-e, NFS-e e NFC-e",
-      "Orçamentos em PDF que viram nota",
-      "Clientes com consulta de CNPJ na Receita",
-      "Cadastro de produtos e serviços",
-      "Relatórios em Excel e PDF",
+      "Notas fiscais NF-e e NFS-e ilimitadas",
+      "Orçamentos que viram nota",
+      "Financeiro e A Receber com baixa pelo extrato",
+      "Contatos e serviços",
+      "Boleto em 1 banco",
+      "2 usuários · 1 CNPJ",
+      "Suporte em até 2 dias úteis",
     ],
   },
   {
     slug: "profissional",
     nome: "Profissional",
-    publico: "Para quem quer o financeiro no automático e o lucro real do mês.",
-    resumo: "Automação, margem e controle para crescer.",
-    preco: { valor: "R$ 689", periodo: "/mês" },
+    publico: "Para quem vende para o governo, compra e revende.",
+    resumo: "Tudo do Essencial, com licitação, compras e estoque.",
+    preco: { valor: "R$ 565", periodo: "/mês" },
+    cta: "Assinar",
     destaque: true,
     itens: [
       "Tudo do Essencial",
-      "Conciliação automática do extrato",
-      "Boleto com baixa automática",
-      "DRE e lucro real do mês",
-      "Formação de preço e estoque com reposição",
-      "Compras com cotação e aprovação",
-      "Comissões de vendedores",
-      "Painéis gerenciais e funil de vendas",
+      "Licitação, funil e contratos públicos com saldo e empenho",
+      "Resultado por licitação",
+      "Compras e estoque",
+      "Conecte a IA da sua empresa (via API)",
+      "Boleto em até 2 bancos",
+      "3 usuários · 1 CNPJ",
+      "Suporte em até 1 dia útil",
     ],
   },
   {
-    slug: "empresarial",
-    nome: "Empresarial",
-    publico: "Para grupos com vários CNPJs, equipe maior e operação própria.",
-    resumo: "A Sebra inteira, consolidada entre empresas.",
-    preco: null,
+    slug: "escala",
+    nome: "Escala",
+    publico: "Para grupos com mais de um CNPJ e volume alto.",
+    resumo: "Tudo do Profissional, para várias empresas.",
+    preco: { prefixo: "A partir de", valor: "R$ 990", periodo: "/mês", nota: "sob consulta" },
+    cta: "Falar com a equipe",
     itens: [
       "Tudo do Profissional",
-      "Multi-empresa com resultado consolidado",
-      "Aprovações por valor e por área",
-      "Perfis e permissões por pessoa",
-      "Painéis por área, metas e relatórios",
-      "PDV, ordens de serviço, frota, produção e obras",
-      "Atendimento no WhatsApp",
+      "Até 3 CNPJs",
+      "Boleto em até 7 bancos",
+      "8 usuários",
+      "Suporte em até 1 dia útil, com canal direto",
     ],
   },
-  {
-    slug: "licitacoes",
-    nome: "Licitações e Contratos Públicos",
-    publico: "Módulo para quem vende ao governo. Soma-se a qualquer plano.",
-    resumo: "Do edital ao dinheiro na conta.",
-    preco: null,
-    addon: true,
-    itens: [
-      "Busca de editais no PNCP",
-      "Prazos, habilitação e certidões com aviso",
-      "Contratos com saldo por item",
-      "Empenhos calculados pelas notas",
-      "AF em PDF que vira nota",
-      "Quadro Kanban ligado ao status de cada licitação",
-      "Compras ligadas ao contrato",
-      "Resultado por licitação",
-    ],
-  },
+];
+
+// Tabela comparativa (linhas exatamente como definidas pelo time comercial).
+export type Celula = boolean | string;
+// ampliavel: a linha pode ser ampliada com adicionais (marcada com o "+" azul).
+export const recursos: { nome: string; valores: [Celula, Celula, Celula]; ampliavel?: boolean }[] = [
+  { nome: "Licitação, funil, contratos públicos com saldo e empenho", valores: ["Adicional", true, true] },
+  { nome: "Resultado por licitação", valores: ["Adicional", true, true] },
+  { nome: "Notas fiscais NF-e e NFS-e", valores: ["Ilimitadas", "Ilimitadas", "Ilimitadas"] },
+  { nome: "Financeiro, A Receber com baixa pelo extrato, contatos, serviços", valores: [true, true, true] },
+  { nome: "Boleto", valores: ["1 banco", "Até 2 bancos", "Até 7 bancos"], ampliavel: true },
+  { nome: "Compras e estoque", valores: [false, true, true] },
+  { nome: "Conecte a IA da sua empresa (via API)", valores: [false, true, true] },
+  { nome: "Usuários", valores: ["2", "3", "8"], ampliavel: true },
+  { nome: "CNPJs", valores: ["1", "1", "Até 3"], ampliavel: true },
+  { nome: "Suporte", valores: ["Em até 2 dias úteis", "Em até 1 dia útil", "Em até 1 dia útil, com canal direto"] },
 ];

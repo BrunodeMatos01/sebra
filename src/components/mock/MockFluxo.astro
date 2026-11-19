@@ -1,0 +1,54 @@
+---
+// Tela de demonstração de um fluxo de automação (dados fictícios).
+import AppFrame from "./AppFrame.astro";
+import Icon from "../Icon.astro";
+const passos = [
+  { i: "mail", t: "Gatilho", d: "Chegou uma Autorização de Fornecimento por e-mail", c: "#7c3aed" },
+  { i: "file", t: "Ler o PDF", d: "Extrai órgão, CNPJ, itens, quantidades e valores", c: "#2563eb" },
+  { i: "users", t: "Identificar o cliente", d: "Encontra o órgão pelo CNPJ no cadastro", c: "#2563eb" },
+  { i: "box", t: "Relacionar os itens", d: "Liga cada item ao produto certo do catálogo", c: "#2563eb" },
+  { i: "receipt", t: "Preparar a nota", d: "Gera o rascunho da nota para conferência", c: "#059669" },
+  { i: "chat", t: "Avisar a equipe", d: "Manda no WhatsApp: nota pronta para emitir", c: "#059669" },
+];
+const execs = [
+  ["09:42", "AF 1.284 · Secretaria de Educação", "ok"],
+  ["09:15", "AF 1.283 · Fundo Municipal de Saúde", "ok"],
+  ["08:58", "AF 1.282 · CNPJ sem cadastro", "warn"],
+  ["08:31", "AF 1.281 · Câmara Municipal", "ok"],
+];
+---
+<AppFrame title="Automação · AF até a nota fiscal" subtitle="Fluxo ativo · roda sozinho a cada e-mail recebido" group={false} h={640}
+  actions={[{ label: "Histórico", icon: "history" }, { label: "Ativo", primary: true, icon: "zap" }]}>
+  <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px;height:100%">
+    <div class="panel" style="background:#f8fafc;position:relative">
+      <p class="st">Fluxo <small>6 etapas · sem ninguém digitar nada</small></p>
+      {passos.map((p, i) => (
+        <div style="position:relative;display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          {i < passos.length - 1 && <span style="position:absolute;left:19px;top:40px;width:2px;height:14px;background:#cbd5e1"></span>}
+          <span style={`flex-shrink:0;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:${p.c}15;color:${p.c};border:1px solid ${p.c}40`}><Icon name={p.i} size={18} /></span>
+          <div style="flex:1;min-width:0;background:#fff;border:1px solid var(--a-line);border-radius:10px;padding:8px 12px">
+            <b style="display:block;font-size:13px">{p.t}</b>
+            <span style="display:block;font-size:12px;color:var(--a-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{p.d}</span>
+          </div>
+          <span class="pill pill--green" style="flex-shrink:0"><Icon name="check" size={12} stroke={3} /></span>
+        </div>
+      ))}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="kg kg--2">
+        <div class="kc kc--ok"><small>Execuções hoje</small><b>4</b><Icon name="zap" size={18} class="c-ok" /></div>
+        <div class="kc"><small>Tempo por AF</small><b>segundos</b><Icon name="clock" size={18} class="c-blue" /></div>
+      </div>
+      <div class="panel" style="flex:1">
+        <p class="st">Últimas execuções</p>
+        {execs.map(([h, t, s]) => (
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--a-line-2)">
+            <span style={`width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex-shrink:0;${s === "ok" ? "background:#d1fae5;color:#047857" : "background:#fef3c7;color:#b45309"}`}><Icon name={s === "ok" ? "check" : "eye"} size={14} stroke={2.6} /></span>
+            <span style="flex:1;min-width:0"><b style="display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{t}</b><span style="font-size:11.5px;color:var(--a-mute)">{s === "ok" ? "Nota pronta para emitir" : "Aguardando cadastro do CNPJ"}</span></span>
+            <span style="font-size:11.5px;color:var(--a-mute)">{h}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</AppFrame>

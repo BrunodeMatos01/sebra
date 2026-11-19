@@ -14,18 +14,21 @@ import MockContrato from "../components/mock/MockContrato.astro";
 import { faqHome } from "../data/faq";
 import { solucoes, getSolucao } from "../data/solucoes";
 import { segmentos } from "../data/segmentos";
+import { foco } from "../data/nav";
+import MockFluxo from "../components/mock/MockFluxo.astro";
+import { tipos as tiposAuto, provas as provasAuto } from "../data/automacoes";
 import { waLink, waMsg } from "../data/site";
 
 // Abas do explorador: os módulos mais fortes, nesta ordem.
-const abas = ["financeiro", "orcamentos", "fiscal", "comercial", "estoque", "compras", "multi-empresa"].map((s) => getSolucao(s)!);
+const abas = ["financeiro", "orcamentos", "fiscal", "estoque", "servicos", "compras"].map((s) => getSolucao(s)!);
 const pick = (s: (typeof solucoes)[number]) => {
   const itens = s.groups.flatMap((g) => g.items);
   const destaques = s.highlights.map((h) => h.title);
   return [...s.highlights, ...itens.filter((i) => !destaques.includes(i.title))].slice(0, 7);
 };
-const outros = solucoes.filter((s) => !abas.includes(s));
+const outros = solucoes.filter((s) => foco.includes(s.slug) && !abas.includes(s));
 // Nome curto na aba (cabe tudo numa linha); o nome completo aparece no painel.
-const curto: Record<string, string> = { comercial: "Clientes", estoque: "Estoque" };
+const curto: Record<string, string> = { estoque: "Estoque", servicos: "Serviços" };
 
 const jornadaGov = [
   { i: "search", t: "Edital", d: "Busca no PNCP" }, { i: "shield", t: "Habilitação", d: "Certidões em dia" },
@@ -49,25 +52,25 @@ const etapas = [
 ];
 ---
 <Base
-  title="Sebra ERP com IA | Sistema de gestão empresarial completo"
-  description="ERP completo: orçamento que vira nota, financeiro com lucro real do mês, NF-e, estoque, compras, multi-empresa e licitações. Fale com a Sebra no WhatsApp."
+  title="Sebra ERP com IA | Sistema de licitação, ERP e automação empresarial"
+  description="Sistema de licitação e ERP com notas fiscais, orçamentos, estoque e financeiro, mais automação de processos sob medida para a sua empresa."
   faq={faqHome}
 >
   <!-- 1. HERÓI -->
   <section class="hero showcase">
     <div class="container hero__grid">
       <div class="hero__copy">
-        <p class="eyebrow">Sistema de gestão empresarial · ERP</p>
-        <h1>Sua empresa inteira <span class="accent">num sistema só</span>.</h1>
-        <p class="hero__lead">Orçamento que vira nota fiscal, financeiro que mostra o lucro real do mês, estoque com o preço certo, compras, clientes e equipe. E, para quem vende ao governo, o controle completo de licitações e contratos.</p>
+        <p class="eyebrow">Sistema de licitação, ERP e automação</p>
+        <h1>Sistema e automação para a sua empresa <span class="accent">crescer</span>.</h1>
+        <p class="hero__lead">Licitações, notas fiscais, orçamentos, estoque, serviços e financeiro num sistema só. E automações operacionais sob medida para os processos que hoje tomam o tempo da sua equipe.</p>
         <div class="btn-row">
           <a class="btn btn--wa btn--lg" href={waLink(waMsg.geral)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Falar com um especialista</a>
           <a class="btn btn--ghost btn--on-navy btn--lg" href="#modulos">Conhecer os módulos <Icon name="arrowDown" size={18} /></a>
         </div>
         <ul class="hero__proof">
-          <li><Icon name="check" size={16} stroke={2.6} />NF-e, NFS-e e NFC-e</li>
-          <li><Icon name="check" size={16} stroke={2.6} />Conciliação bancária automática</li>
-          <li><Icon name="check" size={16} stroke={2.6} />Implantação conduzida</li>
+          <li><Icon name="check" size={16} stroke={2.6} />Sistema de licitação completo</li>
+          <li><Icon name="check" size={16} stroke={2.6} />Notas fiscais ilimitadas</li>
+          <li><Icon name="check" size={16} stroke={2.6} />Automações sob medida</li>
         </ul>
       </div>
       <div class="hero__visual">
@@ -149,6 +152,31 @@ const etapas = [
             </a>
           ))}
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3b. AUTOMAÇÕES -->
+  <section class="section showcase" id="automacoes">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <p class="eyebrow">Automações operacionais</p>
+        <h2>Além do sistema, automatizamos os processos da sua empresa</h2>
+        <p class="split__lead">Desenvolvemos automações sob medida: robôs que fazem as tarefas repetitivas, sistemas conversando entre si e fluxos que rodam o dia inteiro, sem erro de digitação. Com o sistema que você já usa, ou com a Sebra.</p>
+        <ul class="auto-tipos">
+          {tiposAuto.map((t) => <li><div class="auto-tipos__ic"><Icon name={t.i} size={18} /></div><div><p class="auto-tipos__t">{t.t}</p><p class="auto-tipos__d">{t.d}</p></div></li>)}
+        </ul>
+        <div class="btn-row">
+          <a class="btn btn--light btn--lg" href="/automacoes/">Conhecer as automações</a>
+          <a class="btn btn--wa btn--lg" href={waLink("Olá! Quero automatizar processos da minha empresa.")} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Quero automatizar</a>
+        </div>
+      </div>
+      <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={9}><MockFluxo /></Stage></div>
+    </div>
+    <div class="container">
+      <p class="auto-prova__k reveal">Automações que já rodam dentro da Sebra:</p>
+      <div class="auto-prova reveal">
+        {provasAuto.map((p) => <p class="auto-prova__i"><Icon name="zap" size={15} />{p.t}</p>)}
       </div>
     </div>
   </section>
@@ -264,8 +292,8 @@ const etapas = [
   <section class="cta-band">
     <div class="container cta-band__inner reveal">
       <div>
-        <h2>Veja os planos e escolha o que combina com a sua empresa</h2>
-        <p>Do essencial ao grupo com vários CNPJs, com o módulo de licitações para quem vende ao governo.</p>
+        <h2>Planos a partir de R$ 327 por mês</h2>
+        <p>Notas fiscais ilimitadas e financeiro com baixa pelo extrato em todos os planos. Licitação a partir do Profissional.</p>
       </div>
       <div class="btn-row">
         <a class="btn btn--light btn--lg" href="/planos/">Ver os planos</a>
@@ -305,8 +333,8 @@ const etapas = [
 <style>
   /* HERÓI */
   .hero { padding-block: clamp(56px, 7vw, 92px) clamp(24px, 3vw, 36px); }
-  .hero__grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: clamp(28px, 4vw, 52px); align-items: center; }
-  .hero h1 { font-size: clamp(38px, 5.2vw, 64px); color: #fff; letter-spacing: -.03em; line-height: 1.04; }
+  .hero__grid { display: grid; grid-template-columns: 1.02fr .98fr; gap: clamp(28px, 4vw, 52px); align-items: center; }
+  .hero h1 { font-size: clamp(36px, 4.4vw, 56px); color: #fff; letter-spacing: -.03em; line-height: 1.04; }
   .hero__lead { margin-top: 22px; font-size: clamp(16.5px, 1.35vw, 19px); color: var(--on-dark-soft); max-width: 560px; line-height: 1.62; }
   .hero .btn-row { margin-top: 30px; }
   .hero__proof { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; }
@@ -314,6 +342,18 @@ const etapas = [
   .hero__proof :global(svg) { color: #4ade80; }
   .hero__visual { min-width: 0; }
   @media (max-width: 940px) { .hero__grid { grid-template-columns: 1fr; } }
+
+  /* AUTOMAÇÕES */
+  .auto-tipos { list-style: none; padding: 0; margin: 24px 0 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .auto-tipos li { display: flex; gap: 12px; align-items: flex-start; }
+  .auto-tipos__ic { flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: rgba(245,158,11,.16); color: #fbbf24; }
+  .auto-tipos__t { font-weight: 700; color: #fff; font-size: 15px; }
+  .auto-tipos__d { color: var(--on-dark-soft); font-size: 13.5px; margin-top: 2px; line-height: 1.45; }
+  .auto-prova__k { text-align: center; color: var(--on-dark-mute); font-size: 14px; margin-top: 10px; }
+  .auto-prova { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 14px; }
+  .auto-prova__i { display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: var(--on-dark-soft); font-size: 14px; }
+  .auto-prova__i :global(svg) { color: #4ade80; }
+  @media (max-width: 620px) { .auto-tipos { grid-template-columns: 1fr; } }
 
   /* RAMOS */
   .ramos { background: #fff; padding-block: clamp(44px, 6vw, 72px); border-bottom: 1px solid var(--line-soft); }

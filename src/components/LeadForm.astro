@@ -17,7 +17,7 @@ export interface Props {
 const { uid, plano = "", origem = "", submitLabel = "Enviar e falar no WhatsApp" } = Astro.props;
 
 const necessidades = [
-  "Financeiro e lucro do mês", "Notas fiscais", "Orçamentos", "Boletos e recebimentos",
+  "Automação de processos", "Financeiro e lucro do mês", "Notas fiscais", "Orçamentos", "Boletos e recebimentos",
   "Estoque e preços", "Compras", "Clientes e vendas", "Multi-empresa (vários CNPJs)",
   "Serviços e contratos", "PDV / ordens de serviço", "Licitações e contratos públicos",
 ];
@@ -84,6 +84,7 @@ const f = (n: string) => `${uid}-${n}`;
     <select id={f("plano")} name="plano">
       <option value="">Ainda não sei, quero ajuda para escolher</option>
       {planos.map((p) => <option value={p.nome} selected={p.nome === plano}>{p.nome}</option>)}
+      <option value="Adicional de licitações" selected={plano === "Adicional de licitações"}>Adicional de licitações</option>
     </select>
   </label>
 

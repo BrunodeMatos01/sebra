@@ -1,0 +1,215 @@
+---
+import Base from "../layouts/Base.astro";
+import Faq from "../components/Faq.astro";
+import ContactSection from "../components/ContactSection.astro";
+import Icon from "../components/Icon.astro";
+import Brand from "../components/Brand.astro";
+import Stage from "../components/mock/Stage.astro";
+import MockFluxo from "../components/mock/MockFluxo.astro";
+import { sinais, tipos, areas, etapas, provas, faqAutomacoes } from "../data/automacoes";
+import { slugify } from "../data/solucoes";
+import { waLink } from "../data/site";
+import "../styles/internal.css";
+
+const waText = "Olá! Quero automatizar processos da minha empresa e queria entender como a Sebra faz.";
+---
+<Base
+  title="Automação de processos empresariais sob medida | Sebra"
+  description="Automações operacionais sob medida: robôs (RPA), integração entre sistemas, WhatsApp, planilhas e documentos. Menos trabalho manual e zero retrabalho."
+  crumbs={[{ name: "Automações", href: "/automacoes/" }]}
+  faq={faqAutomacoes}
+  waText={waText}
+>
+  <section class="ip-hero showcase">
+    <div class="container ip-hero__grid">
+      <div>
+        <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Automações</p>
+        <p class="eyebrow">Automação de processos</p>
+        <h1>Automações operacionais para a sua empresa trabalhar sozinha</h1>
+        <p class="ip-hero__lead">Desenvolvemos automações sob medida: robôs que fazem as tarefas repetitivas, sistemas conversando entre si e fluxos que rodam o dia inteiro, sem erro de digitação. Com o sistema que você já usa, ou com a Sebra.</p>
+        <div class="btn-row">
+          <a class="btn btn--wa btn--lg" href={waLink(waText)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Quero automatizar um processo</a>
+          <a class="btn btn--ghost btn--on-navy btn--lg" href="#o-que-automatizamos">O que dá para automatizar <Icon name="arrowDown" size={18} /></a>
+        </div>
+      </div>
+      <div class="ip-hero__visual"><Stage face="left" tilt={9}><MockFluxo /></Stage></div>
+    </div>
+  </section>
+
+  <!-- SINAIS -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">Sinais</p>
+        <h2>Sua empresa precisa de automação se...</h2>
+        <p>Toda tarefa repetitiva e com regra clara é dinheiro e tempo indo embora. E é exatamente o tipo de trabalho que uma automação faz melhor do que uma pessoa.</p>
+      </div>
+      <div class="sinais">
+        {sinais.map((s, i) => (
+          <div class="sinal reveal" data-delay={i % 3}>
+            <div class="sinal__ic"><Icon name="clock" size={18} /></div>
+            <p>{s}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TIPOS -->
+  <section class="section">
+    <div class="container">
+      <div class="s-head reveal">
+        <p class="eyebrow">Como automatizamos</p>
+        <h2>Quatro formas de tirar o trabalho manual da sua operação</h2>
+      </div>
+      <div class="tipos">
+        {tipos.map((t, i) => (
+          <article class="tipo reveal" id={slugify(t.t)} data-delay={i}>
+            <div class="tipo__ic"><Icon name={t.i} size={24} /></div>
+            <h3>{t.t}</h3><p>{t.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ÁREAS -->
+  <section class="section section--tint" id="o-que-automatizamos">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">O que automatizamos</p>
+        <h2>Automação para cada área da empresa</h2>
+        <p>Exemplos do que dá para automatizar. Cada projeto é desenhado em cima do processo real da sua empresa.</p>
+      </div>
+      <div class="areas">
+        {areas.map((a, i) => (
+          <article class="area reveal" id={`automacao-${slugify(a.t)}`} data-delay={i % 4}>
+            <div class="area__head"><div class="area__ic"><Icon name={a.i} size={20} /></div><h3>Automação {a.t === "Integrações" ? "de integrações" : `de ${a.t.toLowerCase()}`}</h3></div>
+            <ul>{a.itens.map((it) => <li><Icon name="check" size={15} stroke={2.6} class="area__ck" />{it}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="section">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">Como trabalhamos</p>
+        <h2>Do processo manual à automação rodando, em cinco etapas</h2>
+      </div>
+      <ol class="etapas reveal">
+        {etapas.map((e, i) => (
+          <li><p class="etapas__n">{String(i + 1).padStart(2, "0")}</p><h3>{e.t}</h3><p>{e.d}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROVA -->
+  <section class="section showcase">
+    <div class="container">
+      <div class="s-head s-head--center reveal">
+        <p class="eyebrow">Automação no nosso DNA</p>
+        <h2>A própria Sebra é feita de automações que já rodam todo dia</h2>
+        <p>Antes de automatizar a sua empresa, automatizamos o nosso sistema. Estas automações estão em produção na plataforma Sebra:</p>
+      </div>
+      <div class="provas">
+        {provas.map((p, i) => (
+          <article class="prova reveal" data-delay={i % 3}>
+            <div class="prova__ic"><Icon name="zap" size={18} /></div>
+            <h3>{p.t}</h3><p>{p.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SISTEMA + AUTOMAÇÃO -->
+  <section class="section">
+    <div class="container split">
+      <div class="split__copy reveal">
+        <p class="eyebrow">Sistema e automação</p>
+        <h2>Com o seu sistema ou com a Sebra</h2>
+        <p class="split__lead">Automatizamos em cima dos sistemas que a sua empresa já usa. E, se você quer resolver tudo de uma vez, a Sebra junta o ERP com licitações, notas, estoque e financeiro, mais as automações sob medida para os seus processos.</p>
+        <div class="btn-row" style="margin-top:22px">
+          <a class="btn btn--primary" href="/planos/">Ver os planos do sistema</a>
+          <a class="btn btn--ghost" href="/licitacoes/">Sistema de licitação</a>
+        </div>
+      </div>
+      <div class="split__visual reveal" data-delay="1">
+        <ul class="combo">
+          <li><div class="combo__ic"><Icon name="layers" size={20} /></div><div><p class="combo__t">Sistema Sebra</p><p class="combo__d">Licitações, notas fiscais, orçamentos, estoque, serviços e financeiro</p></div></li>
+          <li class="combo__plus" aria-hidden="true">+</li>
+          <li><div class="combo__ic combo__ic--auto"><Icon name="zap" size={20} /></div><div><p class="combo__t">Automações sob medida</p><p class="combo__d">Para os processos que só a sua empresa tem</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="s-head s-head--center reveal"><p class="eyebrow">Perguntas frequentes</p><h2>Dúvidas sobre automação de processos</h2></div>
+      <div class="reveal" style="margin-top:40px"><Faq items={faqAutomacoes} /></div>
+    </div>
+  </section>
+
+  <ContactSection origem="Página de automações" uid="auto" waText={waText}
+    eyebrow="Diagnóstico de automação"
+    title="Conte qual processo toma mais tempo da sua equipe"
+    lead="Preencha uma vez e abrimos o WhatsApp com a sua mensagem pronta. Fazemos o diagnóstico e mostramos o que dá para automatizar primeiro."
+    bullets={["Diagnóstico dos processos mais repetitivos", "Escopo, prazo e valor antes de começar", "Integração com o sistema que você já usa"]} />
+</Base>
+
+<style>
+  .sinais { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px; }
+  .sinal { display: flex; gap: 14px; align-items: flex-start; padding: 20px; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--brand); border-radius: var(--r-md); }
+  .sinal__ic { flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: #eef3ff; color: var(--brand); }
+  .sinal p { font-size: 15.5px; font-weight: 500; color: var(--ink); line-height: 1.5; }
+  @media (max-width: 900px) { .sinais { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .sinais { grid-template-columns: 1fr; } }
+
+  .tipos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
+  .tipo { padding: 26px; border-radius: var(--r-md); background: linear-gradient(180deg, #f6f9ff, #fff); border: 1px solid var(--line); }
+  .tipo__ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; margin-bottom: 16px; }
+  .tipo h3 { font-size: 18px; }
+  .tipo p { margin-top: 8px; color: var(--ink-soft); font-size: 15px; }
+  @media (max-width: 980px) { .tipos { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .tipos { grid-template-columns: 1fr; } }
+
+  .areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+  .area { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 22px; }
+  .area__head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line-soft); }
+  .area__ic { flex-shrink: 0; width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
+  .area h3 { font-family: var(--font); font-size: 16px; font-weight: 700; letter-spacing: 0; }
+  .area ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; }
+  .area li { display: flex; gap: 9px; align-items: flex-start; font-size: 14.5px; color: var(--ink-soft); line-height: 1.45; }
+  .area :global(.area__ck) { color: var(--brand); flex-shrink: 0; margin-top: 3px; }
+  @media (max-width: 1020px) { .areas { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .areas { grid-template-columns: 1fr; } }
+
+  .etapas { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .etapas li { padding: 22px 20px; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--brand); }
+  .etapas__n { font-family: var(--font-display); font-weight: 800; color: var(--brand); }
+  .etapas h3 { font-size: 17px; margin-top: 6px; }
+  .etapas li p:last-child { margin-top: 6px; font-size: 14.5px; color: var(--ink-soft); }
+  @media (max-width: 1020px) { .etapas { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .etapas { grid-template-columns: 1fr; } }
+
+  .provas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+  .prova { padding: 24px; border-radius: var(--r-md); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+  .prova__ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: rgba(74,222,128,.15); color: #4ade80; margin-bottom: 14px; }
+  .prova h3 { font-size: 17px; }
+  .prova p { margin-top: 6px; font-size: 14.5px; color: var(--on-dark-soft); }
+  @media (max-width: 900px) { .provas { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .provas { grid-template-columns: 1fr; } }
+
+  .combo { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .combo li:not(.combo__plus) { display: flex; gap: 16px; align-items: center; padding: 22px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .combo__plus { text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 28px; color: var(--brand); line-height: 1; }
+  .combo__ic { flex-shrink: 0; width: 50px; height: 50px; border-radius: 13px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; }
+  .combo__ic--auto { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .combo__t { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink); }
+  .combo__d { color: var(--ink-soft); font-size: 14.5px; margin-top: 2px; }
+</style>

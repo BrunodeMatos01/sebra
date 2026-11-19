@@ -8,7 +8,7 @@ import Icon from "./Icon.astro";
   <div class="hd__inner container">
     <a class="hd__brand" href="/" aria-label="Sebra, página inicial">
       <img src="/img/logo-mark.png" alt="" width="62" height="48" />
-      <span class="hd__name">Sebra<small>Sistema de gestão empresarial</small></span>
+      <span class="hd__name">Sebra<small>Sistema e automação</small></span>
     </a>
 
     <nav class="hd__nav" aria-label="Navegação principal">
@@ -30,8 +30,8 @@ import Icon from "./Icon.astro";
               </div>
               {item.footer && <a class="hd__menu-more" href={item.footer.href}>{item.footer.label} <Icon name="arrow" size={15} /></a>}
               {item.highlight && (
-                <a class="hd__menu-foot" href={waLink(waMsg.licitacao)} target="_blank" rel="noopener">
-                  <Brand name="whatsapp" size={18} /> Ver o módulo de licitações funcionando
+                <a class="hd__menu-foot" href={waLink(item.label === "Automações" ? "Olá! Quero automatizar processos da minha empresa." : waMsg.licitacao)} target="_blank" rel="noopener">
+                  <Brand name="whatsapp" size={18} /> {item.label === "Automações" ? "Conversar sobre uma automação" : "Ver o módulo de licitações funcionando"}
                 </a>
               )}
             </div>

@@ -16,5 +16,9 @@ export default defineConfig({
     "/segmentos/licitacoes": "/licitacoes/",
     "/solucoes/ia": "/solucoes/atendimento/",
     "/solucoes/rh": "/",
+    "/segmentos/distribuidor": "/segmentos/varejo/",
+    "/segmentos/construcao": "/segmentos/servicos/",
+    "/segmentos/salao": "/segmentos/servicos/",
+    "/segmentos/eventos": "/segmentos/servicos/",
   },
 });

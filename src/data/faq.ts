@@ -4,8 +4,9 @@
 export type Faq = { q: string; a: string };
 
 export const faqHome: Faq[] = [
-  { q: "O que é a Sebra?", a: "A Sebra é um sistema de gestão empresarial (ERP) brasileiro que reúne financeiro, notas fiscais, orçamentos, clientes, produtos e estoque, compras, serviços e operação num sistema só. Para quem vende ao governo, tem também um módulo completo de licitações e contratos públicos." },
-  { q: "A Sebra serve para o meu ramo?", a: "A Sebra atende comércio e varejo, distribuidoras, indústrias, prestadores de serviço, construtoras, salões e clínicas, cerimoniais e fornecedores do governo. Você ativa os módulos que fazem sentido para a sua operação." },
+  { q: "O que é a Sebra?", a: "A Sebra é um sistema de gestão (ERP) brasileiro com licitações, notas fiscais, orçamentos, estoque, serviços e financeiro num sistema só. Além do sistema, desenvolvemos automações operacionais sob medida para os processos da sua empresa." },
+  { q: "Vocês fazem automação de processos?", a: "Sim. Desenvolvemos automações sob medida: robôs que fazem tarefas repetitivas, integração entre sistemas, planilhas e WhatsApp, leitura de documentos e fluxos de aprovação. Funciona com o sistema que você já usa ou com a Sebra." },
+  { q: "A Sebra serve para o meu ramo?", a: "A Sebra atende comércio e varejo, indústrias, prestadores de serviço e, com um módulo especializado, empresas que vendem para o governo. O foco está em quem precisa de nota fiscal, estoque, orçamentos e financeiro bem controlados." },
   { q: "A Sebra emite nota fiscal?", a: "Sim. Emite NF-e, NFS-e e NFC-e por emissor homologado, com retenções, carta de correção, envio automático por e-mail, pacote do contador e XML protegido e salvo." },
   { q: "Consigo ver o lucro real da empresa no mês?", a: "Sim. O DRE por competência e o resultado das vendas são montados sozinhos a partir das notas e dos lançamentos: você vê o que entrou, o que custou e o que sobrou." },
   { q: "O orçamento vira nota fiscal?", a: "Sim. O orçamento aprovado abre a nota fiscal já preenchida. Se tiver produto e serviço, a Sebra separa em NF-e e NFS-e, como manda a lei." },

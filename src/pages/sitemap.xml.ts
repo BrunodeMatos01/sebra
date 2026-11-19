@@ -10,6 +10,7 @@ const hoje = new Date().toISOString().slice(0, 10);
 const paginas: { path: string; prioridade: string; freq: string }[] = [
   { path: "/", prioridade: "1.0", freq: "weekly" },
   { path: "/licitacoes/", prioridade: "0.95", freq: "weekly" },
+  { path: "/automacoes/", prioridade: "0.95", freq: "weekly" },
   { path: "/planos/", prioridade: "0.9", freq: "weekly" },
   ...solucoes.map((s) => ({ path: `/solucoes/${s.slug}/`, prioridade: ["financeiro", "fiscal", "orcamentos"].includes(s.slug) ? "0.85" : "0.75", freq: "monthly" })),
   ...segmentos.map((s) => ({ path: `/segmentos/${s.slug}/`, prioridade: "0.75", freq: "monthly" })),
