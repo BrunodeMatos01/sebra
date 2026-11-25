@@ -1,0 +1,85 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, waLink } from "../data/site";
+import "../styles/internal.css";
+import "../styles/prose.css";
+
+const atualizado = "25 de novembro de 2026";
+const controlador = site.cnpj ? `${site.legalName}, inscrita no CNPJ ${site.cnpj}` : site.legalName;
+---
+<Base
+  title="Política de Privacidade e Cookies | Sebra"
+  description="Como a Sebra trata os dados pessoais de quem visita o site e fala com a gente, em linha com a LGPD: o que coletamos, por quê, com quem compartilhamos e seus direitos."
+  crumbs={[{ name: "Privacidade", href: "/privacidade/" }]}
+>
+  <section class="ip-hero showcase">
+    <div class="container">
+      <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Privacidade</p>
+      <p class="eyebrow">LGPD</p>
+      <h1>Política de Privacidade e Cookies</h1>
+      <p class="ip-hero__lead">Escrita em português claro. Se algo não ficar claro, fale com a gente.</p>
+      <p class="meta-line"><span>Atualizada em {atualizado}</span></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="prose">
+        <h2 id="quem">1. Quem cuida dos seus dados</h2>
+        <p>Este site (<strong>{site.domain}</strong>) é mantido por <strong>{controlador}</strong> ("Sebra"), que é a controladora dos dados pessoais tratados aqui, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018, LGPD).</p>
+        <p>Canal do encarregado (DPO) e de privacidade: <a href={`mailto:${site.email}?subject=Privacidade`}>{site.email}</a>.</p>
+
+        <h2 id="coleta">2. Que dados coletamos e para quê</h2>
+        <table>
+          <thead><tr><th>Situação</th><th>Dados</th><th>Finalidade</th><th>Base legal (LGPD, art. 7º)</th></tr></thead>
+          <tbody>
+            <tr><td>Formulário de contato</td><td>Nome, empresa, WhatsApp, CNPJ (opcional), ramo, interesses e mensagem</td><td>Responder seu contato, apresentar o sistema e enviar proposta</td><td>Procedimentos preliminares a contrato, a seu pedido (inc. V)</td></tr>
+            <tr><td>Conversa no WhatsApp</td><td>Número, nome do perfil e o que você escrever</td><td>Atendimento comercial e suporte</td><td>Procedimentos preliminares a contrato (inc. V) e legítimo interesse (inc. IX)</td></tr>
+            <tr><td>Navegação no site</td><td>Páginas vistas, origem do acesso, tipo de aparelho e região aproximada</td><td>Medir audiência e melhorar o site</td><td>Consentimento (inc. I), dado pelo aviso de cookies</td></tr>
+            <tr><td>Segurança do servidor</td><td>Endereço IP, data e hora do acesso</td><td>Proteger o site contra ataques e cumprir o Marco Civil da Internet</td><td>Cumprimento de obrigação legal (inc. II) e legítimo interesse (inc. IX)</td></tr>
+          </tbody>
+        </table>
+        <p><strong>O formulário não grava nada no site.</strong> A mensagem é montada no seu próprio navegador e enviada pelo WhatsApp, que você aciona. Não usamos seus dados para decisões automatizadas e não vendemos nenhum dado.</p>
+
+        <h2 id="cookies">3. Cookies</h2>
+        <p>Usamos apenas o <strong>Google Analytics 4</strong> para medir audiência. Ele só grava cookies se você clicar em <strong>Aceitar</strong> no aviso. Se recusar, o Google recebe apenas sinais anônimos, sem cookies e sem identificar você (Modo de Consentimento do Google).</p>
+        <table>
+          <thead><tr><th>Cookie</th><th>Quem define</th><th>Para quê</th><th>Duração</th></tr></thead>
+          <tbody>
+            <tr><td><code>_ga</code>, <code>_ga_*</code></td><td>Google Analytics</td><td>Distinguir visitantes e sessões</td><td>Até 2 anos</td></tr>
+          </tbody>
+        </table>
+        <p>Também guardamos no seu navegador (não é um cookie, e não sai do seu aparelho) a sua escolha no aviso de cookies.</p>
+        <p><a href="#" data-cookie-open>Mudar minhas preferências de cookies</a>.</p>
+
+        <h2 id="compartilhamento">4. Com quem compartilhamos</h2>
+        <ul>
+          <li><strong>WhatsApp (Meta)</strong>: quando você escolhe falar conosco por lá.</li>
+          <li><strong>Google</strong>: medição de audiência, nas condições do item 3.</li>
+          <li><strong>Hospedagem (Hostinger)</strong>: registros técnicos de acesso do servidor.</li>
+          <li><strong>Autoridades</strong>: somente por ordem legal ou judicial.</li>
+        </ul>
+        <p>Alguns desses fornecedores podem tratar dados fora do Brasil, com as garantias previstas no art. 33 da LGPD.</p>
+
+        <h2 id="prazo">5. Por quanto tempo guardamos</h2>
+        <ul>
+          <li>Contatos comerciais: enquanto houver conversa em andamento e até 2 anos depois do último contato, a menos que você peça a exclusão antes.</li>
+          <li>Registros de acesso do servidor: 6 meses (Marco Civil da Internet, art. 15).</li>
+          <li>Dados do Google Analytics: 14 meses.</li>
+        </ul>
+
+        <h2 id="direitos">6. Seus direitos</h2>
+        <p>Pelo art. 18 da LGPD, você pode pedir a qualquer momento: confirmação de que tratamos seus dados, acesso, correção, anonimização ou exclusão, portabilidade, informação sobre compartilhamento e revogação do consentimento. Basta escrever para <a href={`mailto:${site.email}?subject=Direitos%20LGPD`}>{site.email}</a> ou chamar no <a href={waLink("Olá! Quero fazer um pedido sobre meus dados pessoais (LGPD).")} target="_blank" rel="noopener">WhatsApp</a>. Respondemos em até 15 dias. Você também pode reclamar na Autoridade Nacional de Proteção de Dados (ANPD).</p>
+
+        <h2 id="seguranca">7. Segurança</h2>
+        <p>O site funciona só em HTTPS, com política de segurança de conteúdo, bloqueio de ataques conhecidos e sem banco de dados público. Veja os detalhes em <a href="/seguranca/">Segurança</a>.</p>
+
+        <h2 id="plataforma">8. Clientes da plataforma</h2>
+        <p>Os dados que nossos clientes colocam no sistema Sebra (notas, cadastros, financeiro) são tratados pela Sebra como <strong>operadora</strong>, seguindo o contrato e as instruções de cada empresa cliente. Esta política cobre apenas o site institucional.</p>
+
+        <h2 id="mudancas">9. Mudanças nesta política</h2>
+        <p>Podemos atualizar este texto. A data no topo sempre mostra a versão em vigor.</p>
+      </article>
+    </div>
+  </section>
+</Base>

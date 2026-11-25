@@ -23,6 +23,14 @@ ErrorDocument 403 /404.html
   RewriteCond %{HTTP_HOST} ^www\.sebraoficial\.com$ [NC]
   RewriteRule ^ https://sebraoficial.com%{REQUEST_URI} [L,R=301]
 
+  # 2b) Endereços antigos: redirecionamento 301 de verdade (o Google transfere a relevância)
+  RewriteRule ^segmentos/licitacoes/?$ /licitacoes/ [L,R=301]
+  RewriteRule ^solucoes/ia/?$ /solucoes/atendimento/ [L,R=301]
+  RewriteRule ^solucoes/rh/?$ - [G,L]
+  RewriteRule ^segmentos/distribuidor/?$ /segmentos/varejo/ [L,R=301]
+  RewriteRule ^segmentos/(construcao|salao|eventos)/?$ /segmentos/servicos/ [L,R=301]
+  RewriteRule ^blog/?$ /guias/ [L,R=301]
+
   # 3) Bloqueia arquivos ocultos e sensíveis (exceto /.well-known/)
   RewriteRule (^|/)\.(?!well-known/) - [F,L]
   RewriteRule \.(map|md|bak|old|orig|swp|log|sql|env|ini|sh|ps1|lock|json)$ - [F,L,NC]
@@ -77,8 +85,14 @@ ErrorDocument 403 /404.html
   Header unset Server
 
   # Cache: arquivos com hash (_astro) por 1 ano; HTML sempre revalida
-  <FilesMatch "\.(js|css)$">
+  <FilesMatch "\.(js|css|woff2?)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(png|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"
+  </FilesMatch>
+  <FilesMatch "\.(xml|txt|webmanifest)$">
+    Header set Cache-Control "public, max-age=3600"
   </FilesMatch>
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache"
@@ -94,8 +108,12 @@ ErrorDocument 403 /404.html
   ExpiresActive On
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType application/manifest+json "access plus 7 days"
 </IfModule>
 
 AddType application/manifest+json .webmanifest
+AddType image/webp .webp
+AddType font/woff2 .woff2
 AddType text/plain .txt

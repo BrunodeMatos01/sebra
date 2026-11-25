@@ -1,0 +1,76 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ContactSection from "../../components/ContactSection.astro";
+import Icon from "../../components/Icon.astro";
+import { categorias, leitura } from "../../data/guias";
+import "../../styles/internal.css";
+import "../../styles/prose.css";
+
+const guias = (await getCollection("guias")).sort(
+  (a, b) => Number(b.data.destaque) - Number(a.data.destaque) || +(b.data.updated ?? b.data.published) - +(a.data.updated ?? a.data.published),
+);
+const porCat = categorias.map((c) => ({ c, itens: guias.filter((g) => g.data.categoria === c) })).filter((x) => x.itens.length);
+const destaques = guias.filter((g) => g.data.destaque).slice(0, 3);
+const slugCat = (c: string) => c.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const lista = {
+  "@type": "ItemList",
+  itemListElement: guias.map((g, i) => ({ "@type": "ListItem", position: i + 1, url: `https://sebraoficial.com/guias/${g.id}/`, name: g.data.title })),
+};
+---
+<Base
+  title="Guias de licitação, gestão e notas fiscais | Sebra"
+  description="Guias práticos e gratuitos para vender para o governo, controlar certidões e empenhos, emitir notas com retenção e organizar o financeiro da sua empresa."
+  crumbs={[{ name: "Guias", href: "/guias/" }]}
+  extraLd={[lista]}
+>
+  <section class="ip-hero showcase">
+    <div class="container">
+      <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Guias</p>
+      <p class="eyebrow">Central de guias</p>
+      <h1>Guias práticos para vender para o governo e organizar a empresa</h1>
+      <p class="ip-hero__lead">Licitação, certidões, empenho, nota fiscal com retenção, preço, DRE e fluxo de caixa explicados sem juridiquês, por quem faz sistema para isso todos os dias.</p>
+      <nav class="cat-nav" aria-label="Categorias">
+        {porCat.map(({ c, itens }) => <a href={`#${slugCat(c)}`}>{c} <span>{itens.length}</span></a>)}
+      </nav>
+    </div>
+  </section>
+
+  {destaques.length > 0 && (
+    <section class="section" style="padding-bottom:0">
+      <div class="container">
+        <div class="s-head"><p class="eyebrow">Comece por aqui</p><h2>Os guias mais lidos</h2></div>
+        <div class="guia-grid" style="margin-top:32px">
+          {destaques.map((g) => (
+            <a class="guia-card guia-card--hot" href={`/guias/${g.id}/`}>
+              <span class="guia-card__cat">{g.data.categoria}</span>
+              <h3>{g.data.title}</h3>
+              <p>{g.data.description}</p>
+              <span class="guia-card__go">{leitura(g.body ?? "")} min · Ler o guia <Icon name="arrow" size={15} /></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {porCat.map(({ c, itens }) => (
+    <section class="section" id={slugCat(c)} style="padding-bottom:0">
+      <div class="container">
+        <div class="s-head"><p class="eyebrow">{c}</p><h2>Guias de {c.toLowerCase()}</h2></div>
+        <div class="guia-grid" style="margin-top:28px">
+          {itens.map((g) => (
+            <a class="guia-card" href={`/guias/${g.id}/`}>
+              <h3>{g.data.title}</h3>
+              <p>{g.data.description}</p>
+              <span class="guia-card__go">{leitura(g.body ?? "")} min · Ler <Icon name="arrow" size={15} /></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <div style="height:clamp(64px,8vw,120px)"></div>
+  <ContactSection origem="Central de guias" />
+</Base>

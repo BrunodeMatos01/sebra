@@ -18,6 +18,9 @@ import { foco } from "../data/nav";
 import MockFluxo from "../components/mock/MockFluxo.astro";
 import { tipos as tiposAuto, provas as provasAuto } from "../data/automacoes";
 import { waLink, waMsg } from "../data/site";
+import { getCollection } from "astro:content";
+import "../styles/prose.css";
+const guiasHome = (await getCollection("guias")).filter((g) => g.data.destaque).slice(0, 3);
 
 // Abas do explorador: os módulos mais fortes, nesta ordem.
 const abas = ["financeiro", "orcamentos", "fiscal", "estoque", "servicos", "compras"].map((s) => getSolucao(s)!);
@@ -32,7 +35,7 @@ const curto: Record<string, string> = { estoque: "Estoque", servicos: "Serviços
 
 const jornadaGov = [
   { i: "search", t: "Edital", d: "Busca no PNCP" }, { i: "shield", t: "Habilitação", d: "Certidões em dia" },
-  { i: "gavel", t: "Disputa", d: "Prazos e lances" }, { i: "contract", t: "Contrato", d: "Saldo por item" },
+  { i: "gavel", t: "Disputa", d: "Prazos e lances" }, { i: "contract", t: "Contrato", d: "Saldo e vigência" },
   { i: "landmark", t: "Empenho", d: "Calculado sozinho" }, { i: "receipt", t: "Nota", d: "Com retenções" },
   { i: "bank", t: "Recebimento", d: "Baixa automática" }, { i: "chart", t: "Lucro", d: "Por licitação" },
 ];
@@ -52,16 +55,17 @@ const etapas = [
 ];
 ---
 <Base
-  title="Sebra ERP com IA | Sistema de licitação, ERP e automação empresarial"
-  description="Sistema de licitação e ERP com notas fiscais, orçamentos, estoque e financeiro, mais automação de processos sob medida para a sua empresa."
+  title="Sistema de Licitação e ERP para Empresas | Sebra"
+  description="Sistema de licitação com busca no PNCP, certidões, contratos e empenhos, mais ERP com notas fiscais, financeiro e estoque. Veja funcionando no WhatsApp."
   faq={faqHome}
+  product
 >
   <!-- 1. HERÓI -->
   <section class="hero showcase">
     <div class="container hero__grid">
       <div class="hero__copy">
         <p class="eyebrow">Sistema de licitação, ERP e automação</p>
-        <h1>Sistema e automação para a sua empresa <span class="accent">crescer</span>.</h1>
+        <h1>Sistema de licitação e ERP para a sua empresa <span class="accent">crescer</span>.</h1>
         <p class="hero__lead">Licitações, notas fiscais, orçamentos, estoque, serviços e financeiro num sistema só. E automações operacionais sob medida para os processos que hoje tomam o tempo da sua equipe.</p>
         <div class="btn-row">
           <a class="btn btn--wa btn--lg" href={waLink(waMsg.geral)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Falar com um especialista</a>
@@ -219,7 +223,7 @@ const etapas = [
       <div class="s-head s-head--center reveal">
         <p class="eyebrow">Especialidade Sebra</p>
         <h2>Vende para o governo? Aqui a Sebra é especialista.</h2>
-        <p>O módulo de licitações acompanha a disputa e continua depois da vitória: contrato com saldo por item, empenho calculado sozinho, nota com retenção, boleto, recebimento e o lucro de cada processo.</p>
+        <p>O módulo de licitações acompanha a disputa e continua depois da vitória: contrato com saldo e vigência, empenho calculado sozinho, nota com retenção, boleto, recebimento e o lucro de cada processo.</p>
       </div>
       <ol class="gov__steps reveal">
         {jornadaGov.map((j) => <li><div class="gov__ic"><Icon name={j.i} size={19} /></div><p class="gov__t">{j.t}</p><p class="gov__d">{j.d}</p></li>)}
@@ -230,7 +234,7 @@ const etapas = [
             <li><strong>Busca de editais no PNCP</strong>, a base oficial de todo órgão sob a Lei 14.133</li>
             <li><strong>Quadro Kanban ligado à licitação</strong>: moveu o cartão, mudou o status, e vice-versa</li>
             <li><strong>Certidões com aviso</strong> antes de vencer e checklist de habilitação</li>
-            <li><strong>Saldo de ata por item</strong>: contratado, comprado, entregue e o que falta</li>
+            <li><strong>Saldo de contrato e de empenho</strong>: o que já foi faturado e o que ainda pode faturar</li>
             <li><strong>Empenhos</strong> com faturado e recebido calculados pelas notas</li>
             <li><strong>AF em PDF vira nota</strong>, até 50 de uma vez (CINCATARINA)</li>
             <li><strong>Resultado por licitação</strong> com custo real das compras</li>
@@ -276,6 +280,26 @@ const etapas = [
       </div>
     </div>
   </section>
+
+  <!-- 7b. GUIAS -->
+  {guiasHome.length > 0 && (
+    <section class="section" id="guias">
+      <div class="container">
+        <div class="s-head reveal"><p class="eyebrow">Guias gratuitos</p><h2>Aprenda a vender para o governo e organizar a empresa</h2><p>Conteúdo prático sobre licitação, certidões, notas com retenção e financeiro.</p></div>
+        <div class="guia-grid reveal" style="margin-top:32px">
+          {guiasHome.map((g) => (
+            <a class="guia-card" href={`/guias/${g.id}/`}>
+              <span class="guia-card__cat">{g.data.categoria}</span>
+              <h3>{g.data.title}</h3>
+              <p>{g.data.description}</p>
+              <span class="guia-card__go">Ler o guia <Icon name="arrow" size={15} /></span>
+            </a>
+          ))}
+        </div>
+        <p style="margin-top:24px"><a class="btn btn--ghost" href="/guias/">Ver todos os guias <Icon name="arrow" size={16} /></a></p>
+      </div>
+    </section>
+  )}
 
   <!-- 8. FAQ -->
   <section class="section section--soft">

@@ -20,7 +20,7 @@ const year = new Date().getFullYear();
   <div class="container ft__grid">
     <div class="ft__brand-col">
       <a class="ft__brand" href="/" aria-label="Sebra, página inicial">
-        <img src="/img/logo-tile-128.png" alt="" width="52" height="52" decoding="async" />
+        <img src="/img/logo-tile.webp" alt="" width="52" height="52" loading="lazy" decoding="async" />
         <span>Sebra</span>
       </a>
       <p class="ft__desc">Sistema de gestão empresarial completo: financeiro, notas fiscais, orçamentos, estoque, compras, equipe e licitações num sistema só.</p>
@@ -45,6 +45,7 @@ const year = new Date().getFullYear();
       <a href="/planos/">Planos</a>
       <a href="/empresa/">Quem somos</a>
       <a href="/integracoes/">Integrações</a>
+      <a href="/guias/">Guias e conteúdos</a>
       {col("Segmentos").slice(1, 4).map((c) => <a href={c.href}>{c.label}</a>)}
       <a href={site.appUrl}>Entrar no sistema</a>
     </nav>
@@ -53,7 +54,7 @@ const year = new Date().getFullYear();
   <div class="ft__bar">
     <div class="container ft__bar-inner">
       <span>© {year} {site.legalName}{site.cnpj && ` · CNPJ ${site.cnpj}`} · {site.city}, Brasil</span>
-      <span>Software brasileiro de gestão empresarial.</span>
+      <span class="ft__legal"><a href="/privacidade/">Privacidade</a><a href="/termos/">Termos de uso</a><a href="#" data-cookie-open>Preferências de cookies</a></span>
     </div>
   </div>
 </footer>
@@ -75,6 +76,9 @@ const year = new Date().getFullYear();
   .ft__col a:hover { color: #fff; }
   .ft__bar { border-top: 1px solid rgba(255,255,255,.08); }
   .ft__bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-block: 22px 96px; font-size: 13px; color: var(--on-dark-mute); }
+  .ft__legal { display: flex; gap: 16px; flex-wrap: wrap; }
+  .ft__legal a { color: var(--on-dark-mute); }
+  .ft__legal a:hover { color: #fff; text-decoration: underline; }
   @media (max-width: 900px) { .ft__grid { grid-template-columns: 1fr 1fr; gap: 32px; } .ft__brand-col { grid-column: 1 / -1; } }
   @media (max-width: 520px) { .ft__grid { grid-template-columns: 1fr; } }
 </style>

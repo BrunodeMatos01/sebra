@@ -18,8 +18,9 @@ export const nav: NavItem[] = [
       { label: "Busca de editais no PNCP", href: "/licitacoes/#pncp", desc: "Editais abertos do Brasil inteiro", icon: "search" },
       { label: "Quadro Kanban de licitações", href: "/licitacoes/#kanban", desc: "O cartão anda junto com o status", icon: "layers" },
       { label: "Certidões e habilitação", href: "/licitacoes/#certidoes", desc: "Nenhuma certidão vence sem aviso", icon: "shield" },
-      { label: "Contratos e empenhos", href: "/licitacoes/#contratos", desc: "Saldo de ata por item e empenho", icon: "contract" },
+      { label: "Contratos e empenhos", href: "/licitacoes/#contratos", desc: "Saldo de contrato, empenho e vigência", icon: "contract" },
       { label: "Resultado por licitação", href: "/licitacoes/#resultado", desc: "O lucro de cada processo", icon: "chart" },
+      { label: "Guias de licitação", href: "/guias/#licitacoes", desc: "Como vender para o governo, passo a passo", icon: "file" },
     ],
   },
   {
@@ -52,6 +53,7 @@ export const nav: NavItem[] = [
       { label: "Quem somos", href: "/empresa/", desc: "Quem é a Sebra e como trabalhamos", icon: "building" },
       { label: "Segurança", href: "/seguranca/", desc: "Como protegemos seus dados", icon: "lock" },
       { label: "Integrações", href: "/integracoes/", desc: "SEFAZ, bancos, PNCP e mais", icon: "link" },
+      { label: "Guias e conteúdos", href: "/guias/", desc: "Licitação, fiscal e financeiro sem juridiquês", icon: "file" },
       { label: "Fale com a gente", href: "/#contato", desc: "Atendimento pelo WhatsApp", icon: "chat" },
     ],
   },

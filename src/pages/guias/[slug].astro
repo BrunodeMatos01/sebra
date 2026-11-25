@@ -1,0 +1,108 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Faq from "../../components/Faq.astro";
+import ContactSection from "../../components/ContactSection.astro";
+import Brand from "../../components/Brand.astro";
+import Icon from "../../components/Icon.astro";
+import { ctas, leitura, dataBR } from "../../data/guias";
+import { waLink } from "../../data/site";
+import "../../styles/internal.css";
+import "../../styles/prose.css";
+
+export async function getStaticPaths() {
+  const todos = await getCollection("guias");
+  return todos.map((g) => ({ params: { slug: g.id }, props: { g, todos } }));
+}
+const { g, todos } = Astro.props;
+const { Content, headings } = await render(g);
+const d = g.data;
+const cta = ctas[d.cta];
+const toc = headings.filter((h) => h.depth === 2);
+const min = leitura(g.body ?? "");
+const relacionados = [
+  ...todos.filter((x) => x.id !== g.id && x.data.categoria === d.categoria),
+  ...todos.filter((x) => x.id !== g.id && x.data.categoria !== d.categoria),
+].slice(0, 3);
+const url = `/guias/${g.id}/`;
+---
+<Base
+  title={d.seoTitle}
+  description={d.description}
+  image={`/og/${g.id}.png`}
+  type="article"
+  article={{ published: d.published.toISOString(), modified: (d.updated ?? d.published).toISOString() }}
+  crumbs={[{ name: "Guias", href: "/guias/" }, { name: d.title, href: url }]}
+  faq={d.faq}
+  waText={cta.wa}
+>
+  <section class="ip-hero showcase">
+    <div class="container">
+      <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · <a href="/guias/">Guias</a> · {d.categoria}</p>
+      <p class="eyebrow">{d.categoria}</p>
+      <h1 style="max-width:920px">{d.title}</h1>
+      <p class="ip-hero__lead">{d.description}</p>
+      <p class="meta-line">
+        <span><Icon name="clock" size={15} /> {min} min de leitura</span>
+        <span>Atualizado em <time datetime={(d.updated ?? d.published).toISOString()}>{dataBR(d.updated ?? d.published)}</time></span>
+        <span>Por Equipe Sebra</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:clamp(40px,5vw,64px)">
+    <div class="container prose-wrap">
+      <article class="prose">
+        <blockquote class="resumo"><p><strong>Resposta rápida:</strong> {d.resumo}</p></blockquote>
+        <Content />
+        <div class="inline-cta">
+          <p>{cta.t}<small>{cta.d}</small></p>
+          <a class="btn btn--wa" href={waLink(cta.wa)} target="_blank" rel="noopener" data-track="guia_cta"><Brand name="whatsapp" size={18} /> Falar com um especialista</a>
+        </div>
+        <p style="font-size:14px;color:var(--muted)">Conteúdo informativo. Confira sempre o edital, a legislação vigente e, quando for o caso, seu contador ou advogado.</p>
+      </article>
+
+      <aside class="prose-side">
+        {toc.length > 2 && (
+          <nav class="toc" aria-label="Neste guia">
+            <p>Neste guia</p>
+            <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+        <div class="cta-card">
+          <p class="cta-card__t">{cta.t}</p>
+          <p>{cta.d}</p>
+          <a class="btn btn--wa" href={waLink(cta.wa)} target="_blank" rel="noopener"><Brand name="whatsapp" size={18} /> Ver funcionando</a>
+          <a href={cta.href} style="display:block;text-align:center;margin-top:12px;font-size:14px;color:var(--on-dark-soft);text-decoration:underline">{cta.label}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {d.faq.length > 0 && (
+    <section class="section section--tint">
+      <div class="container">
+        <div class="s-head s-head--center"><p class="eyebrow">Perguntas frequentes</p><h2>Dúvidas comuns</h2></div>
+        <div style="margin-top:36px"><Faq items={d.faq} /></div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="s-head"><p class="eyebrow">Continue lendo</p><h2>Outros guias</h2></div>
+      <div class="guia-grid" style="margin-top:32px">
+        {relacionados.map((r) => (
+          <a class="guia-card" href={`/guias/${r.id}/`}>
+            <span class="guia-card__cat">{r.data.categoria}</span>
+            <h3>{r.data.title}</h3>
+            <p>{r.data.description}</p>
+            <span class="guia-card__go">Ler o guia <Icon name="arrow" size={15} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactSection origem={`Guia: ${d.title}`} uid="contato" waText={cta.wa} />
+</Base>

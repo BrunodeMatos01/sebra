@@ -60,7 +60,7 @@ export const segmentos: Segmento[] = [
       { q: "Consigo saber o lucro da loja no mês?", a: "Sim. O DRE e o resultado das vendas mostram o que entrou, o que custou e o que sobrou." },
     ],
     mock: "produto",
-    gov: "Atende prefeitura com pedidos de material? Os mesmos produtos da loja entram na licitação e no contrato público, com saldo por item.",
+    gov: "Atende prefeitura com pedidos de material? Os mesmos produtos da loja entram na licitação e no contrato público, com saldo do contrato e do empenho.",
     closing: "Venda no balcão com controle e saiba quanto sobrou no mês.",
   },
   {

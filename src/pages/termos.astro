@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+import "../styles/internal.css";
+import "../styles/prose.css";
+
+const atualizado = "25 de novembro de 2026";
+---
+<Base
+  title="Termos de Uso do site | Sebra"
+  description="Regras de uso do site institucional da Sebra: conteúdo, telas de demonstração, preços, propriedade intelectual e contato."
+  crumbs={[{ name: "Termos de uso", href: "/termos/" }]}
+>
+  <section class="ip-hero showcase">
+    <div class="container">
+      <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Termos de uso</p>
+      <h1>Termos de Uso do site</h1>
+      <p class="meta-line"><span>Atualizados em {atualizado}</span></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="prose">
+        <h2>1. Sobre este site</h2>
+        <p>Este site apresenta o sistema Sebra e os serviços de automação da {site.legalName}{site.cnpj && `, CNPJ ${site.cnpj}`}. Ao navegar aqui, você concorda com estes termos e com a nossa <a href="/privacidade/">Política de Privacidade</a>.</p>
+        <h2>2. Telas e exemplos</h2>
+        <p>As telas mostradas no site usam <strong>dados fictícios de demonstração</strong>. Funcionalidades, integrações e layouts podem evoluir com o tempo.</p>
+        <h2>3. Preços</h2>
+        <p>Os valores publicados são referência e podem mudar. Vale sempre a proposta comercial enviada para a sua empresa. O uso da plataforma é regido por contrato próprio.</p>
+        <h2>4. Conteúdo dos guias</h2>
+        <p>Os guias e artigos têm caráter informativo e foram escritos com cuidado, mas não substituem a leitura do edital, da legislação nem a orientação de um contador ou advogado para o seu caso.</p>
+        <h2>5. Propriedade intelectual</h2>
+        <p>Marca, logotipo, textos, telas e código deste site pertencem à Sebra. Você pode citar e compartilhar trechos com link para a página original.</p>
+        <h2>6. Links externos</h2>
+        <p>Alguns links levam a sites de terceiros (como WhatsApp, Instagram e portais do governo). Não respondemos pelo conteúdo nem pelas práticas de privacidade deles.</p>
+        <h2>7. Contato</h2>
+        <p>Dúvidas: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      </article>
+    </div>
+  </section>
+</Base>

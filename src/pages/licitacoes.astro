@@ -41,10 +41,11 @@ const disputa = [
 ];
 
 const contrato = [
-  "Licitação vencida vira contrato com os itens ganhos, em um clique",
-  "Itens com número do lote, unidade, quantidade, valor unitário e marca",
-  "Saldo por item: contratado, comprado, recebido, entregue e o que falta",
-  "Acréscimo e supressão por aditivo, com limite percentual",
+  "Contrato, ata de registro de preços, nota de empenho, ordem de fornecimento e carta-contrato",
+  "Saldo a faturar de cada contrato e de cada empenho, calculado pelas notas emitidas",
+  "Na hora de emitir a nota, cada contrato do órgão aparece com o saldo, para não faturar no contrato errado",
+  "Aviso quando a nota passa do valor empenhado",
+  "Aditivos e apostilamentos, com alerta quando o acréscimo passa do limite de 25% (art. 125)",
   "Vigência com aviso, renovação, suspensão e rescisão",
   "Reajuste por índice, data-base e periodicidade",
   "Garantia contratual: apólice, carta de fiança ou comprovante, com validade",
@@ -57,7 +58,7 @@ const contrato = [
 ---
 <Base
   title="Sistema para licitações e contratos públicos | Sebra ERP"
-  description="Sistema para licitação completo: editais no PNCP, certidões com aviso, saldo de contrato por item, controle de empenho, nota com retenção e boleto."
+  description="Sistema para licitação completo: editais no PNCP, certidões com aviso, saldo de contrato e de empenho, nota com retenção e boleto."
   crumbs={[{ name: "Licitações", href: "/licitacoes/" }]}
   faq={faqLicitacoes}
   waText={waMsg.licitacao}
@@ -169,8 +170,8 @@ const contrato = [
     <div class="container split">
       <div class="split__copy reveal">
         <span class="eyebrow">Gestão de contratos públicos</span>
-        <h2>Saldo de ata e de contrato, item por item, calculado sozinho</h2>
-        <p class="split__lead">Quem vende para prefeitura controla por item e quantidade. A Sebra também. Cada nota emitida abate o saldo do item certo, e você sabe exatamente quanto ainda pode faturar.</p>
+        <h2>Saldo de contrato e de empenho, calculado sozinho</h2>
+        <p class="split__lead">A mesma prefeitura tem vários contratos com você? Cada nota emitida abate o saldo do contrato e do empenho certos, e você sabe exatamente quanto ainda pode faturar, com aviso de vigência, garantia e reajuste.</p>
       </div>
       <div class="split__visual reveal" data-delay="1"><Stage face="left" tilt={10}><MockContrato /></Stage></div>
     </div>

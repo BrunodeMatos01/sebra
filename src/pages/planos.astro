@@ -17,7 +17,7 @@ const licRecursos = [
   { i: "search", t: "Busca no PNCP", d: "Editais abertos do Brasil inteiro" },
   { i: "layers", t: "Kanban de licitações", d: "O cartão anda junto com o status" },
   { i: "shield", t: "Certidões com aviso", d: "Nenhuma vence sem você saber" },
-  { i: "contract", t: "Saldo por item", d: "Contratado, entregue e o que falta" },
+  { i: "contract", t: "Saldo de contrato", d: "Faturado, empenhado e o que falta" },
   { i: "landmark", t: "Empenhos automáticos", d: "Faturado e recebido calculados" },
   { i: "upload", t: "AF em PDF vira nota", d: "Até 50 de uma vez" },
   { i: "cart", t: "Compra para o contrato", d: "Conta a pagar ao receber" },
@@ -34,6 +34,7 @@ const faqPlanos = [
 ];
 ---
 <Base
+  product
   title="Planos e preços do sistema de licitação e ERP | Sebra"
   description="Planos Essencial (R$ 327/mês), Profissional (R$ 565/mês) e Escala. Licitação a partir do Profissional, notas fiscais ilimitadas e financeiro com baixa pelo extrato."
   crumbs={[{ name: "Planos", href: "/planos/" }]}
