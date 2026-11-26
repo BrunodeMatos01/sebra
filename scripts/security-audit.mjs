@@ -49,7 +49,7 @@ check("Scripts externos só de origens autorizadas", html.flatMap((f) => [...rea
 // 8. Cabeçalhos de segurança e CSP completa
 const htPath = join(DIST, ".htaccess");
 const ht = existsSync(htPath) ? readFileSync(htPath, "utf8") : "";
-const exigidos = ["Strict-Transport-Security", "Content-Security-Policy", "X-Frame-Options \"DENY\"", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy", "Cross-Origin-Opener-Policy", "Options -Indexes", "frame-ancestors 'none'", "object-src 'none'", "base-uri 'self'"];
+const exigidos = ["Strict-Transport-Security", "Content-Security-Policy", "X-Frame-Options \"DENY\"", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy", "Cross-Origin-Opener-Policy", "Options -Indexes", "frame-ancestors 'none'", "object-src 'none'", "base-uri 'none'", "script-src-attr 'none'", "includeSubDomains", "THE_REQUEST", "X-Original-URL"];
 check(".htaccess com todos os cabeçalhos de segurança", [...(ht.includes("__CSP__") ? ["CSP não foi preenchida (__CSP__)"] : []), ...exigidos.filter((h) => !ht.includes(h)).map((h) => `falta: ${h}`)]);
 
 // 9. Todo script embutido está liberado na CSP (senão o site quebra)
@@ -69,6 +69,19 @@ check("Sem terceiros além do Google Analytics", html.flatMap((f) => [...readFil
 // 12. Firewall do .htaccess presente
 const waf = ["QUERY_STRING", "HTTP_USER_AGENT", "wp-admin", "jndi", "Options -Indexes", "style-src-elem 'self'"];
 check("Firewall e CSP rígida no .htaccess", waf.filter((w) => !ht.includes(w)).map((w) => `falta: ${w}`));
+
+// 12b. CSP sem 'unsafe-eval', sem curinga em script e sem domínio sobrando
+check("CSP sem 'unsafe-eval', sem curinga em script e sem domínio sobrando", [
+  ...(cspLine.includes("'unsafe-eval'") ? ["'unsafe-eval' presente"] : []),
+  ...(/script-src [^;]*( \*|https: |http:)/.test(cspLine) ? ["script-src com curinga"] : []),
+  ...(!emailBackup && cspLine.includes("emailjs") ? ["api.emailjs.com liberado com o e-mail desligado"] : []),
+]);
+
+// 12c. Nenhum detalhe técnico de segurança exposto nas páginas
+check("Páginas não expõem o mecanismo de segurança", html.flatMap((f) => (/AES-?256|row level security/i.test(readFileSync(f, "utf8")) ? [rel(f)] : [])));
+
+// 12d. Formulários não enviam para outro site
+check("Formulários sem envio externo", html.flatMap((f) => [...readFileSync(f, "utf8").matchAll(/<form[^>]*\saction="(https?:[^"]+)"/g)].map((m) => rel(f) + ": " + m[1])));
 
 // 13. security.txt
 check("/.well-known/security.txt publicado", existsSync(join(DIST, ".well-known", "security.txt")) ? [] : ["ausente"]);

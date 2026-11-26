@@ -16,7 +16,7 @@ export const ctas: Record<CtaKey, { t: string; d: string; href: string; label: s
   },
   fiscal: {
     t: "Emita NF-e e NFS-e com retenções no mesmo sistema",
-    d: "Notas com retenções calculadas, ligadas ao financeiro e ao estoque. Notas ilimitadas em todos os planos.",
+    d: "Notas com retenções calculadas, ligadas ao financeiro e ao estoque, e ilimitadas em todos os planos.",
     href: "/solucoes/fiscal/", label: "Ver o emissor de notas", wa: "Olá! Quero ver a emissão de notas fiscais da Sebra.",
   },
   orcamentos: {

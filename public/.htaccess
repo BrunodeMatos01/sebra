@@ -27,7 +27,8 @@ ErrorDocument 403 /404.html
   RewriteRule ^segmentos/licitacoes/?$ /licitacoes/ [L,R=301]
   RewriteRule ^solucoes/ia/?$ /solucoes/atendimento/ [L,R=301]
   RewriteRule ^solucoes/rh/?$ - [G,L]
-  RewriteRule ^segmentos/distribuidor/?$ /segmentos/varejo/ [L,R=301]
+  RewriteRule ^segmentos/distribuidor/?$ /segmentos/importadoras/ [L,R=301]
+  RewriteRule ^segmentos/(varejo|industria)/?$ - [G,L]
   RewriteRule ^segmentos/(construcao|salao|eventos)/?$ /segmentos/servicos/ [L,R=301]
   RewriteRule ^blog/?$ /guias/ [L,R=301]
 
@@ -48,12 +49,24 @@ ErrorDocument 403 /404.html
   RewriteCond %{QUERY_STRING} (\$\{jndi:|%24%7Bjndi) [NC]
   RewriteRule ^ - [F,L]
 
+  # 5b) As mesmas sondagens quando vêm no caminho da URL, mais byte nulo e codificação dupla
+  RewriteCond %{THE_REQUEST} (%00|%0a|%0d|%3c|%3e|%60|\.\./|\.\.%2f|%2e%2e|%252e|%c0%ae) [NC,OR]
+  RewriteCond %{THE_REQUEST} (etc/passwd|proc/self|/bin/(ba)?sh|cmd\.exe|powershell|base64_decode|phpinfo|eval\(|\$\{jndi:) [NC]
+  RewriteRule ^ - [F,L]
+
+  # 5c) Cabeçalhos usados para enganar o servidor sobre o endereço ou o método pedido
+  RewriteCond %{HTTP:X-Original-URL} . [OR]
+  RewriteCond %{HTTP:X-Rewrite-URL} . [OR]
+  RewriteCond %{HTTP:X-HTTP-Method-Override} .
+  RewriteRule ^ - [F,L]
+
   # 6) Ferramentas de invasão conhecidas
-  RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|nmap|masscan|acunetix|netsparker|wpscan|dirbuster|gobuster|feroxbuster|nuclei|havij|zgrab|jaeles|commix|w3af) [NC]
+  RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|nmap|masscan|acunetix|netsparker|wpscan|dirbuster|dirsearch|gobuster|feroxbuster|ffuf|wfuzz|nuclei|havij|zgrab|jaeles|commix|w3af|nessus|openvas|qualys|burpsuite|arachni|skipfish|whatweb|hydra|medusa|metasploit|xsstrike|dalfox|katana|libwww-perl|morfeus|zmeu|zmap|joomscan|droopescan|cmsmap|fimap) [NC]
   RewriteRule ^ - [F,L]
 
   # 7) Caminhos que robôs de ataque testam (este site não tem nenhum deles)
-  RewriteRule ^(wp-admin|wp-login\.php|wp-content|wp-includes|xmlrpc\.php|phpmyadmin|pma|adminer|cgi-bin|vendor|node_modules|server-status|\.git|\.svn|\.env|config\.php|admin\.php|shell\.php) - [F,L,NC]
+  RewriteRule ^(wp-admin|wp-login\.php|wp-content|wp-includes|wp-json|wp-config|xmlrpc\.php|phpmyadmin|pma|myadmin|adminer|admin|administrator|login|cgi-bin|vendor|node_modules|server-status|server-info|\.git|\.svn|\.hg|\.env|\.aws|\.ssh|\.vscode|\.idea|\.DS_Store|config|backup|backups|dump|database|db|sql|telescope|actuator|console|jenkins|solr|owa|autodiscover|ecp|api|graphql|swagger|debug|test|tmp|old|src|scripts|composer\.(json|lock)|package(-lock)?\.json|Dockerfile|docker-compose\.yml)(/|$) - [F,L,NC]
+  RewriteRule \.(php\d?|phtml|phar|asp|aspx|jsp|jspx|cgi|pl|py|rb|exe|dll|bat|cmd|ps1|sh|bash|zip|rar|7z|tar|gz|tgz|bz2|sql|sqlite|db|bak|old|orig|save|swp|inc|conf|cfg|ini|log|env|yml|yaml|toml|pem|key|crt|p12|pfx)$ - [F,L,NC]
 </IfModule>
 
 # O manifesto precisa continuar acessível
@@ -62,8 +75,8 @@ ErrorDocument 403 /404.html
 </Files>
 
 <IfModule mod_headers.c>
-  # Força HTTPS no navegador por 1 ano
-  Header always set Strict-Transport-Security "max-age=31536000"
+  # Força HTTPS no navegador por 2 anos, em todos os subdomínios (apto à lista de preload)
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
   # Política de conteúdo: só scripts, estilos e conexões autorizados
   Header always set Content-Security-Policy "__CSP__"
   # Não pode ser embutido em outro site (clickjacking)
@@ -73,10 +86,14 @@ ErrorDocument 403 /404.html
   # Não vaza o endereço completo para outros sites
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   # Desliga recursos que o site não usa
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()"
+  Header always set Permissions-Policy "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), bluetooth=(), browsing-topics=(), camera=(), clipboard-read=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(self), gamepad=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), interest-cohort=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), usb=(), web-share=(), xr-spatial-tracking=()"
   # Isola a janela (permite abrir o WhatsApp em popup)
   Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
   Header always set Cross-Origin-Resource-Policy "same-site"
+  # Arquivos de verificação não precisam aparecer no Google
+  <FilesMatch "(BingSiteAuth\.xml|security\.txt)$">
+    Header set X-Robots-Tag "noindex"
+  </FilesMatch>
   Header always set X-Permitted-Cross-Domain-Policies "none"
   Header always set Origin-Agent-Cluster "?1"
   Header always set X-DNS-Prefetch-Control "off"

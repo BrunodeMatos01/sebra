@@ -1,7 +1,9 @@
 ---
+import HeroFx from "../components/HeroFx.astro";
 import Base from "../layouts/Base.astro";
 import ContactSection from "../components/ContactSection.astro";
 import Icon from "../components/Icon.astro";
+import Faq from "../components/Faq.astro";
 import Brand from "../components/Brand.astro";
 import { planos, recursos } from "../data/planos";
 import { waMsg } from "../data/site";
@@ -20,34 +22,35 @@ const licRecursos = [
   { i: "contract", t: "Saldo de contrato", d: "Faturado, empenhado e o que falta" },
   { i: "landmark", t: "Empenhos automáticos", d: "Faturado e recebido calculados" },
   { i: "upload", t: "AF em PDF vira nota", d: "Até 50 de uma vez" },
-  { i: "cart", t: "Compra para o contrato", d: "Conta a pagar ao receber" },
+  { i: "receipt", t: "Nota com retenção", d: "Alíquotas editáveis em cada nota" },
   { i: "chart", t: "Resultado por licitação", d: "O lucro real de cada processo" },
 ];
 const faqPlanos = [
-  { q: "Quanto custa a Sebra?", a: "O plano Essencial custa R$ 327 por mês e o Profissional R$ 565 por mês. O Escala começa em R$ 990 por mês e é montado sob consulta, conforme o número de empresas e o volume." },
-  { q: "Posso contratar adicionais no meu plano?", a: "Sim, em todos os planos. Se precisar de mais usuários, de boleto em mais bancos ou de mais CNPJs do que o plano inclui, é só contratar o adicional, sem precisar trocar de plano." },
-  { q: "Em qual plano está a licitação?", a: "A licitação está incluída nos planos Profissional e Escala. No Essencial, ela pode ser contratada como adicional." },
-  { q: "As notas fiscais são limitadas?", a: "Não. NF-e e NFS-e são ilimitadas em todos os planos." },
-  { q: "Posso mudar de plano depois?", a: "Sim. Você começa pelo plano que faz sentido hoje e sobe quando a empresa crescer, sem trocar de sistema." },
+  { q: "Quanto custa a Sebra?", a: "O plano Essencial custa R$ 327 por mês e o Profissional R$ 565 por mês, enquanto o Escala começa em R$ 990 por mês e é montado sob consulta, conforme o número de empresas e o volume." },
+  { q: "Posso contratar adicionais no meu plano?", a: "Sim, em todos os planos, e se precisar de mais usuários, de boleto em mais bancos ou de mais CNPJs do que o plano inclui, é só contratar o adicional, sem precisar trocar de plano." },
+  { q: "Em qual plano está a licitação?", a: "A licitação está incluída nos planos Profissional e Escala e, no Essencial, pode ser contratada como adicional." },
+  { q: "As notas fiscais são limitadas?", a: "Não, NF-e e NFS-e são ilimitadas em todos os planos." },
+  { q: "Posso mudar de plano depois?", a: "Sim, você começa pelo plano que faz sentido hoje e sobe quando a empresa crescer, sem trocar de sistema." },
   { q: "A implantação está incluída?", a: "A implantação é conduzida pela nossa equipe: configuramos, importamos seus dados e testamos com você antes de liberar." },
-  { q: "Vocês também fazem automações?", a: "Sim. Além do sistema, desenvolvemos automações operacionais sob medida para os processos da sua empresa. O valor é definido depois do diagnóstico." },
+  { q: "Vocês também fazem automações?", a: "Sim, além do sistema desenvolvemos automações operacionais sob medida para os processos da sua empresa, com valor definido depois do diagnóstico." },
 ];
 ---
 <Base
   product
   title="Planos e preços do sistema de licitação e ERP | Sebra"
-  description="Planos Essencial (R$ 327/mês), Profissional (R$ 565/mês) e Escala. Licitação a partir do Profissional, notas fiscais ilimitadas e financeiro com baixa pelo extrato."
+  description="Planos Essencial (R$ 327/mês), Profissional (R$ 565/mês) e Escala, com licitação a partir do Profissional, notas fiscais ilimitadas e financeiro com baixa pelo extrato."
   crumbs={[{ name: "Planos", href: "/planos/" }]}
   faq={faqPlanos}
   waText={waMsg.planos}
 >
-  <section class="ip-hero showcase plans-hero">
+  <section class="ip-hero showcase plans-hero fx-host">
+    <HeroFx />
     <div class="container">
       <div class="s-head s-head--center" style="margin-inline:auto">
         <p class="ip-crumbs ip-crumbs--dark" style="text-align:center"><a href="/">Início</a> · Planos</p>
-        <p class="eyebrow">Planos</p>
-        <h1>Licitação, nota e financeiro. Escolha o tamanho.</h1>
-        <p class="ip-hero__lead" style="margin-inline:auto">Notas fiscais ilimitadas em todos os planos e licitação a partir do Profissional. Escolha, preencha uma vez e fale com a gente no WhatsApp com tudo explicado.</p>
+        
+        <h1>Licitação, nota e financeiro, no tamanho que você escolher</h1>
+        <p class="ip-hero__lead" style="margin-inline:auto">Notas fiscais ilimitadas em todos os planos e licitação a partir do Profissional.</p>
       </div>
     </div>
   </section>
@@ -132,7 +135,7 @@ const faqPlanos = [
           <div class="lic__intro">
             <p class="lic__badge"><Icon name="gavel" size={14} /> Especialidade Sebra</p>
             <h2 class="lic__t" id="lic-t">Licitações e Contratos Públicos</h2>
-            <p class="lic__lead">Do edital ao dinheiro na conta, num módulo feito para quem vende ao governo e ligado às notas, ao estoque e ao financeiro.</p>
+            <p class="lic__lead">Do edital ao dinheiro na conta, ligado às notas e ao financeiro.</p>
           </div>
           <ul class="lic__plans" aria-label="Disponibilidade por plano">
             <li><span class="lic__pn">Essencial</span><span class="lic__pv lic__pv--add">Adicional</span></li>
@@ -184,16 +187,14 @@ const faqPlanos = [
 
       <div class="plans-faq reveal">
         <h2 class="incl__title">Dúvidas sobre os planos</h2>
-        <div class="plans-faq__grid">
-          {faqPlanos.map((f) => <div class="plans-faq__item"><h3>{f.q}</h3><p>{f.a}</p></div>)}
-        </div>
+        <Faq items={faqPlanos} />
       </div>
     </div>
   </section>
 
   <ContactSection origem="Página de planos" uid="planos" waText={waMsg.planos}
     eyebrow="Fale com a gente" title="Ficou com dúvida sobre qual plano escolher?"
-    lead="Conte quantos CNPJs, quantas pessoas e como você vende hoje. Respondemos pelo WhatsApp indicando o plano certo." />
+    lead="Conte quantos CNPJs, quantas pessoas e como você vende hoje, que respondemos pelo WhatsApp indicando o plano certo." />
 </Base>
 
 <style>
@@ -202,12 +203,12 @@ const faqPlanos = [
   .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; margin-top: clamp(-110px, -9vw, -80px); position: relative; z-index: 2; }
   .plan { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(24px, 3vw, 32px); box-shadow: var(--shadow-lg); }
   .plan--hot { border: 2px solid var(--brand); }
-  .plan__flag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--grad-brand); color: #fff; font-size: 12.5px; font-weight: 700; padding: 6px 14px; border-radius: 999px; }
+  .plan__flag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--grad-brand); color: #fff; font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 999px; }
   .plan__name { font-size: 26px; }
   .plan__for { margin-top: 8px; color: var(--ink-soft); font-size: 15px; min-height: 46px; }
   .plan__price { margin-top: 20px; padding: 16px 0; border-block: 1px solid var(--line-soft); min-height: 104px; }
   .plan__pre { color: var(--muted); font-size: 13.5px; font-weight: 600; }
-  .plan__val { font-family: var(--font-display); font-size: 40px; font-weight: 700; letter-spacing: -.03em; color: var(--navy); line-height: 1.1; }
+  .plan__val { font-family: var(--font-display); font-size: 40px; font-weight: 600; letter-spacing: -.03em; color: var(--navy); line-height: 1.1; }
   .plan__val small { font-size: 15px; color: var(--muted); font-weight: 600; margin-left: 4px; letter-spacing: 0; }
   .plan__val--q { font-size: 24px; }
   .plan__note { color: var(--muted); font-size: 13px; margin-top: 2px; }
@@ -224,7 +225,7 @@ const faqPlanos = [
   .plan__cta { width: 100%; }
   @media (max-width: 980px) { .plans { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; } .plan__for, .plan__price { min-height: 0; } }
 
-  .cmp { margin-top: 48px; }
+  .cmp { margin-top: 36px; }
   .cmp__title { font-size: clamp(24px, 2.6vw, 32px); text-align: center; }
   .cmp__wrap { margin-top: 24px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-lg); background: #fff; box-shadow: var(--shadow); }
   .cmp__tbl { width: 100%; min-width: 720px; border-collapse: collapse; }
@@ -237,8 +238,8 @@ const faqPlanos = [
   .cmp__sub { display: block; font-size: 13px; color: var(--muted); }
   .cmp__yes { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #e3f6ec; color: var(--ok); }
   .cmp__no { color: #a8b2c2; font-size: 20px; }
-  .cmp__strong { font-weight: 700; color: var(--ink); }
-  .cmp__add { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #fff4e0; border: 1px solid #f5d08a; color: #8a4b00; font-size: 13px; font-weight: 700; }
+  .cmp__strong { font-weight: 600; color: var(--ink); }
+  .cmp__add { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #fff4e0; border: 1px solid #f5d08a; color: #8a4b00; font-size: 13px; font-weight: 600; }
   .cmp__cta td, .cmp__cta th { border-bottom: 0; }
 
   .lic { position: relative; overflow: hidden; margin-top: 32px; padding: clamp(24px, 3.5vw, 40px); border-radius: 20px; border: 1.5px solid transparent;
@@ -249,23 +250,23 @@ const faqPlanos = [
     box-shadow: 0 24px 60px -24px rgba(180,83,9,.30); }
   .lic::after { content: ""; position: absolute; right: -40px; top: -40px; width: 220px; height: 220px; border-radius: 50%; border: 28px solid rgba(217,119,6,.06); pointer-events: none; }
   .lic__top { position: relative; z-index: 1; display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: center; }
-  .lic__badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .lic__badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
   .lic__t { font-size: clamp(26px, 3vw, 36px); margin-top: 12px; color: var(--ink); }
   .lic__lead { margin-top: 10px; color: var(--ink-soft); font-size: 16.5px; max-width: 560px; }
   .lic__plans { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
   .lic__plans li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-radius: 12px; background: #fff; border: 1px solid #f3e1bd; }
-  .lic__pn { font-weight: 700; color: var(--ink); font-size: 15px; }
-  .lic__pv { display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+  .lic__pn { font-weight: 600; color: var(--ink); font-size: 15px; }
+  .lic__pv { display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 999px; font-size: 13px; font-weight: 600; }
   .lic__pv--add { background: #fff4e0; color: #8a4b00; border: 1px solid #f5d08a; }
   .lic__pv--ok { background: #e3f6ec; color: var(--ok); }
   .lic__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
   .lic__item { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 14px; background: rgba(255,255,255,.85); border: 1px solid #f3e6cc; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
   .lic__item:hover { transform: translateY(-2px); border-color: #f5c26b; box-shadow: 0 10px 24px -12px rgba(180,83,9,.35); }
   .lic__ic { flex-shrink: 0; width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309; }
-  .lic__it { font-weight: 700; color: var(--ink); font-size: 15px; }
+  .lic__it { font-weight: 600; color: var(--ink); font-size: 15px; }
   .lic__id { color: var(--muted); font-size: 13.5px; margin-top: 2px; line-height: 1.4; }
   .lic__acts { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 26px; padding-top: 22px; border-top: 1px solid #f3e1bd; }
-  .lic__more { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #b45309; }
+  .lic__more { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: #b45309; }
   .lic__more :global(svg) { transition: transform .2s ease; }
   .lic__more:hover :global(svg) { transform: translateX(4px); }
   @media (max-width: 980px) { .lic__top { grid-template-columns: 1fr; } .lic__grid { grid-template-columns: repeat(2, 1fr); } }
@@ -277,8 +278,8 @@ const faqPlanos = [
       radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px) 0 0 / 20px 20px padding-box,
       linear-gradient(#060b22, #060b22) padding-box,
       linear-gradient(120deg, #3b82f6, #22d3ee 50%, #3b82f6) border-box; }
-  .ai__k { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #67e8f9; }
-  .ai__t { font-family: var(--font-display); font-weight: 700; font-size: clamp(20px, 2.2vw, 26px); color: #fff; line-height: 1.25; margin-top: 8px; }
+  .ai__k { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #67e8f9; }
+  .ai__t { font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 2.2vw, 26px); color: #fff; line-height: 1.25; margin-top: 8px; }
   .ai__grad { background: linear-gradient(90deg, #60a5fa, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .ai__d { color: #9fb0d0; font-size: 14.5px; margin-top: 8px; max-width: 460px; }
   .ai__btn { display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(103,232,249,.35); transition: background .2s ease, border-color .2s ease; }
@@ -300,16 +301,17 @@ const faqPlanos = [
   .incl__title { font-size: clamp(22px, 2.4vw, 28px); }
   .incl__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 22px; }
   .incl__item { display: flex; gap: 14px; align-items: flex-start; }
-  .incl__ic { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: #fff; color: var(--brand); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
-  .incl__t { font-weight: 700; font-size: 15.5px; color: var(--ink); }
+  .incl__ic { flex-shrink: 0; width: 36px; height: 36px; border-radius: 9px; display: grid; place-items: center; background: #fff; color: var(--brand); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+  .incl__t { font-weight: 600; font-size: 15.5px; color: var(--ink); }
   .incl__d { font-size: 14px; color: var(--ink-soft); margin-top: 3px; line-height: 1.5; }
   @media (max-width: 900px) { .incl__grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .incl__grid { grid-template-columns: 1fr; } }
 
-  .plans-faq { margin-top: 32px; }
+  .plans-faq { margin-top: clamp(48px, 6vw, 72px); }
+  .plans-faq .incl__title { text-align: center; margin-bottom: 28px; }
   .plans-faq__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
   .plans-faq__item { padding: 22px; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); }
-  .plans-faq__item h3 { font-family: var(--font); font-size: 16.5px; font-weight: 700; letter-spacing: 0; }
+  .plans-faq__item h3 { font-family: var(--font); font-size: 16.5px; font-weight: 600; letter-spacing: 0; }
   .plans-faq__item p { margin-top: 8px; color: var(--ink-soft); font-size: 15px; }
   @media (max-width: 720px) { .plans-faq__grid { grid-template-columns: 1fr; } }
 </style>

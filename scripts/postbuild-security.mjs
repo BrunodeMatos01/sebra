@@ -47,7 +47,7 @@ for (const file of htmlFiles(DIST)) {
 const csp = [
   "default-src 'self'",
   `script-src 'self' ${[...hashes].join(" ")} https://www.googletagmanager.com${x("script")}`,
-  `connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://api.emailjs.com${x("connect")}`,
+  `connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com${/emailBackup: *true/.test(siteTs) ? " https://api.emailjs.com" : ""}${x("connect")}`,
   `img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com${x("img")}`,
   // Folhas de estilo só do próprio site; estilo em atributo liberado (sem risco de execução)
   "style-src 'self' 'unsafe-inline'",
@@ -56,10 +56,12 @@ const csp = [
   "font-src 'self'",
   "worker-src 'none'",
   extra.frame.length ? `frame-src ${extra.frame.join(" ")}` : "frame-src 'none'",
-  "media-src 'self'",
+  "script-src-attr 'none'",
+  "media-src 'none'",
+  "child-src 'none'",
   "manifest-src 'self'",
   "object-src 'none'",
-  "base-uri 'self'",
+  "base-uri 'none'",
   "form-action 'self'",
   "frame-ancestors 'none'",
   "upgrade-insecure-requests",

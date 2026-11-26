@@ -1,7 +1,9 @@
 ---
 import AppFrame from "./AppFrame.astro";
 import Icon from "../Icon.astro";
-const comp = [
+export interface Props { importacao?: boolean }
+const { importacao = false } = Astro.props;
+const compNac = [
   ["Custo de aquisição (reposição)", "R$ 18,20"],
   ["Importação + frete (%)", "4,0%"],
   ["Impostos sobre a venda", "11,2%"],
@@ -9,13 +11,28 @@ const comp = [
   ["Comissão do vendedor", "3,0%"],
   ["Margem desejada", "15,0%"],
 ];
+// Variante de importadora: custo em dólar vezes a cotação, mais importação e frete.
+const compImp = [
+  ["Custo do fornecedor (USD)", "US$ 6,80"],
+  ["Cotação do dólar", "R$ 5,42"],
+  ["Importação + frete (%)", "18,0%"],
+  ["Impostos sobre a venda", "14,5%"],
+  ["Despesas operacionais", "8,0%"],
+  ["Margem desejada", "20,0%"],
+];
+const comp = importacao ? compImp : compNac;
+const item = importacao ? { n: "Fone Bluetooth TWS", d: "código 20731 · estoque 860 un" } : { n: "Resma papel A4 75g", d: "código 10482 · estoque 1.240 un" };
+const preco = importacao ? { s: "R$ 75,64", h: "R$ 72,90", m: "20,0%" } : { s: "R$ 24,90", h: "R$ 23,50", m: "15,0%" };
+const fisc = importacao
+  ? [["NCM", "8518.30.00"], ["Origem", "1 · Importação direta"], ["Via de transporte", "Marítima"], ["DI", "26/0123456-7"]]
+  : [["NCM", "4802.56.10"], ["CST/CSOSN de ICMS", "102"], ["CST de IBS/CBS", "000"], ["cClassTrib", "000001"]];
 ---
 <AppFrame title="Produtos" subtitle="Catálogo, estoque e precificação da empresa" group="operacao" active="Produtos" h={720}
   actions={[{ label: "Cotações", icon: "cart" }, { label: "Novo produto", primary: true, icon: "box" }]}>
   <div class="tb" style="margin-top:0"><span>Catálogo e estoque</span><span class="is-on">Formação de preço</span><span>Pedidos e recebimento</span><span>Cotações</span><span>IA de reposição</span></div>
   <div class="row2" style="margin-top:0;grid-template-columns:1.15fr 1fr">
     <div class="panel">
-      <p class="st">Resma papel A4 75g <small>código 10482 · estoque 1.240 un</small></p>
+      <p class="st">{item.n} <small>{item.d}</small></p>
       {comp.map(([k, v]) => (
         <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--a-line-2)"><span style="color:var(--a-soft)">{k}</span><b>{v}</b></div>
       ))}
@@ -24,14 +41,14 @@ const comp = [
     <div>
       <div class="panel" style="background:linear-gradient(135deg,#eff6ff,#fff);border-color:#bfdbfe">
         <p style="font-size:12px;font-weight:700;letter-spacing:.07em;color:var(--a-mute);text-transform:uppercase">Preço sugerido</p>
-        <p style="font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--a-blue);letter-spacing:-.03em;margin-top:4px">R$ 24,90</p>
-        <p style="color:var(--a-soft)">Preço praticado hoje: <b>R$ 23,50</b></p>
+        <p style="font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--a-blue);letter-spacing:-.03em;margin-top:4px">{preco.s}</p>
+        <p style="color:var(--a-soft)">Preço praticado hoje: <b>{preco.h}</b></p>
         <div class="bar bar--ok" style="margin-top:12px"><span style="width:76%"></span></div>
-        <p style="font-size:12.5px;color:#047857;margin-top:6px;font-weight:600">Viável: margem real de 15,0% sobre a venda</p>
+        <p style="font-size:12.5px;color:#047857;margin-top:6px;font-weight:600">Viável: margem real de {preco.m} sobre a venda</p>
       </div>
       <div class="panel" style="margin-top:12px">
         <p class="st" style="margin-bottom:8px">Dados fiscais</p>
-        {[["NCM", "4802.56.10"], ["CST/CSOSN de ICMS", "102"], ["CST de IBS/CBS", "000"], ["cClassTrib", "000001"]].map(([k, v]) => (
+        {fisc.map(([k, v]) => (
           <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:var(--a-mute)">{k}</span><b style="font-weight:600">{v}</b></div>
         ))}
       </div>

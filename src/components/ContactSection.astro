@@ -8,8 +8,8 @@ export interface Props {
 }
 const {
   eyebrow = "Fale com a Sebra",
-  title = "Conte como é a sua empresa. A gente mostra a Sebra resolvendo.",
-  lead = "Preencha uma vez e abrimos o WhatsApp com a sua mensagem pronta. Na conversa, entendemos como a sua empresa funciona hoje e montamos a demonstração em cima do seu cenário real.",
+  title = "Fale com a Sebra",
+  lead = "Preencha uma vez e abrimos o WhatsApp com a mensagem pronta, para montarmos a demonstração em cima do seu cenário real.",
   origem = "Formulário do site", plano = "", uid = "contato", waText = waMsg.geral,
   bullets = ["Demonstração com o seu cenário, não um vídeo genérico", "Conversa com quem entende de gestão, fiscal e financeiro", "Implantação conduzida pela nossa equipe"],
 } = Astro.props;
@@ -17,10 +17,9 @@ const {
 <section class="section section--wash contact" id="contato">
   <div class="container contact__grid">
     <div class="reveal">
-      <span class="eyebrow">{eyebrow}</span>
+      
       <h2 class="contact__title">{title}</h2>
-      <p class="contact__lead">{lead}</p>
-      <ul class="check-list">{bullets.map((b) => <li>{b}</li>)}</ul>
+      <p class="contact__lead">Preencha uma vez e abrimos o WhatsApp com a mensagem pronta.</p>
       <div class="contact__direct">
         <a href={waLink(waText)} target="_blank" rel="noopener"><Brand name="whatsapp" size={26} class="ic-wa" /><span>Prefere ir direto? Chame no WhatsApp<small>{site.whatsappDisplay}</small></span></a>
         <a href={site.instagram} target="_blank" rel="noopener"><Brand name="instagram" size={24} class="ic-ig" /><span>Acompanhe a Sebra no Instagram<small>{site.instagramHandle}</small></span></a>

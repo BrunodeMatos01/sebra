@@ -182,7 +182,6 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
     <link rel="preload" href={interRegular} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={soraHeavy} as="font" type="font/woff2" crossorigin />
 
-
     <script is:inline>document.documentElement.classList.remove("no-js");</script>
 
     <!-- Google Analytics 4 -->
@@ -208,7 +207,6 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
       </a>
       <a class="float-social__wa" href={waLink(waText)} target="_blank" rel="noopener" aria-label="Falar com a Sebra no WhatsApp" data-track="whatsapp_click">
         <Brand name="whatsapp" size={30} />
-        <span class="float-social__label">Fale com a gente</span>
       </a>
     </div>
 
@@ -221,9 +219,9 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
         <button class="lead-modal__close" type="button" data-close aria-label="Fechar">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
-        <p class="eyebrow">Atendimento pelo WhatsApp</p>
+        
         <h2 id="lead-modal-title" class="lead-modal__title">Conte rapidinho sobre a sua empresa</h2>
-        <p class="lead-modal__lead" data-modal-lead>Você preenche uma vez e já abrimos o WhatsApp com tudo escrito. Ninguém vai te pedir a mesma informação de novo.</p>
+        <p class="lead-modal__lead" data-modal-lead>Você preenche uma vez e já abrimos o WhatsApp com tudo escrito, sem ninguém pedir a mesma informação de novo.</p>
         <LeadForm uid="modal" origem="Modal do site" />
       </div>
     </dialog>
@@ -300,8 +298,8 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
         if (form) form.dataset.origem = trigger.dataset.origem || (plano ? `Botão do plano ${plano}` : location.pathname);
         const lead = modal.querySelector("[data-modal-lead]");
         if (lead) lead.textContent = plano
-          ? `Você escolheu o plano ${plano}. Preencha uma vez e abrimos o WhatsApp com tudo escrito.`
-          : "Você preenche uma vez e já abrimos o WhatsApp com tudo escrito. Ninguém vai te pedir a mesma informação de novo.";
+          ? `Você escolheu o plano ${plano}, é só preencher uma vez e abrimos o WhatsApp com tudo escrito.`
+          : "Você preenche uma vez e já abrimos o WhatsApp com tudo escrito, sem ninguém pedir a mesma informação de novo.";
         window.gtag?.("event", "lead_modal_open", { plano: plano || "indefinido" });
         modal.showModal();
         setTimeout(() => modal.querySelector<HTMLInputElement>('input[name="nome"]')?.focus(), 60);
@@ -326,14 +324,13 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
       .float-social { position: fixed; right: 20px; bottom: 20px; z-index: 70; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
       .float-social a { display: grid; place-items: center; border-radius: 999px; transition: transform .18s ease, box-shadow .18s ease; }
       .float-social__ig { width: 48px; height: 48px; color: #fff; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); box-shadow: 0 8px 22px rgba(214,36,159,.35); }
-      .float-social__wa { height: 60px; min-width: 60px; padding: 0 15px; display: flex !important; gap: 10px; background: var(--wa); color: #fff; box-shadow: 0 12px 30px rgba(37,211,102,.45); }
+      .float-social__wa { height: 60px; width: 60px; padding: 0; display: flex !important; justify-content: center; background: var(--wa); color: #fff; box-shadow: 0 12px 30px rgba(37,211,102,.45); }
       .float-social__label { display: none; font-weight: 700; font-size: 15px; color: var(--wa-ink); white-space: nowrap; }
       .float-social__wa svg { color: #fff; }
       .float-social a:hover { transform: translateY(-3px) scale(1.04); }
       .float-social__wa::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgba(37,211,102,.55); animation: waPulse 2.6s infinite; pointer-events: none; }
       .float-social__wa { position: relative; }
       @keyframes waPulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,.5); } 70% { box-shadow: 0 0 0 16px rgba(37,211,102,0); } 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); } }
-      @media (min-width: 1100px) { .float-social__label { display: inline; } .float-social__wa { padding: 0 20px 0 16px; } }
       @media (max-width: 620px) { .float-social { right: 14px; bottom: 14px; } .float-social__ig { width: 44px; height: 44px; } }
       @media (prefers-reduced-motion: reduce) { .float-social__wa::after { animation: none; } }
 

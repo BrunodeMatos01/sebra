@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/postbuild-security.mjs && node scripts/security-audit.mjs && node scripts/check-links.mjs",
+    "build": "npm audit --omit=dev --audit-level=high && astro build && node scripts/postbuild-security.mjs && node scripts/security-audit.mjs && node scripts/check-links.mjs",
     "preview": "astro preview",
     "security": "node scripts/security-audit.mjs",
     "preview:secure": "node scripts/serve-secure.mjs",

@@ -1,0 +1,56 @@
+---
+// Fundo animado dos heróis escuros: aurora, feixe de luz, grade em perspectiva,
+// linha de horizonte e uma luz que acompanha o mouse. Só CSS + um listener leve.
+---
+<div class="hero__fx" aria-hidden="true">
+  <div class="fx-aurora"><i></i><i></i><i></i></div>
+  <div class="fx-beam"></div>
+  <div class="fx-grid"></div>
+  <div class="fx-spot"></div>
+  <div class="fx-noise"></div>
+</div>
+
+<script>
+  // A luz acompanha o mouse (só em telas com mouse e sem "reduzir movimento")
+  if (matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
+    document.querySelectorAll<HTMLElement>(".fx-host").forEach((host) => {
+      let raf = 0;
+      host.addEventListener("pointermove", (e) => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const r = host.getBoundingClientRect();
+          host.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          host.style.setProperty("--my", `${e.clientY - r.top}px`);
+        });
+      });
+    });
+  }
+</script>
+
+<style is:global>
+  .fx-host { position: relative; isolation: isolate; overflow: hidden; }
+  .fx-host > .container, .fx-host > .ip-tabs, .fx-host > p { position: relative; z-index: 1; }
+  .hero__fx { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .hero__fx > * { position: absolute; }
+  /* Aurora: três luzes desfocadas que se movem devagar */
+  .fx-aurora { inset: -20% -10% 10%; filter: blur(70px) saturate(140%); opacity: .9; }
+  .fx-aurora i { position: absolute; border-radius: 50%; mix-blend-mode: screen; animation: fxDrift 22s ease-in-out infinite alternate; }
+  .fx-aurora i:nth-child(1) { width: 52vw; height: 40vw; left: 38%; top: 2%; background: radial-gradient(closest-side, rgba(37,99,255,.75), transparent); }
+  .fx-aurora i:nth-child(2) { width: 38vw; height: 30vw; left: 62%; top: 26%; background: radial-gradient(closest-side, rgba(124,58,237,.55), transparent); animation-duration: 28s; animation-delay: -6s; }
+  .fx-aurora i:nth-child(3) { width: 34vw; height: 26vw; left: -4%; top: 46%; background: radial-gradient(closest-side, rgba(14,165,233,.40), transparent); animation-duration: 32s; animation-delay: -12s; }
+  @keyframes fxDrift { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-6%,4%,0) scale(1.12); } 100% { transform: translate3d(5%,-3%,0) scale(.94); } }
+  /* Feixe de luz vindo do topo */
+  .fx-beam { left: 50%; top: -30%; width: 140%; height: 120%; transform: translateX(-50%); background: conic-gradient(from 180deg at 50% 0%, transparent 160deg, rgba(110,160,255,.20) 176deg, rgba(190,215,255,.34) 180deg, rgba(110,160,255,.20) 184deg, transparent 200deg); filter: blur(18px); mask-image: linear-gradient(to bottom, #000 20%, transparent 85%); animation: fxBeam 9s ease-in-out infinite; }
+  @keyframes fxBeam { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+  /* Grade em perspectiva, como um piso, com uma luz correndo */
+  .fx-grid { left: -25%; right: -25%; bottom: -8%; height: 62%; transform: perspective(700px) rotateX(62deg); transform-origin: bottom; background-image: linear-gradient(rgba(130,170,255,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(130,170,255,.16) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 60% 75% at 50% 100%, #000 30%, transparent 75%); animation: fxGrid 14s linear infinite; }
+  @keyframes fxGrid { to { background-position: 0 64px, 0 0; } }
+  /* Linha de horizonte brilhante (efeito eclipse) */
+  .fx-horizon { left: 8%; right: 8%; bottom: 9%; height: 1px; background: linear-gradient(90deg, transparent, rgba(150,190,255,.9) 30%, #fff 50%, rgba(150,190,255,.9) 70%, transparent); box-shadow: 0 0 24px 4px rgba(80,130,255,.55), 0 0 90px 22px rgba(60,100,255,.25); opacity: .55; }
+  /* Luz que segue o mouse */
+  .fx-spot { inset: 0; background: radial-gradient(520px circle at var(--mx, 70%) var(--my, 30%), rgba(120,160,255,.16), transparent 60%); transition: background .2s; }
+  .fx-noise { inset: 0; opacity: .06; background-image: radial-gradient(rgba(255,255,255,.8) 1px, transparent 1px); background-size: 3px 3px; mask-image: linear-gradient(to bottom, #000, transparent 70%); }
+  .fx-host::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 120px; z-index: 0; background: linear-gradient(to bottom, transparent, rgba(5,10,36,.85)); pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) { .fx-aurora i, .fx-beam, .fx-grid { animation: none; } }
+  @media (max-width: 940px) { .fx-grid { height: 40%; } .fx-horizon { display: none; } }
+</style>

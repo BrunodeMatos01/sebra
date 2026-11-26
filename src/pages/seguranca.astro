@@ -1,50 +1,40 @@
 ---
+import HeroFx from "../components/HeroFx.astro";
+// Segurança. Padrão limpo e sem detalhe técnico: dizemos O QUE protegemos,
+// não COMO (expor o mecanismo só ajuda quem quer atacar).
 import Base from "../layouts/Base.astro";
 import ContactSection from "../components/ContactSection.astro";
 import Icon from "../components/Icon.astro";
 import "../styles/internal.css";
 
-// Só o que existe e foi conferido no código da plataforma (17/11/2026).
 const camadas = [
-  { i: "key", t: "Certificado digital cifrado", d: "O arquivo do certificado A1 e a senha dele ficam cifrados com AES-256-GCM. Só perfis autorizados conseguem usá-lo para assinar documentos." },
-  { i: "lock", t: "Isolamento entre empresas", d: "Cada empresa cliente tem os dados separados no próprio banco de dados, por regras de acesso aplicadas em cada tabela. Os dados de uma empresa nunca aparecem para outra." },
-  { i: "building", t: "Acesso por empresa do grupo", d: "Em grupos com vários CNPJs, cada pessoa pode ser limitada às empresas que deve ver." },
-  { i: "eye", t: "Permissões por perfil e ação", d: "Cada perfil vê e faz só o que precisa. Financeiro, dados fiscais e configurações exigem permissão específica." },
-  { i: "shield", t: "Verificação em duas etapas", d: "Login com 2FA para proteger a conta mesmo se a senha vazar." },
-  { i: "history", t: "Auditoria das ações sensíveis", d: "Exclusões, alterações de salário e ações críticas ficam registradas: quem fez, o quê e quando." },
-  { i: "checkCircle", t: "Aprovação por valor", d: "Despesas, descontos e compras acima do limite esperam a aprovação de quem tem autonomia." },
-  { i: "zap", t: "Testes de segurança automatizados", d: "A plataforma roda testes de isolamento entre empresas, de autorização das rotas internas e de acesso a arquivos armazenados." },
-];
-const site = [
-  { t: "Conexão sempre criptografada", d: "O site funciona só em HTTPS." },
-  { t: "Proteções do navegador", d: "Política de segurança de conteúdo, proteção contra o site ser embutido em outro e contra troca de tipo de arquivo." },
-  { t: "Formulário sem banco de dados", d: "O formulário de contato monta a mensagem no seu próprio navegador e abre o WhatsApp. Nada é gravado no site." },
-  { t: "Sem cookies de terceiros para publicidade", d: "Usamos só a medição de audiência do Google Analytics, e os cookies dele só depois que você aceita no aviso." },
+  { i: "key", t: "Certificado digital protegido", d: "Guardado com criptografia e usado só por quem tem permissão." },
+  { i: "lock", t: "Cada empresa no seu espaço", d: "Os dados de uma empresa nunca aparecem para outra." },
+  { i: "eye", t: "Acesso por perfil", d: "Cada pessoa vê e faz só o que precisa." },
+  { i: "shield", t: "Verificação em duas etapas", d: "A conta continua protegida mesmo se a senha vazar." },
+  { i: "history", t: "Tudo fica registrado", d: "Quem fez, o quê e quando." },
+  { i: "checkCircle", t: "Aprovação por valor", d: "Despesas altas esperam a aprovação de quem decide." },
 ];
 ---
 <Base
   title="Segurança e proteção de dados | Sebra ERP"
-  description="Como a Sebra protege sua empresa: certificado A1 cifrado com AES-256, isolamento entre empresas, permissões por perfil, 2FA, auditoria e testes de segurança."
+  description="Como a Sebra protege os dados da sua empresa: certificado digital protegido, dados separados por empresa, acesso por perfil, verificação em duas etapas e registro das ações."
   crumbs={[{ name: "Segurança", href: "/seguranca/" }]}
 >
-  <section class="ip-hero showcase">
+  <section class="ip-hero ip-hero--center showcase fx-host">
+    <HeroFx />
     <div class="container">
-      <div class="s-head s-head--center" style="margin-inline:auto">
-        <p class="ip-crumbs ip-crumbs--dark" style="text-align:center"><a href="/">Início</a> · Segurança</p>
-        <p class="eyebrow">Segurança</p>
-        <h1>Seus dados tratados como se fossem nossos</h1>
-        <p class="ip-hero__lead" style="margin-inline:auto">Um ERP guarda o coração da empresa: notas, certificado digital, dados bancários e financeiros. Veja as camadas que protegem tudo isso.</p>
-      </div>
+      <h1>Seus dados protegidos</h1>
+      <p class="ip-hero__lead">Notas, certificado e financeiro tratados como se fossem nossos.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="s-head reveal"><p class="eyebrow">Na plataforma</p><h2>Oito camadas de proteção</h2></div>
-      <div class="sec-grid">
+      <div class="grid grid--3">
         {camadas.map((c, i) => (
-          <article class="sec-item reveal" data-delay={i % 4}>
-            <div class="sec-item__ic"><Icon name={c.i} size={22} /></div>
+          <article class="card reveal" data-delay={i % 3}>
+            <div class="card__icon"><Icon name={c.i} size={22} /></div>
             <h3>{c.t}</h3><p>{c.d}</p>
           </article>
         ))}
@@ -52,36 +42,5 @@ const site = [
     </div>
   </section>
 
-  <section class="section section--tint">
-    <div class="container split">
-      <div class="reveal">
-        <p class="eyebrow">Neste site</p>
-        <h2>O site também é protegido</h2>
-        <p class="split__lead">O site institucional não tem login nem banco de dados, o que elimina as formas mais comuns de ataque. Mesmo assim, aplicamos as proteções recomendadas para qualquer página.</p>
-      </div>
-      <div class="reveal" data-delay="1">
-        <ul class="sec-list">
-          {site.map((s) => <li><div class="sec-list__ic"><Icon name="check" size={16} stroke={2.6} /></div><div><p class="sec-list__t">{s.t}</p><p class="sec-list__d">{s.d}</p></div></li>)}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <ContactSection origem="Página de segurança" uid="seg" title="Tem alguma exigência de segurança da sua empresa?"
-    lead="Conte o que a sua área de TI ou o seu contador precisa saber. Respondemos pelo WhatsApp." />
+  <ContactSection origem="Página de segurança" uid="seg" title="Tem alguma exigência de segurança?" />
 </Base>
-
-<style>
-  .sec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
-  .sec-item { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 24px; }
-  .sec-item__ic { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); margin-bottom: 16px; }
-  .sec-item h3 { font-family: var(--font); font-size: 16.5px; font-weight: 700; letter-spacing: 0; }
-  .sec-item p { margin-top: 8px; font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; }
-  @media (max-width: 980px) { .sec-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .sec-grid { grid-template-columns: 1fr; } }
-  .sec-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
-  .sec-list li { display: flex; gap: 14px; align-items: flex-start; padding: 18px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); }
-  .sec-list__ic { flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: #e8f5ee; color: var(--ok); }
-  .sec-list__t { font-weight: 700; color: var(--ink); }
-  .sec-list__d { color: var(--ink-soft); font-size: 14.5px; margin-top: 3px; }
-</style>

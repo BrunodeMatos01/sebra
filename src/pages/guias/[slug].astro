@@ -1,4 +1,5 @@
 ---
+import HeroFx from "../../components/HeroFx.astro";
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Faq from "../../components/Faq.astro";
@@ -36,10 +37,11 @@ const url = `/guias/${g.id}/`;
   faq={d.faq}
   waText={cta.wa}
 >
-  <section class="ip-hero showcase">
+  <section class="ip-hero showcase fx-host">
+    <HeroFx />
     <div class="container">
       <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · <a href="/guias/">Guias</a> · {d.categoria}</p>
-      <p class="eyebrow">{d.categoria}</p>
+      
       <h1 style="max-width:920px">{d.title}</h1>
       <p class="ip-hero__lead">{d.description}</p>
       <p class="meta-line">
@@ -82,7 +84,7 @@ const url = `/guias/${g.id}/`;
   {d.faq.length > 0 && (
     <section class="section section--tint">
       <div class="container">
-        <div class="s-head s-head--center"><p class="eyebrow">Perguntas frequentes</p><h2>Dúvidas comuns</h2></div>
+        <div class="s-head s-head--center"><h2>Dúvidas comuns</h2></div>
         <div style="margin-top:36px"><Faq items={d.faq} /></div>
       </div>
     </section>
@@ -90,7 +92,7 @@ const url = `/guias/${g.id}/`;
 
   <section class="section">
     <div class="container">
-      <div class="s-head"><p class="eyebrow">Continue lendo</p><h2>Outros guias</h2></div>
+      <div class="s-head"><h2>Outros guias</h2></div>
       <div class="guia-grid" style="margin-top:32px">
         {relacionados.map((r) => (
           <a class="guia-card" href={`/guias/${r.id}/`}>

@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Faq from "../components/Faq.astro";
 import ContactSection from "../components/ContactSection.astro";
 import Icon from "../components/Icon.astro";
+import HeroFx from "../components/HeroFx.astro";
 import Brand from "../components/Brand.astro";
 import Stage from "../components/mock/Stage.astro";
 import Mock from "../components/mock/Mock.astro";
@@ -27,8 +28,20 @@ const abas = ["financeiro", "orcamentos", "fiscal", "estoque", "servicos", "comp
 const pick = (s: (typeof solucoes)[number]) => {
   const itens = s.groups.flatMap((g) => g.items);
   const destaques = s.highlights.map((h) => h.title);
-  return [...s.highlights, ...itens.filter((i) => !destaques.includes(i.title))].slice(0, 7);
+  return [...s.highlights, ...itens.filter((i) => !destaques.includes(i.title))].slice(0, 6);
 };
+const nFuncoes = (x: (typeof solucoes)[number]) => x.groups.reduce((n, g) => n + g.items.length, 0);
+const totalFuncoes = solucoes.reduce((n, x) => n + nFuncoes(x), 0);
+const fluxo = [
+  { i: "file", t: "Orçamento" }, { i: "receipt", t: "Nota fiscal" }, { i: "wallet", t: "Conta a receber" },
+  { i: "bank", t: "Baixa pelo extrato" }, { i: "chart", t: "Lucro do mês" },
+];
+const numeros = [
+  { n: String(solucoes.length), l: "módulos integrados" },
+  { n: `${Math.floor(totalFuncoes / 10) * 10}+`, l: "funções prontas" },
+  { n: "Ilimitadas", l: "notas NF-e, NFS-e e NFC-e" },
+  { n: "1", l: "sistema só, sem planilha" },
+];
 const outros = solucoes.filter((s) => foco.includes(s.slug) && !abas.includes(s));
 // Nome curto na aba (cabe tudo numa linha); o nome completo aparece no painel.
 const curto: Record<string, string> = { estoque: "Estoque", servicos: "Serviços" };
@@ -40,33 +53,34 @@ const jornadaGov = [
   { i: "bank", t: "Recebimento", d: "Baixa automática" }, { i: "chart", t: "Lucro", d: "Por licitação" },
 ];
 const seguranca = [
-  { i: "key", t: "Certificado A1 cifrado", d: "O arquivo e a senha do certificado ficam cifrados com AES-256." },
-  { i: "lock", t: "Cada empresa no seu espaço", d: "Os dados de uma empresa nunca aparecem para outra." },
-  { i: "eye", t: "Acesso por perfil e valor", d: "Cada pessoa vê o que precisa. Despesa alta pede aprovação." },
-  { i: "history", t: "Tudo fica registrado", d: "Auditoria das ações sensíveis e verificação em duas etapas." },
+  { i: "key", t: "Certificado protegido", d: "Guardado com criptografia" },
+  { i: "lock", t: "Cada empresa no seu espaço", d: "Os dados de uma empresa nunca aparecem para outra" },
+  { i: "eye", t: "Acesso por perfil", d: "Cada pessoa vê só o que precisa" },
+  { i: "history", t: "Tudo fica registrado", d: "Quem fez, o quê e quando" },
 ];
 const etapas = [
-  { t: "Diagnóstico", d: "Entendemos sua operação e o que precisa ligar." },
-  { t: "Coleta", d: "Reunimos cadastros, certificado e saldos." },
-  { t: "Validação", d: "Conferimos os dados antes de importar." },
-  { t: "Importação", d: "Trazemos clientes, produtos e contas." },
-  { t: "Homologação", d: "Testamos com você o dia a dia." },
-  { t: "Go-live", d: "Liberamos e seguimos acompanhando." },
+  { t: "Diagnóstico", d: "Entendemos sua operação e o que precisa ligar" },
+  { t: "Coleta", d: "Reunimos cadastros, certificado e saldos" },
+  { t: "Validação", d: "Conferimos os dados antes de importar" },
+  { t: "Importação", d: "Trazemos clientes, produtos e contas" },
+  { t: "Homologação", d: "Testamos com você o dia a dia" },
+  { t: "Go-live", d: "Liberamos e seguimos acompanhando" },
 ];
 ---
 <Base
   title="Sistema de Licitação e ERP para Empresas | Sebra"
-  description="Sistema de licitação com busca no PNCP, certidões, contratos e empenhos, mais ERP com notas fiscais, financeiro e estoque. Veja funcionando no WhatsApp."
+  description="Sistema de licitação com busca no PNCP, certidões, contratos e empenhos, mais ERP com notas fiscais, financeiro e estoque, para ver funcionando no WhatsApp."
   faq={faqHome}
   product
 >
   <!-- 1. HERÓI -->
-  <section class="hero showcase">
+  <section class="hero showcase fx-host">
+    <HeroFx />
     <div class="container hero__grid">
       <div class="hero__copy">
-        <p class="eyebrow">Sistema de licitação, ERP e automação</p>
+        
         <h1>Sistema de licitação e ERP para a sua empresa <span class="accent">crescer</span>.</h1>
-        <p class="hero__lead">Licitações, notas fiscais, orçamentos, estoque, serviços e financeiro num sistema só. E automações operacionais sob medida para os processos que hoje tomam o tempo da sua equipe.</p>
+        <p class="hero__lead">Licitações, notas fiscais, estoque e financeiro num sistema só, com automações sob medida.</p>
         <div class="btn-row">
           <a class="btn btn--wa btn--lg" href={waLink(waMsg.geral)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Falar com um especialista</a>
           <a class="btn btn--ghost btn--on-navy btn--lg" href="#modulos">Conhecer os módulos <Icon name="arrowDown" size={18} /></a>
@@ -83,9 +97,10 @@ const etapas = [
           <div class="cascade__item"><MockOrcamento /></div>
           <div class="cascade__item"><MockFinanceiro /></div>
         </div>
+        <p class="demo-tag">Telas da plataforma com dados de demonstração.</p>
       </div>
     </div>
-    <p class="demo-tag container">Telas da plataforma com dados de demonstração.</p>
+    <a class="hero__scroll" href="#segmentos" aria-label="Rolar para a próxima seção"><Icon name="arrowDown" size={20} stroke={2.2} /></a>
   </section>
 
   <!-- 2. QUAL É O SEU RAMO -->
@@ -93,18 +108,18 @@ const etapas = [
     <div class="container">
       <div class="ramos__head">
         <h2 id="ramos-t">Qual é o seu ramo?</h2>
-        <p>A Sebra atende empresas de todos os tamanhos e segmentos. Escolha o seu e veja o sistema do seu jeito.</p>
+        <p>Escolha o seu e veja o sistema do seu jeito.</p>
       </div>
       <div class="ramos__grid">
         {segmentos.map((s) => (
           <a class="ramo" href={`/segmentos/${s.slug}/`}>
-            <div class="ramo__ic"><Icon name={s.icon} size={22} /></div>
+            <div class="ramo__ic"><Icon name={s.icon} size={18} /></div>
             <div class="ramo__tx"><p class="ramo__t">{s.nav}</p><p class="ramo__d">{s.menuDesc}</p></div>
             <Icon name="arrow" size={17} class="ramo__go" />
           </a>
         ))}
         <a class="ramo ramo--gov" href="/licitacoes/">
-          <div class="ramo__ic"><Icon name="landmark" size={22} /></div>
+          <div class="ramo__ic"><Icon name="landmark" size={18} /></div>
           <div class="ramo__tx"><p class="ramo__t">Fornecedores do governo</p><p class="ramo__d">Licitações, contratos e empenhos</p></div>
           <Icon name="arrow" size={17} class="ramo__go" />
         </a>
@@ -116,10 +131,19 @@ const etapas = [
   <section class="section section--tint" id="modulos">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">O sistema</p>
-        <h2>Módulos completos. Um sistema só.</h2>
-        <p>Cada módulo é completo sozinho e conversa com todos os outros: o orçamento vira nota, a nota vira conta a receber, o extrato dá a baixa e o resultado aparece no fim do mês.</p>
+        
+        <h2>Módulos completos num sistema só</h2>
       </div>
+
+      <ol class="flow reveal" aria-label="Como os módulos se ligam">
+        {fluxo.map((p, i) => (
+          <li class="flow__i" style={`--d:${i}`}><span class="flow__ic"><Icon name={p.i} size={18} /></span>{p.t}</li>
+        ))}
+      </ol>
+
+      <dl class="nums reveal">
+        {numeros.map((x) => <div class="nums__i"><dt>{x.l}</dt><dd>{x.n}</dd></div>)}
+      </dl>
 
       <div class="ex reveal" data-tabs>
         <div class="ex__tabs" role="tablist" aria-label="Módulos da Sebra">
@@ -133,13 +157,16 @@ const etapas = [
         {abas.map((s, i) => (
           <div class="ex__panel" role="tabpanel" id={`pan-${s.slug}`} aria-labelledby={`tab-${s.slug}`} hidden={i !== 0}>
             <div class="ex__copy">
-              <p class="ex__k">{s.eyebrow}</p>
               <h3 class="ex__t">{s.title}</h3>
-              <p class="ex__lead">{s.lead}</p>
               <ul class="ex__list">
-                {pick(s).map((f) => <li><Icon name="check" size={16} stroke={2.6} class="ex__ck" /><span class="ex__li"><strong>{f.title}.</strong> {f.desc}</span></li>)}
+                {pick(s).map((f) => <li><Icon name="check" size={16} stroke={2.6} class="ex__ck" /><span class="ex__li">{f.title}</span></li>)}
               </ul>
-              <a class="btn btn--primary" href={`/solucoes/${s.slug}/`}>Ver todas as funções de {s.nav.toLowerCase()} <Icon name="arrow" size={18} /></a>
+              <ul class="ex__groups" aria-label="Áreas do módulo">
+                {s.groups.map((g) => <li><Icon name={g.icon} size={14} />{g.title}</li>)}
+              </ul>
+              <div class="ex__foot">
+                <a class="btn btn--primary" href={`/solucoes/${s.slug}/`}>Ver as {nFuncoes(s)} funções <Icon name="arrow" size={18} /></a>
+              </div>
             </div>
             <div class="ex__visual"><Stage face="right" tilt={7} class="light"><Mock m={s.mock} /></Stage></div>
           </div>
@@ -151,7 +178,7 @@ const etapas = [
         <div class="more__grid">
           {outros.map((s) => (
             <a class="more__item" href={`/solucoes/${s.slug}/`}>
-              <div class="more__ic"><Icon name={s.icon} size={19} /></div>
+              <div class="more__ic"><Icon name={s.icon} size={17} /></div>
               <div><p class="more__t">{s.nav}</p><p class="more__d">{s.menuDesc}</p></div>
             </a>
           ))}
@@ -164,9 +191,9 @@ const etapas = [
   <section class="section showcase" id="automacoes">
     <div class="container split">
       <div class="split__copy reveal">
-        <p class="eyebrow">Automações operacionais</p>
+        
         <h2>Além do sistema, automatizamos os processos da sua empresa</h2>
-        <p class="split__lead">Desenvolvemos automações sob medida: robôs que fazem as tarefas repetitivas, sistemas conversando entre si e fluxos que rodam o dia inteiro, sem erro de digitação. Com o sistema que você já usa, ou com a Sebra.</p>
+        <p class="split__lead">Robôs, integrações e fluxos sob medida, com o sistema que você já usa ou com a Sebra.</p>
         <ul class="auto-tipos">
           {tiposAuto.map((t) => <li><div class="auto-tipos__ic"><Icon name={t.i} size={18} /></div><div><p class="auto-tipos__t">{t.t}</p><p class="auto-tipos__d">{t.d}</p></div></li>)}
         </ul>
@@ -189,15 +216,14 @@ const etapas = [
   <section class="section showcase">
     <div class="container split">
       <div class="split__copy reveal">
-        <p class="eyebrow">Financeiro de verdade</p>
+        
         <h2>Quanto a sua empresa lucrou este mês?</h2>
-        <p class="split__lead">A maioria das empresas só descobre quando o contador fecha o balanço. Na Sebra o DRE se monta sozinho a partir das notas e dos lançamentos: você sabe quanto vendeu, quanto custou e quanto sobrou, no dia que quiser.</p>
+        <p class="split__lead">O DRE se monta sozinho a partir das notas e dos lançamentos.</p>
         <ul class="check-list">
           <li><strong>DRE por competência</strong> e fluxo de caixa por período</li>
           <li><strong>Resultado das vendas</strong> calculado pelas notas autorizadas</li>
           <li><strong>Conciliação automática</strong>: o extrato dá baixa nas notas pagas</li>
           <li><strong>Boleto</strong> com baixa automática quando é pago</li>
-          <li>Comissões, centro de custo e aprovação por valor</li>
         </ul>
         <a class="btn btn--light" href="/solucoes/financeiro/">Ver todas as funções do financeiro <Icon name="arrow" size={18} /></a>
       </div>
@@ -209,10 +235,10 @@ const etapas = [
   <section class="section facts">
     <div class="container">
       <div class="facts__grid">
-        <div class="fact reveal"><div class="fact__ic"><Icon name="receipt" size={22} /></div><p class="fact__n">Nota fiscal completa</p><p class="fact__l">NF-e, NFS-e e NFC-e emitidas por emissor homologado</p></div>
-        <div class="fact reveal" data-delay="1"><div class="fact__ic"><Icon name="zap" size={22} /></div><p class="fact__n">Financeiro no automático</p><p class="fact__l">O extrato do banco dá baixa nas notas pagas sozinho</p></div>
-        <div class="fact reveal" data-delay="2"><div class="fact__ic"><Icon name="shield" size={22} /></div><p class="fact__n">Documentos protegidos</p><p class="fact__l">Notas e XMLs guardados com segurança e cópia de segurança</p></div>
-        <div class="fact reveal" data-delay="3"><div class="fact__ic"><Icon name="key" size={22} /></div><p class="fact__n">Certificado cifrado</p><p class="fact__l">Seu certificado digital protegido com criptografia</p></div>
+        <div class="fact reveal"><div class="fact__ic"><Icon name="receipt" size={18} /></div><p class="fact__n">Nota fiscal completa</p><p class="fact__l">NF-e, NFS-e e NFC-e emitidas por emissor homologado</p></div>
+        <div class="fact reveal" data-delay="1"><div class="fact__ic"><Icon name="zap" size={18} /></div><p class="fact__n">Financeiro no automático</p><p class="fact__l">O extrato do banco dá baixa nas notas pagas sozinho</p></div>
+        <div class="fact reveal" data-delay="2"><div class="fact__ic"><Icon name="shield" size={18} /></div><p class="fact__n">Documentos protegidos</p><p class="fact__l">Notas e XMLs guardados com segurança e cópia de segurança</p></div>
+        <div class="fact reveal" data-delay="3"><div class="fact__ic"><Icon name="key" size={18} /></div><p class="fact__n">Certificado cifrado</p><p class="fact__l">Seu certificado digital protegido com criptografia</p></div>
       </div>
     </div>
   </section>
@@ -221,9 +247,9 @@ const etapas = [
   <section class="section showcase gov" id="licitacoes">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Especialidade Sebra</p>
+        
         <h2>Vende para o governo? Aqui a Sebra é especialista.</h2>
-        <p>O módulo de licitações acompanha a disputa e continua depois da vitória: contrato com saldo e vigência, empenho calculado sozinho, nota com retenção, boleto, recebimento e o lucro de cada processo.</p>
+        <p>A Sebra acompanha a disputa e continua depois da vitória.</p>
       </div>
       <ol class="gov__steps reveal">
         {jornadaGov.map((j) => <li><div class="gov__ic"><Icon name={j.i} size={19} /></div><p class="gov__t">{j.t}</p><p class="gov__d">{j.d}</p></li>)}
@@ -231,13 +257,11 @@ const etapas = [
       <div class="split gov__split">
         <div class="split__copy reveal">
           <ul class="check-list">
-            <li><strong>Busca de editais no PNCP</strong>, a base oficial de todo órgão sob a Lei 14.133</li>
-            <li><strong>Quadro Kanban ligado à licitação</strong>: moveu o cartão, mudou o status, e vice-versa</li>
-            <li><strong>Certidões com aviso</strong> antes de vencer e checklist de habilitação</li>
-            <li><strong>Saldo de contrato e de empenho</strong>: o que já foi faturado e o que ainda pode faturar</li>
-            <li><strong>Empenhos</strong> com faturado e recebido calculados pelas notas</li>
-            <li><strong>AF em PDF vira nota</strong>, até 50 de uma vez (CINCATARINA)</li>
-            <li><strong>Resultado por licitação</strong> com custo real das compras</li>
+            <li><strong>Busca de editais no PNCP</strong></li>
+            <li><strong>Quadro Kanban</strong> ligado à licitação</li>
+            <li><strong>Certidões com aviso</strong> antes de vencer</li>
+            <li><strong>Saldo de contrato e de empenho</strong></li>
+            <li><strong>Resultado por licitação</strong></li>
           </ul>
           <div class="btn-row">
             <a class="btn btn--light btn--lg" href="/licitacoes/">Conhecer o módulo de licitações</a>
@@ -253,14 +277,13 @@ const etapas = [
   <section class="section">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Responsabilidade</p>
-        <h2>Você vai confiar à Sebra o coração da sua empresa. A gente leva isso a sério.</h2>
-        <p>Certificado digital, notas, dados bancários e financeiros. Cuidamos de cada um como se fosse nosso.</p>
+        
+        <h2>Seus dados protegidos</h2>
       </div>
       <div class="grid grid--4 trust">
         {seguranca.map((s, i) => (
           <article class="card reveal" data-delay={i}>
-            <div class="card__icon"><Icon name={s.i} size={22} /></div>
+            <div class="card__icon"><Icon name={s.i} size={18} /></div>
             <h3>{s.t}</h3><p>{s.d}</p>
           </article>
         ))}
@@ -270,7 +293,7 @@ const etapas = [
       <div class="steps reveal">
         <div class="steps__head">
           <h3>Como colocamos a Sebra para rodar na sua empresa</h3>
-          <p>Implantação conduzida pela nossa equipe, em seis etapas. Você continua trabalhando enquanto isso.</p>
+          <p>Conduzida pela nossa equipe, enquanto você continua trabalhando</p>
         </div>
         <ol class="steps__list">
           {etapas.map((e, i) => (
@@ -285,13 +308,12 @@ const etapas = [
   {guiasHome.length > 0 && (
     <section class="section" id="guias">
       <div class="container">
-        <div class="s-head reveal"><p class="eyebrow">Guias gratuitos</p><h2>Aprenda a vender para o governo e organizar a empresa</h2><p>Conteúdo prático sobre licitação, certidões, notas com retenção e financeiro.</p></div>
-        <div class="guia-grid reveal" style="margin-top:32px">
+        <div class="s-head reveal"><h2>Guias gratuitos</h2></div>
+        <div class="guia-grid reveal" style="margin-top:28px">
           {guiasHome.map((g) => (
             <a class="guia-card" href={`/guias/${g.id}/`}>
               <span class="guia-card__cat">{g.data.categoria}</span>
               <h3>{g.data.title}</h3>
-              <p>{g.data.description}</p>
               <span class="guia-card__go">Ler o guia <Icon name="arrow" size={15} /></span>
             </a>
           ))}
@@ -305,10 +327,10 @@ const etapas = [
   <section class="section section--soft">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Perguntas frequentes</p>
-        <h2>O que perguntam antes de fechar com a Sebra</h2>
+        
+        <h2>Perguntas frequentes</h2>
       </div>
-      <div class="reveal" style="margin-top:44px"><Faq items={faqHome} /></div>
+      <div class="reveal" style="margin-top:32px"><Faq items={faqHome} /></div>
     </div>
   </section>
 
@@ -317,7 +339,7 @@ const etapas = [
     <div class="container cta-band__inner reveal">
       <div>
         <h2>Planos a partir de R$ 327 por mês</h2>
-        <p>Notas fiscais ilimitadas e financeiro com baixa pelo extrato em todos os planos. Licitação a partir do Profissional.</p>
+        <p>Notas fiscais ilimitadas em todos os planos.</p>
       </div>
       <div class="btn-row">
         <a class="btn btn--light btn--lg" href="/planos/">Ver os planos</a>
@@ -356,42 +378,55 @@ const etapas = [
 
 <style>
   /* HERÓI */
-  .hero { padding-block: clamp(56px, 7vw, 92px) clamp(24px, 3vw, 36px); }
-  .hero__grid { display: grid; grid-template-columns: 1.02fr .98fr; gap: clamp(28px, 4vw, 52px); align-items: center; }
-  .hero h1 { font-size: clamp(36px, 4.4vw, 56px); color: #fff; letter-spacing: -.03em; line-height: 1.04; }
-  .hero__lead { margin-top: 22px; font-size: clamp(16.5px, 1.35vw, 19px); color: var(--on-dark-soft); max-width: 560px; line-height: 1.62; }
-  .hero .btn-row { margin-top: 30px; }
+  .hero { position: relative; isolation: isolate; min-height: calc(100svh - var(--nav-h)); display: flex; flex-direction: column; justify-content: center; padding-block: clamp(40px, 5vw, 64px) 20px; background: #050a24; }
+  .hero > .container { position: relative; z-index: 1; }
+  @media (max-width: 940px) { .hero { min-height: 0; } }
+  .hero__grid { display: grid; grid-template-columns: 1.08fr 1fr; gap: clamp(20px, 2.5vw, 32px); align-items: center; }
+  .hero h1 { text-wrap: pretty; font-weight: 600; font-size: clamp(34px, 4vw, 56px); color: #fff; letter-spacing: -.035em; line-height: 1.05; background: linear-gradient(180deg, #fff 30%, #c9d8ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero h1 .accent { background: linear-gradient(90deg, #6ea0ff, #a78bfa 60%, #67e8f9); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero__lead { margin-top: 18px; font-size: 17.5px; color: var(--on-dark-soft); max-width: 560px; line-height: 1.62; }
+  .hero .btn-row { margin-top: 26px; }
   .hero__proof { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; }
-  .hero__proof li { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; color: var(--on-dark-soft); }
+  .hero__proof li { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--on-dark-soft); }
   .hero__proof :global(svg) { color: #4ade80; }
-  .hero__visual { min-width: 0; }
+  .hero__visual { min-width: 0; margin-right: calc(-1 * clamp(0px, 5vw, 96px)); }
+  .hero__visual .demo-tag { text-align: left; margin-top: 0; padding-left: 4px; }
+  /* Seta de rolagem */
+  .hero__scroll { position: absolute; z-index: 2; left: 50%; bottom: 22px; transform: translateX(-50%); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: #dbe6ff; background: rgba(255,255,255,.06); border: 1px solid rgba(160,190,255,.28); backdrop-filter: blur(6px); transition: background .2s ease, border-color .2s ease; }
+  .hero__scroll:hover { background: rgba(255,255,255,.14); border-color: rgba(190,210,255,.6); }
+  .hero__scroll :global(svg) { animation: scrollNudge 1.8s ease-in-out infinite; }
+  .hero__scroll::before { content: ""; position: absolute; inset: -6px; border-radius: inherit; border: 1px solid rgba(110,160,255,.35); animation: scrollRing 2.4s ease-out infinite; }
+  @keyframes scrollNudge { 0%, 100% { transform: translateY(-3px); opacity: .7; } 50% { transform: translateY(4px); opacity: 1; } }
+  @keyframes scrollRing { from { transform: scale(.85); opacity: .9; } to { transform: scale(1.35); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .hero__scroll :global(svg), .hero__scroll::before { animation: none; } }
+  @media (max-width: 940px) { .hero__visual { margin-right: 0; } .hero__scroll { display: none; } }
   @media (max-width: 940px) { .hero__grid { grid-template-columns: 1fr; } }
 
   /* AUTOMAÇÕES */
   .auto-tipos { list-style: none; padding: 0; margin: 24px 0 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
   .auto-tipos li { display: flex; gap: 12px; align-items: flex-start; }
-  .auto-tipos__ic { flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: rgba(245,158,11,.16); color: #fbbf24; }
-  .auto-tipos__t { font-weight: 700; color: #fff; font-size: 15px; }
+  .auto-tipos__ic { flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; background: rgba(245,158,11,.16); color: #fbbf24; }
+  .auto-tipos__t { font-weight: 600; color: #fff; font-size: 14.5px; }
   .auto-tipos__d { color: var(--on-dark-soft); font-size: 13.5px; margin-top: 2px; line-height: 1.45; }
   .auto-prova__k { text-align: center; color: var(--on-dark-mute); font-size: 14px; margin-top: 10px; }
   .auto-prova { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 14px; }
-  .auto-prova__i { display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: var(--on-dark-soft); font-size: 14px; }
+  .auto-prova__i { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: var(--on-dark-soft); font-size: 14px; }
   .auto-prova__i :global(svg) { color: #4ade80; }
   @media (max-width: 620px) { .auto-tipos { grid-template-columns: 1fr; } }
 
   /* RAMOS */
-  .ramos { background: #fff; padding-block: clamp(44px, 6vw, 72px); border-bottom: 1px solid var(--line-soft); }
+  .ramos { background: #fff; padding-block: clamp(36px, 4.5vw, 56px); border-bottom: 1px solid var(--line-soft); }
   .ramos__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
-  .ramos__head h2 { font-size: clamp(26px, 3vw, 36px); }
-  .ramos__head p { color: var(--ink-soft); max-width: 520px; font-size: 16.5px; }
-  .ramos__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
-  .ramo { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: var(--r-md); border: 1px solid var(--line); background: #fff; transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
-  .ramo:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); }
-  .ramo__ic { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); transition: background .2s ease, color .2s ease; }
+  .ramos__head h2 { font-size: clamp(22px, 2.3vw, 28px); }
+  .ramos__head p { color: var(--muted); max-width: 520px; font-size: 15px; }
+  .ramos__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+  .ramo { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--r-md); border: 1px solid var(--line); background: #fff; transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+  .ramo:hover { border-color: var(--brand); transform: translateY(-1px); }
+  .ramo__ic { flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); transition: background .2s ease, color .2s ease; }
   .ramo:hover .ramo__ic { background: var(--grad-brand); color: #fff; }
   .ramo__tx { flex: 1; min-width: 0; }
-  .ramo__t { font-weight: 700; color: var(--ink); font-size: 15.5px; }
-  .ramo__d { color: var(--muted); font-size: 13.5px; margin-top: 2px; line-height: 1.4; }
+  .ramo__t { font-weight: 600; color: var(--ink); font-size: 14.5px; line-height: 1.3; }
+  .ramo__d { color: var(--muted); font-size: 13px; margin-top: 1px; line-height: 1.4; }
   .ramo :global(.ramo__go) { color: var(--muted); flex-shrink: 0; transition: transform .2s ease, color .2s ease; }
   .ramo:hover :global(.ramo__go) { color: var(--brand); transform: translateX(3px); }
   .ramo--gov { background: var(--navy-900); border-color: var(--navy-900); }
@@ -399,73 +434,96 @@ const etapas = [
   .ramo--gov .ramo__d { color: var(--on-dark-soft); }
   .ramo--gov .ramo__ic { background: rgba(110,160,255,.18); color: var(--brand-light); }
   .ramo--gov:hover .ramo__ic { background: var(--brand); color: #fff; }
-  @media (max-width: 1020px) { .ramos__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 900px) { .ramos__grid { grid-template-columns: 1fr; } }
   @media (max-width: 560px) { .ramos__grid { grid-template-columns: 1fr; } }
 
   /* EXPLORADOR */
-  .ex { margin-top: 44px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
-  .ex__tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-bottom: 1px solid var(--line-soft); background: #fafcff; }
-  .ex__tab { display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 13px; border-radius: 11px; border: 0; background: none; font: inherit; font-weight: 600; font-size: 14.5px; color: var(--ink-soft); cursor: pointer; transition: background .15s ease, color .15s ease; }
+  /* Fluxo: como um módulo alimenta o outro */
+  .flow { list-style: none; padding: 0; margin: 28px auto 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+  .flow__i { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; border-radius: 999px; background: #fff; border: 1px solid var(--line); box-shadow: none; font-weight: 500; font-size: 13.5px; color: var(--ink); animation: flowPulse 6s ease-in-out infinite; animation-delay: calc(var(--d) * 1.2s); }
+  .flow__i + .flow__i::before { content: ""; width: 22px; height: 2px; margin-left: -17px; margin-right: 4px; background: linear-gradient(90deg, #bcd0f7, var(--brand)); border-radius: 2px; }
+  .flow__ic { width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
+  @keyframes flowPulse { 0%, 14%, 100% { border-color: var(--line); box-shadow: var(--shadow-sm); } 6% { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(8,87,255,.12); } }
+  @media (prefers-reduced-motion: reduce) { .flow__i { animation: none; } }
+  @media (max-width: 720px) { .flow__i + .flow__i::before { display: none; } }
+
+  /* Números */
+  .nums { margin: 26px auto 0; display: flex; flex-wrap: wrap; justify-content: center; }
+  .nums__i { display: flex; flex-direction: column-reverse; align-items: center; padding: 2px clamp(16px, 2.6vw, 36px); text-align: center; }
+  .nums__i + .nums__i { border-left: 1px solid #cfdcf6; }
+  .nums dd { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -.02em; line-height: 1.2; color: var(--navy); }
+  .nums dt { margin-top: 2px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 720px) { .nums__i { width: 50%; padding-block: 8px; } .nums__i + .nums__i { border-left: 0; } }
+
+  .ex { margin-top: 24px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
+  .ex__tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px; border-bottom: 1px solid var(--line-soft); background: #fafcff; }
+  .ex__tab { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 12px; border-radius: 9px; border: 0; background: none; font: inherit; font-weight: 500; font-size: 14px; color: var(--ink-soft); cursor: pointer; transition: background .15s ease, color .15s ease; }
   .ex__tab:hover { background: #eef3ff; color: var(--brand); }
   .ex__tab[aria-selected="true"] { background: var(--navy); color: #fff; }
   .ex__tab--lic { margin-left: auto; background: linear-gradient(135deg, #fff7e6, #ffefd1); color: #8a4b00; border: 1px solid #f5d08a; }
   .ex__tab--lic:hover { background: linear-gradient(135deg, #ffefd1, #ffe3ad); color: #6b3a00; }
   @media (max-width: 1100px) { .ex__tab--lic { margin-left: 0; } }
-  .ex__panel { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px; align-items: center; padding: clamp(22px, 3.5vw, 40px); }
+  .ex__panel { display: grid; grid-template-columns: .95fr 1.05fr; gap: 28px; align-items: center; padding: clamp(22px, 3.5vw, 40px) clamp(22px, 3.5vw, 40px) clamp(10px, 2vw, 24px); }
+  .ex :global(.stage) { padding-bottom: 36px; }
   .ex__panel[hidden] { display: none; }
-  .ex__k { font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
-  .ex__t { font-size: clamp(23px, 2.5vw, 31px); margin-top: 10px; }
+  .ex__k { font-size: 12.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
+  .ex__t { font-size: clamp(20px, 2.1vw, 26px); }
   .ex__lead { margin-top: 12px; color: var(--ink-soft); font-size: 16px; }
-  .ex__list { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 11px; }
+  .ex__list { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+  .ex__groups { list-style: none; padding: 16px 0 0; margin: 18px 0 0; border-top: 1px dashed var(--line); display: flex; flex-wrap: wrap; gap: 6px; }
+  .ex__groups li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 999px; background: #f4f7fd; color: var(--ink-soft); font-size: 12.5px; font-weight: 500; }
+  .ex__groups :global(svg) { color: var(--brand); }
+  .ex__foot { margin-top: 22px; }
+  @media (max-width: 560px) { .ex__list { grid-template-columns: 1fr; } }
   .ex__list li { display: flex; gap: 10px; align-items: flex-start; }
   .ex :global(.ex__ck) { color: var(--brand); flex-shrink: 0; margin-top: 4px; }
-  .ex__li { font-size: 15px; color: var(--ink-soft); line-height: 1.5; }
+  .ex__li { font-size: 14.5px; color: var(--ink); font-weight: 500; line-height: 1.45; }
   .ex__li strong { color: var(--ink); }
   .ex__visual { min-width: 0; }
   @media (max-width: 980px) { .ex__panel { grid-template-columns: 1fr; } }
 
   .more { margin-top: 36px; }
-  .more__k { font-weight: 700; color: var(--ink); text-align: center; }
+  .more__k { font-weight: 600; color: var(--ink); text-align: center; }
   .more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
-  .more__item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); transition: border-color .2s ease, transform .2s ease; }
+  .more__item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); transition: border-color .2s ease, transform .2s ease; }
   .more__item:hover { border-color: var(--brand); transform: translateY(-2px); }
-  .more__ic { flex-shrink: 0; width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
-  .more__t { font-weight: 700; color: var(--ink); font-size: 15px; }
-  .more__d { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+  .more__ic { flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
+  .more__t { font-weight: 600; color: var(--ink); font-size: 14.5px; }
+  .more__d { color: var(--muted); font-size: 13px; margin-top: 1px; }
   @media (max-width: 900px) { .more__grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .more__grid { grid-template-columns: 1fr; } }
 
   /* FATOS */
-  .facts { background: #fff; padding-block: clamp(48px, 6vw, 72px); border-bottom: 1px solid var(--line-soft); }
-  .facts__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  .fact { padding: 22px; border-radius: var(--r-md); background: linear-gradient(180deg, #f6f9ff, #fff); border: 1px solid var(--line); }
-  .fact__ic { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; margin-bottom: 14px; }
-  .fact__n { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--navy); letter-spacing: -.01em; line-height: 1.25; }
-  .fact__l { margin-top: 8px; color: var(--ink-soft); font-size: 15px; line-height: 1.45; }
+  .facts { background: #fff; padding-block: clamp(36px, 4.5vw, 56px); border-bottom: 1px solid var(--line-soft); }
+  .facts__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .fact { padding: 18px; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); }
+  .fact__ic { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); margin-bottom: 12px; }
+  .fact__n { font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--navy); letter-spacing: -.01em; line-height: 1.25; }
+  .fact__l { margin-top: 5px; color: var(--ink-soft); font-size: 14px; line-height: 1.5; }
   @media (max-width: 900px) { .facts__grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 520px) { .facts__grid { grid-template-columns: 1fr; } }
 
   /* LICITAÇÕES */
   .gov__steps { list-style: none; padding: 0; margin: 44px 0 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; }
-  .gov__steps li { text-align: center; padding: 16px 8px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); }
-  .gov__ic { width: 42px; height: 42px; margin: 0 auto 10px; border-radius: 11px; display: grid; place-items: center; background: rgba(110,160,255,.16); color: var(--brand-light); }
-  .gov__t { font-family: var(--font-display); font-weight: 700; color: #fff; font-size: 15px; }
+  .gov__steps li { text-align: center; padding: 12px 6px; border-radius: 12px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); }
+  .gov__ic { width: 32px; height: 32px; margin: 0 auto 8px; border-radius: 8px; display: grid; place-items: center; background: rgba(110,160,255,.16); color: var(--brand-light); }
+  .gov__t { font-family: var(--font-display); font-weight: 600; color: #fff; font-size: 14px; }
   .gov__d { color: var(--on-dark-mute); font-size: 12.5px; margin-top: 2px; }
   .gov__split { margin-top: 40px; }
   @media (max-width: 980px) { .gov__steps { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 480px) { .gov__steps { grid-template-columns: repeat(2, 1fr); } }
 
   /* CONFIANÇA */
-  .trust { margin-top: 48px; }
-  .trust .card h3 { font-size: 17.5px; }
+  .trust { margin-top: 36px; }
+  .trust .card h3 { font-size: 16px; }
   .trust__more { text-align: center; margin-top: 24px; }
-  .steps { margin-top: 48px; padding: clamp(24px, 4vw, 40px); border-radius: var(--r-lg); background: linear-gradient(135deg, #f4f8ff, #eaf1ff); border: 1px solid #dbe6fb; }
-  .steps__head h3 { font-size: clamp(21px, 2.2vw, 27px); }
+  .steps { margin-top: 36px; padding: clamp(24px, 4vw, 40px); border-radius: var(--r-lg); background: linear-gradient(135deg, #f4f8ff, #eaf1ff); border: 1px solid #dbe6fb; }
+  .steps__head h3 { font-size: clamp(19px, 1.9vw, 23px); }
   .steps__head p { margin-top: 8px; color: var(--ink-soft); }
   .steps__list { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-  .steps__list li { padding-top: 14px; border-top: 2px solid var(--brand); }
+  .steps__list li { padding-top: 12px; border-top: 1px solid var(--brand); }
   .steps__n { font-family: var(--font-display); font-weight: 800; color: var(--brand); font-size: 14px; }
-  .steps__t { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--ink); margin-top: 4px; }
+  .steps__t { font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--ink); margin-top: 4px; }
   .steps__d { font-size: 14px; color: var(--ink-soft); line-height: 1.5; margin-top: 4px; }
   @media (max-width: 980px) { .steps__list { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .steps__list { grid-template-columns: 1fr; } }

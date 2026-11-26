@@ -1,4 +1,5 @@
 ---
+import HeroFx from "../../components/HeroFx.astro";
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import ContactSection from "../../components/ContactSection.astro";
@@ -24,12 +25,13 @@ const lista = {
   crumbs={[{ name: "Guias", href: "/guias/" }]}
   extraLd={[lista]}
 >
-  <section class="ip-hero showcase">
+  <section class="ip-hero showcase fx-host">
+    <HeroFx />
     <div class="container">
       <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Guias</p>
-      <p class="eyebrow">Central de guias</p>
+      
       <h1>Guias práticos para vender para o governo e organizar a empresa</h1>
-      <p class="ip-hero__lead">Licitação, certidões, empenho, nota fiscal com retenção, preço, DRE e fluxo de caixa explicados sem juridiquês, por quem faz sistema para isso todos os dias.</p>
+      <p class="ip-hero__lead">Licitação, fiscal e financeiro explicados sem juridiquês.</p>
       <nav class="cat-nav" aria-label="Categorias">
         {porCat.map(({ c, itens }) => <a href={`#${slugCat(c)}`}>{c} <span>{itens.length}</span></a>)}
       </nav>
@@ -39,7 +41,7 @@ const lista = {
   {destaques.length > 0 && (
     <section class="section" style="padding-bottom:0">
       <div class="container">
-        <div class="s-head"><p class="eyebrow">Comece por aqui</p><h2>Os guias mais lidos</h2></div>
+        <div class="s-head"><h2>Os guias mais lidos</h2></div>
         <div class="guia-grid" style="margin-top:32px">
           {destaques.map((g) => (
             <a class="guia-card guia-card--hot" href={`/guias/${g.id}/`}>
@@ -57,7 +59,7 @@ const lista = {
   {porCat.map(({ c, itens }) => (
     <section class="section" id={slugCat(c)} style="padding-bottom:0">
       <div class="container">
-        <div class="s-head"><p class="eyebrow">{c}</p><h2>Guias de {c.toLowerCase()}</h2></div>
+        <div class="s-head"><h2>Guias de {c.toLowerCase()}</h2></div>
         <div class="guia-grid" style="margin-top:28px">
           {itens.map((g) => (
             <a class="guia-card" href={`/guias/${g.id}/`}>

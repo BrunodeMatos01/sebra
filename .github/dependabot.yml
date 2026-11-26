@@ -1,0 +1,8 @@
+# Abre um PR automático quando sair correção de segurança para alguma dependência.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5

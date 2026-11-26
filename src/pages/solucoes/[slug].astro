@@ -1,4 +1,5 @@
 ---
+import HeroFx from "../../components/HeroFx.astro";
 import Base from "../../layouts/Base.astro";
 import ContactSection from "../../components/ContactSection.astro";
 import Faq from "../../components/Faq.astro";
@@ -18,11 +19,12 @@ const waText = `Olá! Vim pela página de ${s.nav} do site da Sebra e quero ver 
 const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
 ---
 <Base title={s.seoTitle} description={s.seoDesc} crumbs={[{ name: "ERP completo", href: "/#modulos" }, { name: s.nav, href: `/solucoes/${s.slug}/` }]} faq={s.faq} waText={waText}>
-  <section class="ip-hero showcase">
+  <section class="ip-hero showcase fx-host">
+    <HeroFx />
     <div class="container ip-hero__grid">
       <div>
         <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · <a href="/#modulos">ERP completo</a> · {s.nav}</p>
-        <p class="eyebrow">{s.eyebrow}</p>
+        
         <h1>{s.title}</h1>
         <p class="ip-hero__lead">{s.lead}</p>
         <div class="btn-row">
@@ -36,7 +38,6 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
 
   <section class="section">
     <div class="container">
-      <div class="ip-intro reveal"><p>{s.intro}</p></div>
       <div class="pain-list">
         {s.pains.map((p, i) => (
           <div class="pain reveal" data-delay={i % 3}>
@@ -51,7 +52,7 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
   <section class="section section--navy">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">O que mais impressiona</p>
+        
         <h2>Os destaques de {s.nav.toLowerCase()}</h2>
       </div>
       <div class="hl-grid">
@@ -68,23 +69,22 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
   <section class="section section--tint" id="funcoes">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Tudo o que está incluído</p>
+        
         <h2>Todas as funções de {s.nav.toLowerCase()}</h2>
-        <p>Cada função abaixo já existe na plataforma e funciona ligada ao resto do sistema.</p>
       </div>
       <nav class="gnav reveal" aria-label="Grupos de funções">
         {s.groups.map((g) => <a href={`#${slugify(g.title)}`}><Icon name={g.icon} size={16} />{g.title}</a>)}
       </nav>
 
       {s.groups.map((g, gi) => (
-        <section class="fgroup reveal" id={slugify(g.title)} aria-labelledby={`g-${slugify(g.title)}`}>
-          <header class="fgroup__head">
+        <details class="fgroup reveal" id={slugify(g.title)} open={gi === 0}>
+          <summary class="fgroup__head">
             <div class="fgroup__ic"><Icon name={g.icon} size={22} /></div>
             <div>
               <h2 class="fgroup__title" id={`g-${slugify(g.title)}`}>{g.title}</h2>
               {g.intro && <p class="fgroup__intro">{g.intro}</p>}
             </div>
-          </header>
+          </summary>
           <div class="fgroup__grid">
             {g.items.map((f) => (
               <article class="fitem" id={slugify(f.title)}>
@@ -96,7 +96,7 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
           {gi === 0 && s.mock2 && (
             <div class="fgroup__mock"><Stage face="right" tilt={7} class="light"><Mock m={s.mock2} /></Stage></div>
           )}
-        </section>
+        </details>
       ))}
     </div>
   </section>
@@ -104,7 +104,7 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
   <section class="section section--soft">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Perguntas frequentes</p>
+        
         <h2>Dúvidas sobre {s.nav.toLowerCase()}</h2>
       </div>
       <div class="reveal" style="margin-top:40px"><Faq items={s.faq} /></div>
@@ -113,7 +113,7 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
 
   <section class="section">
     <div class="container">
-      <div class="s-head reveal"><p class="eyebrow">Tudo conectado</p><h2>Funciona junto com</h2></div>
+      <div class="s-head reveal"><h2>Funciona junto com</h2></div>
       <div class="others">
         {related.map((o) => (
           <a class="other reveal" href={`/solucoes/${o.slug}/`}>
@@ -131,12 +131,28 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
 
   <ContactSection origem={`Página ${s.nav}`} uid={`sol-${s.slug}`} waText={waText}
     title={s.closing}
-    lead={`Preencha uma vez e abrimos o WhatsApp com a sua mensagem pronta. Mostramos ${s.nav.toLowerCase()} funcionando com um cenário parecido com o seu.`} />
+    lead={`Preencha uma vez e abrimos o WhatsApp com a mensagem pronta, para mostrar ${s.nav.toLowerCase()} funcionando num cenário parecido com o seu.`} />
 </Base>
 
+<script>
+  // Grupos de funções recolhidos: um link direto (menu de grupos ou âncora de uma função) abre o grupo certo.
+  const abrir = () => {
+    const alvo = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    const grupo = alvo ? alvo.closest("details") : null;
+    if (grupo && !grupo.open) { grupo.open = true; alvo.scrollIntoView(); }
+  };
+  abrir();
+  window.addEventListener("hashchange", abrir);
+</script>
+
 <style>
-  .hl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 48px; }
-  .hl { padding: 26px; border-radius: var(--r-md); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); }
+  .fgroup__head { cursor: pointer; list-style: none; }
+  .fgroup__head::-webkit-details-marker { display: none; }
+  .fgroup__head::after { content: "+"; margin-left: auto; font-size: 28px; font-weight: 300; line-height: 1; color: var(--brand); }
+  details[open] > .fgroup__head::after { content: "–"; }
+  details:not([open]) > .fgroup__head { padding-bottom: 0; border-bottom: 0; }
+  .hl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 36px; }
+  .hl { padding: 20px; border-radius: var(--r-md); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); }
   .hl__n { font-family: var(--font-display); font-weight: 800; color: var(--brand-light); font-size: 15px; }
   .hl h3 { font-size: 19px; margin-top: 12px; }
   .hl__d { margin-top: 10px; font-size: 15px; color: var(--on-dark-soft); }
@@ -149,13 +165,13 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
 
   .fgroup { margin-top: 32px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(22px, 3vw, 36px); scroll-margin-top: calc(var(--nav-h) + 20px); }
   .fgroup__head { display: flex; gap: 16px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--line-soft); }
-  .fgroup__ic { flex-shrink: 0; width: 50px; height: 50px; border-radius: 13px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; }
+  .fgroup__ic { flex-shrink: 0; width: 36px; height: 36px; border-radius: 9px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
   .fgroup__title { font-size: clamp(21px, 2.2vw, 26px); }
   .fgroup__intro { margin-top: 4px; color: var(--ink-soft); }
   .fgroup__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 36px; margin-top: 6px; }
   .fitem { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--line-soft); scroll-margin-top: calc(var(--nav-h) + 20px); }
   .fitem__ic { flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: #e8f0ff; color: var(--brand); margin-top: 1px; }
-  .fitem__t { font-family: var(--font); font-size: 16px; font-weight: 700; letter-spacing: 0; line-height: 1.35; }
+  .fitem__t { font-family: var(--font); font-size: 16px; font-weight: 600; letter-spacing: 0; line-height: 1.35; }
   .fitem__d { font-size: 14.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.55; }
   .fitem:target { background: #f2f7ff; border-radius: 10px; padding-inline: 10px; }
   .fgroup__mock { margin-top: 28px; padding: 30px 6% 0; border-radius: var(--r-md); background: linear-gradient(170deg, #0b1442, #050a24); }
@@ -164,8 +180,8 @@ const related = s.related.map(getSolucao).filter(Boolean) as typeof solucoes;
   .others { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
   .other { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
   .other:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); }
-  .other__ic { flex-shrink: 0; width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
-  .other__t { font-weight: 700; color: var(--ink); font-size: 15.5px; }
+  .other__ic { flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
+  .other__t { font-weight: 600; color: var(--ink); font-size: 15.5px; }
   .other__d { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
   .other--lic { background: var(--navy-900); border-color: var(--navy-900); }
   .other--lic .other__t { color: #fff; }

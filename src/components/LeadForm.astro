@@ -98,7 +98,7 @@ const f = (n: string) => `${uid}-${n}`;
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z"/></svg>
     {submitLabel}
   </button>
-  <p class="lf__note">Abrimos o WhatsApp com a sua mensagem pronta. É só tocar em enviar. Seus dados não vão para nenhuma lista. <a href="/privacidade/">Privacidade</a>.</p>
+  <p class="lf__note">Abrimos o WhatsApp com a mensagem pronta, é só tocar em enviar, e seus dados não vão para nenhuma lista. <a href="/privacidade/">Privacidade</a>.</p>
   <p class="lf__feedback" role="status" aria-live="polite"></p>
 </form>
 
@@ -210,7 +210,7 @@ const f = (n: string) => `${uid}-${n}`;
       // e não dá para saber se abriu. Cortamos o vínculo logo depois.
       const win = window.open(url, "_blank");
       if (win) { try { win.opener = null; } catch { /* ignore */ } }
-      if (win) say("Pronto! Abrimos o WhatsApp com a sua mensagem. Se não abriu,", true, { url, text: "toque aqui" });
+      if (win) say("Pronto, abrimos o WhatsApp com a sua mensagem, e se não abriu,", true, { url, text: "toque aqui" });
       else say("Quase lá:", true, { url, text: "toque aqui para abrir o WhatsApp com a mensagem pronta" });
     });
   });

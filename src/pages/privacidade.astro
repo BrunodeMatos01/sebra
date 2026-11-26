@@ -1,4 +1,5 @@
 ---
+import HeroFx from "../components/HeroFx.astro";
 import Base from "../layouts/Base.astro";
 import { site, waLink } from "../data/site";
 import "../styles/internal.css";
@@ -12,10 +13,11 @@ const controlador = `${site.legalName}${site.cnpj ? `, CNPJ ${site.cnpj}` : ""},
   description="Como a Sebra trata os dados pessoais de quem visita o site e fala com a gente, em linha com a LGPD: o que coletamos, por quê, com quem compartilhamos e seus direitos."
   crumbs={[{ name: "Privacidade", href: "/privacidade/" }]}
 >
-  <section class="ip-hero showcase">
+  <section class="ip-hero showcase fx-host">
+    <HeroFx />
     <div class="container">
       <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Privacidade</p>
-      <p class="eyebrow">LGPD</p>
+      
       <h1>Política de Privacidade e Cookies</h1>
       <p class="ip-hero__lead">Escrita em português claro. Se algo não ficar claro, fale com a gente.</p>
       <p class="meta-line"><span>Atualizada em {atualizado}</span></p>

@@ -28,7 +28,7 @@ export const planos: Plano[] = [
       "Contatos e serviços",
       "Boleto em 1 banco",
       "2 usuários · 1 CNPJ",
-      "Suporte em até 2 dias úteis",
+      "Suporte todos os dias pelo WhatsApp",
     ],
   },
   {
@@ -47,7 +47,7 @@ export const planos: Plano[] = [
       "Conecte a IA da sua empresa (via API)",
       "Boleto em até 2 bancos",
       "3 usuários · 1 CNPJ",
-      "Suporte em até 1 dia útil",
+      "Suporte todos os dias pelo WhatsApp",
     ],
   },
   {
@@ -62,7 +62,7 @@ export const planos: Plano[] = [
       "Até 3 CNPJs",
       "Boleto em até 7 bancos",
       "8 usuários",
-      "Suporte em até 1 dia útil, com canal direto",
+      "Suporte todos os dias, com canal direto",
     ],
   },
 ];
@@ -71,14 +71,13 @@ export const planos: Plano[] = [
 export type Celula = boolean | string;
 // ampliavel: a linha pode ser ampliada com adicionais (marcada com o "+" azul).
 export const recursos: { nome: string; valores: [Celula, Celula, Celula]; ampliavel?: boolean }[] = [
-  { nome: "Licitação, funil, contratos públicos com saldo e empenho", valores: ["Adicional", true, true] },
+  { nome: "Licitações e contratos públicos", valores: ["Adicional", true, true] },
   { nome: "Resultado por licitação", valores: ["Adicional", true, true] },
   { nome: "Notas fiscais NF-e e NFS-e", valores: ["Ilimitadas", "Ilimitadas", "Ilimitadas"] },
-  { nome: "Financeiro, A Receber com baixa pelo extrato, contatos, serviços", valores: [true, true, true] },
+  { nome: "Financeiro com baixa pelo extrato", valores: [true, true, true] },
   { nome: "Boleto", valores: ["1 banco", "Até 2 bancos", "Até 7 bancos"], ampliavel: true },
   { nome: "Compras e estoque", valores: [false, true, true] },
-  { nome: "Conecte a IA da sua empresa (via API)", valores: [false, true, true] },
+  { nome: "IA da sua empresa (via API)", valores: [false, true, true] },
   { nome: "Usuários", valores: ["2", "3", "8"], ampliavel: true },
   { nome: "CNPJs", valores: ["1", "1", "Até 3"], ampliavel: true },
-  { nome: "Suporte", valores: ["Em até 2 dias úteis", "Em até 1 dia útil", "Em até 1 dia útil, com canal direto"] },
 ];

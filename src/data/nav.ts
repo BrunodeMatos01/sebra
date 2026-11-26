@@ -58,3 +58,16 @@ export const nav: NavItem[] = [
     ],
   },
 ];
+
+// Menu do topo: enxuto. As listas completas acima continuam valendo para o rodapé.
+export const headerNav: NavItem[] = [
+  { label: "Licitações", href: "/licitacoes/" },
+  {
+    label: "ERP",
+    wide: true,
+    children: solucoes.filter((s) => foco.includes(s.slug)).map((s) => ({ label: s.nav, href: `/solucoes/${s.slug}/`, desc: s.menuDesc, icon: s.icon })),
+  },
+  { label: "Automações", href: "/automacoes/" },
+  { label: "Planos", href: "/planos/" },
+  { label: "Guias", href: "/guias/" },
+];

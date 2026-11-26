@@ -1,4 +1,5 @@
 ---
+import HeroFx from "../components/HeroFx.astro";
 import Base from "../layouts/Base.astro";
 import Faq from "../components/Faq.astro";
 import ContactSection from "../components/ContactSection.astro";
@@ -15,18 +16,19 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
 ---
 <Base
   title="Automação de processos empresariais sob medida | Sebra"
-  description="Automações operacionais sob medida: robôs (RPA), integração entre sistemas, WhatsApp, planilhas e documentos. Menos trabalho manual e zero retrabalho."
+  description="Automações operacionais sob medida: robôs (RPA), integração entre sistemas, WhatsApp, planilhas e documentos, com menos trabalho manual e zero retrabalho."
   crumbs={[{ name: "Automações", href: "/automacoes/" }]}
   faq={faqAutomacoes}
   waText={waText}
 >
-  <section class="ip-hero showcase">
+  <section class="ip-hero showcase fx-host">
+    <HeroFx />
     <div class="container ip-hero__grid">
       <div>
         <p class="ip-crumbs ip-crumbs--dark"><a href="/">Início</a> · Automações</p>
-        <p class="eyebrow">Automação de processos</p>
+        
         <h1>Automações operacionais para a sua empresa trabalhar sozinha</h1>
-        <p class="ip-hero__lead">Desenvolvemos automações sob medida: robôs que fazem as tarefas repetitivas, sistemas conversando entre si e fluxos que rodam o dia inteiro, sem erro de digitação. Com o sistema que você já usa, ou com a Sebra.</p>
+        <p class="ip-hero__lead">Robôs, integrações e fluxos sob medida, com o sistema que você já usa ou com a Sebra.</p>
         <div class="btn-row">
           <a class="btn btn--wa btn--lg" href={waLink(waText)} target="_blank" rel="noopener"><Brand name="whatsapp" size={20} /> Quero automatizar um processo</a>
           <a class="btn btn--ghost btn--on-navy btn--lg" href="#o-que-automatizamos">O que dá para automatizar <Icon name="arrowDown" size={18} /></a>
@@ -40,9 +42,9 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   <section class="section section--soft">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Sinais</p>
+        
         <h2>Sua empresa precisa de automação se...</h2>
-        <p>Toda tarefa repetitiva e com regra clara é dinheiro e tempo indo embora. E é exatamente o tipo de trabalho que uma automação faz melhor do que uma pessoa.</p>
+        <p>Toda tarefa repetitiva e com regra clara pode ser automatizada.</p>
       </div>
       <div class="sinais">
         {sinais.map((s, i) => (
@@ -59,7 +61,7 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   <section class="section">
     <div class="container">
       <div class="s-head reveal">
-        <p class="eyebrow">Como automatizamos</p>
+        
         <h2>Quatro formas de tirar o trabalho manual da sua operação</h2>
       </div>
       <div class="tipos">
@@ -77,9 +79,9 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   <section class="section section--tint" id="o-que-automatizamos">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">O que automatizamos</p>
+        
         <h2>Automação para cada área da empresa</h2>
-        <p>Exemplos do que dá para automatizar. Cada projeto é desenhado em cima do processo real da sua empresa.</p>
+        <p>Cada projeto é desenhado em cima do seu processo.</p>
       </div>
       <div class="areas">
         {areas.map((a, i) => (
@@ -96,7 +98,7 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   <section class="section">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Como trabalhamos</p>
+        
         <h2>Do processo manual à automação rodando, em cinco etapas</h2>
       </div>
       <ol class="etapas reveal">
@@ -111,9 +113,9 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   <section class="section showcase">
     <div class="container">
       <div class="s-head s-head--center reveal">
-        <p class="eyebrow">Automação no nosso DNA</p>
+        
         <h2>A própria Sebra é feita de automações que já rodam todo dia</h2>
-        <p>Antes de automatizar a sua empresa, automatizamos o nosso sistema. Estas automações estão em produção na plataforma Sebra:</p>
+        <p>Estas automações já estão em produção na plataforma.</p>
       </div>
       <div class="provas">
         {provas.map((p, i) => (
@@ -130,9 +132,9 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   <section class="section">
     <div class="container split">
       <div class="split__copy reveal">
-        <p class="eyebrow">Sistema e automação</p>
+        
         <h2>Com o seu sistema ou com a Sebra</h2>
-        <p class="split__lead">Automatizamos em cima dos sistemas que a sua empresa já usa. E, se você quer resolver tudo de uma vez, a Sebra junta o ERP com licitações, notas, estoque e financeiro, mais as automações sob medida para os seus processos.</p>
+        <p class="split__lead">Automatizamos em cima dos sistemas que você já usa, ou você resolve tudo de uma vez com a Sebra.</p>
         <div class="btn-row" style="margin-top:22px">
           <a class="btn btn--primary" href="/planos/">Ver os planos do sistema</a>
           <a class="btn btn--ghost" href="/licitacoes/">Sistema de licitação</a>
@@ -150,7 +152,7 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
 
   <section class="section section--soft">
     <div class="container">
-      <div class="s-head s-head--center reveal"><p class="eyebrow">Perguntas frequentes</p><h2>Dúvidas sobre automação de processos</h2></div>
+      <div class="s-head s-head--center reveal"><h2>Dúvidas sobre automação de processos</h2></div>
       <div class="reveal" style="margin-top:40px"><Faq items={faqAutomacoes} /></div>
     </div>
   </section>
@@ -158,7 +160,7 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   <ContactSection origem="Página de automações" uid="auto" waText={waText}
     eyebrow="Diagnóstico de automação"
     title="Conte qual processo toma mais tempo da sua equipe"
-    lead="Preencha uma vez e abrimos o WhatsApp com a sua mensagem pronta. Fazemos o diagnóstico e mostramos o que dá para automatizar primeiro."
+    lead="Preencha uma vez e abrimos o WhatsApp com a sua mensagem pronta, depois fazemos o diagnóstico e mostramos o que dá para automatizar primeiro."
     bullets={["Diagnóstico dos processos mais repetitivos", "Escopo, prazo e valor antes de começar", "Integração com o sistema que você já usa"]} />
 </Base>
 
@@ -171,8 +173,8 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   @media (max-width: 600px) { .sinais { grid-template-columns: 1fr; } }
 
   .tipos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
-  .tipo { padding: 26px; border-radius: var(--r-md); background: linear-gradient(180deg, #f6f9ff, #fff); border: 1px solid var(--line); }
-  .tipo__ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; margin-bottom: 16px; }
+  .tipo { padding: 20px; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); }
+  .tipo__ic { width: 36px; height: 36px; border-radius: 9px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); margin-bottom: 12px; }
   .tipo h3 { font-size: 18px; }
   .tipo p { margin-top: 8px; color: var(--ink-soft); font-size: 15px; }
   @media (max-width: 980px) { .tipos { grid-template-columns: 1fr 1fr; } }
@@ -182,7 +184,7 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
   .area { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 22px; }
   .area__head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line-soft); }
   .area__ic { flex-shrink: 0; width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
-  .area h3 { font-family: var(--font); font-size: 16px; font-weight: 700; letter-spacing: 0; }
+  .area h3 { font-family: var(--font); font-size: 16px; font-weight: 600; letter-spacing: 0; }
   .area ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; }
   .area li { display: flex; gap: 9px; align-items: flex-start; font-size: 14.5px; color: var(--ink-soft); line-height: 1.45; }
   .area :global(.area__ck) { color: var(--brand); flex-shrink: 0; margin-top: 3px; }
@@ -207,9 +209,9 @@ const waText = "Olá! Quero automatizar processos da minha empresa e queria ente
 
   .combo { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
   .combo li:not(.combo__plus) { display: flex; gap: 16px; align-items: center; padding: 22px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
-  .combo__plus { text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 28px; color: var(--brand); line-height: 1; }
-  .combo__ic { flex-shrink: 0; width: 50px; height: 50px; border-radius: 13px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; }
+  .combo__plus { text-align: center; font-family: var(--font-display); font-weight: 500; font-size: 22px; color: var(--brand); line-height: 1; }
+  .combo__ic { flex-shrink: 0; width: 36px; height: 36px; border-radius: 9px; display: grid; place-items: center; background: var(--grad-brand-soft); color: var(--brand); }
   .combo__ic--auto { background: linear-gradient(135deg, #f59e0b, #d97706); }
-  .combo__t { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink); }
+  .combo__t { font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--ink); }
   .combo__d { color: var(--ink-soft); font-size: 14.5px; margin-top: 2px; }
 </style>
