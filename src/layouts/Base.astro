@@ -59,7 +59,7 @@ const org = {
   email: site.email,
   sameAs: [site.instagram],
   ...(site.cnpj ? { taxID: site.cnpj } : {}),
-  address: { "@type": "PostalAddress", addressRegion: site.city, addressCountry: "BR" },
+  address: { "@type": "PostalAddress", streetAddress: site.address.street, addressLocality: site.address.city, addressRegion: site.address.uf, postalCode: site.address.cep, addressCountry: "BR" },
   contactPoint: [{
     "@type": "ContactPoint", contactType: "sales", telephone: `+${site.whatsapp}`,
     availableLanguage: ["Portuguese"], areaServed: "BR",
@@ -124,6 +124,20 @@ if (faq.length) graph.push({
   "@type": "FAQPage",
   mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
 });
+// IDs das ferramentas: só letras, números, "-" e "_" (bloqueia qualquer injeção por engano).
+for (const [k, v] of Object.entries({ gaId: site.gaId, clarityId: site.clarityId, metaPixelId: site.metaPixelId, googleAdsId: site.googleAdsId, googleAdsLeadLabel: site.googleAdsLeadLabel })) {
+  if (v && !/^[A-Za-z0-9_-]{4,40}$/.test(v)) throw new Error(`site.ts: ${k} inválido ("${v}")`);
+}
+// Inicialização do Google (GA4 + Ads opcional) com Consent Mode v2.
+// Os IDs vêm de site.ts e são gravados no build (o hash entra na CSP sozinho).
+const gtagBoot = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
+var c=null;try{c=localStorage.getItem("sebra_consent");}catch(e){}
+var ok=c==="granted"?"granted":"denied";
+gtag("consent","default",{analytics_storage:ok,ad_storage:ok,ad_user_data:ok,ad_personalization:ok,functionality_storage:"granted",security_storage:"granted",wait_for_update:500});
+gtag("set","url_passthrough",true);gtag("set","ads_data_redaction",ok!=="granted");
+gtag("js",new Date());
+gtag("config",${JSON.stringify(site.gaId)},{anonymize_ip:true});${site.googleAdsId ? `\ngtag("config",${JSON.stringify(site.googleAdsId)});` : ""}`;
+
 const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c");
 ---
 <!doctype html>
@@ -140,6 +154,7 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
     <meta name="format-detection" content="telephone=no" />
     {site.googleVerification && <meta name="google-site-verification" content={site.googleVerification} />}
     {site.bingVerification && <meta name="msvalidate.01" content={site.bingVerification} />}
+    {site.metaDomainVerification && <meta name="facebook-domain-verification" content={site.metaDomainVerification} />}
 
     <meta property="og:type" content={type} />
     {article && <meta property="article:published_time" content={article.published} />}
@@ -173,18 +188,7 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
     <!-- Google Analytics 4 -->
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`}></script>
     <!-- Consent Mode v2 (LGPD): tudo começa negado; só libera cookies se a pessoa aceitar no aviso. -->
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      window.gtag = gtag;
-      var c = null; try { c = localStorage.getItem("sebra_consent"); } catch (e) {}
-      var ok = c === "granted" ? "granted" : "denied";
-      gtag("consent", "default", { analytics_storage: ok, ad_storage: ok, ad_user_data: ok, ad_personalization: ok, functionality_storage: "granted", security_storage: "granted", wait_for_update: 500 });
-      gtag("set", "url_passthrough", true);
-      gtag("set", "ads_data_redaction", ok !== "granted");
-      gtag("js", new Date());
-      gtag("config", "G-JTFWMLLGE3", { anonymize_ip: true });
-    </script>
+    <script is:inline set:html={gtagBoot}></script>
 
     <script type="application/ld+json" is:inline set:html={jsonLd} />
   </head>
@@ -312,9 +316,10 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": grap
         if (!a) return;
         const ev = a.href.includes("wa.me") ? "whatsapp_click" : "instagram_click";
         window.gtag?.("event", ev, { link_text: a.textContent?.trim().slice(0, 60), page: location.pathname });
+        if (ev === "whatsapp_click") window.fbq?.("track", "Contact");
       });
 
-      declare global { interface Window { gtag?: (...a: unknown[]) => void } }
+      declare global { interface Window { gtag?: (...a: unknown[]) => void; fbq?: (...a: unknown[]) => void } }
     </script>
 
     <style>

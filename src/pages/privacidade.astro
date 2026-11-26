@@ -5,7 +5,7 @@ import "../styles/internal.css";
 import "../styles/prose.css";
 
 const atualizado = "25 de novembro de 2026";
-const controlador = site.cnpj ? `${site.legalName}, inscrita no CNPJ ${site.cnpj}` : site.legalName;
+const controlador = `${site.legalName}${site.cnpj ? `, CNPJ ${site.cnpj}` : ""}, com sede na ${site.address.street}, ${site.address.district}, ${site.address.city}/${site.address.uf}, CEP ${site.address.cep}`;
 ---
 <Base
   title="Política de Privacidade e Cookies | Sebra"
@@ -42,11 +42,14 @@ const controlador = site.cnpj ? `${site.legalName}, inscrita no CNPJ ${site.cnpj
         <p><strong>O formulário não grava nada no site.</strong> A mensagem é montada no seu próprio navegador e enviada pelo WhatsApp, que você aciona. Não usamos seus dados para decisões automatizadas e não vendemos nenhum dado.</p>
 
         <h2 id="cookies">3. Cookies</h2>
-        <p>Usamos apenas o <strong>Google Analytics 4</strong> para medir audiência. Ele só grava cookies se você clicar em <strong>Aceitar</strong> no aviso. Se recusar, o Google recebe apenas sinais anônimos, sem cookies e sem identificar você (Modo de Consentimento do Google).</p>
+        <p>Usamos o <strong>Google Analytics 4</strong> para medir audiência{site.clarityId && ", o Microsoft Clarity para entender como as páginas são usadas"}{(site.metaPixelId || site.googleAdsId) && " e ferramentas de medição de anúncios listadas abaixo"}. Os cookies só são gravados se você clicar em <strong>Aceitar</strong> no aviso. Se recusar, o Google recebe apenas sinais anônimos, sem cookies e sem identificar você (Modo de Consentimento do Google).</p>
         <table>
           <thead><tr><th>Cookie</th><th>Quem define</th><th>Para quê</th><th>Duração</th></tr></thead>
           <tbody>
             <tr><td><code>_ga</code>, <code>_ga_*</code></td><td>Google Analytics</td><td>Distinguir visitantes e sessões</td><td>Até 2 anos</td></tr>
+            {site.clarityId && <tr><td><code>_clck</code>, <code>_clsk</code>, <code>CLID</code></td><td>Microsoft Clarity</td><td>Mapa de cliques e gravação anônima da navegação, para melhorar o site (campos de formulário são mascarados)</td><td>Até 1 ano</td></tr>}
+            {site.metaPixelId && <tr><td><code>_fbp</code></td><td>Meta (Facebook/Instagram)</td><td>Medir resultado de anúncios e mostrar anúncios a quem já visitou o site</td><td>3 meses</td></tr>}
+            {site.googleAdsId && <tr><td><code>_gcl_au</code>, <code>_gcl_aw</code></td><td>Google Ads</td><td>Medir contatos vindos de anúncios do Google</td><td>3 meses</td></tr>}
           </tbody>
         </table>
         <p>Também guardamos no seu navegador (não é um cookie, e não sai do seu aparelho) a sua escolha no aviso de cookies.</p>
@@ -55,7 +58,9 @@ const controlador = site.cnpj ? `${site.legalName}, inscrita no CNPJ ${site.cnpj
         <h2 id="compartilhamento">4. Com quem compartilhamos</h2>
         <ul>
           <li><strong>WhatsApp (Meta)</strong>: quando você escolhe falar conosco por lá.</li>
-          <li><strong>Google</strong>: medição de audiência, nas condições do item 3.</li>
+          <li><strong>Google</strong>: medição de audiência{site.googleAdsId && " e de anúncios"}, nas condições do item 3.</li>
+          {site.clarityId && <li><strong>Microsoft (Clarity)</strong>: análise de uso das páginas, nas condições do item 3.</li>}
+          {site.metaPixelId && <li><strong>Meta</strong>: medição de anúncios no Instagram e no Facebook, nas condições do item 3.</li>}
           <li><strong>Hospedagem (Hostinger)</strong>: registros técnicos de acesso do servidor.</li>
           <li><strong>Autoridades</strong>: somente por ordem legal ou judicial.</li>
         </ul>

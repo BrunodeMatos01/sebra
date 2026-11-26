@@ -1,8 +1,12 @@
 ---
 // Aviso de cookies (LGPD) ligado ao Consent Mode v2 do Google.
-// Até a pessoa aceitar, o Analytics roda sem cookies (modo negado).
+// Até a pessoa aceitar, o Analytics roda sem cookies (modo negado) e
+// Clarity / Meta Pixel nem são carregados. IDs em src/data/site.ts.
+import { site } from "../data/site";
 ---
-<div class="ck" data-cookie hidden role="region" aria-label="Aviso de cookies">
+<div class="ck" data-cookie hidden role="region" aria-label="Aviso de cookies"
+  data-clarity={site.clarityId || undefined}
+  data-pixel={site.metaPixelId || undefined}>
   <p class="ck__tx">
     Usamos cookies de medição para entender como o site é usado e melhorar o atendimento.
     Nada de venda de dados. <a href="/privacidade/#cookies">Saiba mais</a>.
@@ -14,17 +18,52 @@
 </div>
 
 <script>
-  declare global { interface Window { gtag?: (...a: unknown[]) => void } }
+  type Fn = ((...a: unknown[]) => void) & { q?: unknown[][]; queue?: unknown[][]; callMethod?: (...a: unknown[]) => void; loaded?: boolean; version?: string; push?: unknown };
+  declare global { interface Window { gtag?: (...a: unknown[]) => void; clarity?: Fn; fbq?: Fn; _fbq?: Fn } }
+
   const box = document.querySelector<HTMLElement>("[data-cookie]");
+  const addScript = (src: string) => {
+    const s = document.createElement("script");
+    s.async = true; s.src = src;
+    document.head.appendChild(s);
+  };
+
+  // Ferramentas que só podem rodar com consentimento.
+  let loaded = false;
+  const loadTrackers = () => {
+    if (loaded || !box) return;
+    loaded = true;
+    const clarity = box.dataset.clarity;
+    if (clarity) {
+      const c: Fn = (...a) => { (c.q = c.q || []).push(a); };
+      window.clarity = window.clarity || c;
+      addScript(`https://www.clarity.ms/tag/${encodeURIComponent(clarity)}`);
+      window.clarity("consent");
+    }
+    const pixel = box.dataset.pixel;
+    if (pixel && !window.fbq) {
+      const f: Fn = (...a) => { f.callMethod ? f.callMethod(...a) : f.queue!.push(a); };
+      f.push = f; f.loaded = true; f.version = "2.0"; f.queue = [];
+      window.fbq = f; window._fbq = f;
+      addScript("https://connect.facebook.net/en_US/fbevents.js");
+      window.fbq("init", pixel);
+      window.fbq("track", "PageView");
+    }
+  };
+
   let saved: string | null = null;
   try { saved = localStorage.getItem("sebra_consent"); } catch { /* modo privado */ }
+  if (saved === "granted") loadTrackers();
   if (box && !saved) box.hidden = false;
+
   box?.querySelectorAll<HTMLButtonElement>("[data-consent]").forEach((b) =>
     b.addEventListener("click", () => {
       const v = b.dataset.consent === "granted" ? "granted" : "denied";
       try { localStorage.setItem("sebra_consent", v); } catch { /* ignore */ }
       window.gtag?.("consent", "update", { analytics_storage: v, ad_storage: v, ad_user_data: v, ad_personalization: v });
       window.gtag?.("set", "ads_data_redaction", v !== "granted");
+      if (v === "granted") loadTrackers();
+      else if (loaded) location.reload(); // revogou: recarrega sem as ferramentas
       box.hidden = true;
     }),
   );
